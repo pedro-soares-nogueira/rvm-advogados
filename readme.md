@@ -2,7 +2,7 @@
 
 #### TODO
 
-Total + 10% ~30hrs
+Total + 10% ~33hrs de desenvolvimento
 
 - [ ] Splash Screem - 1h
 - [x] Tela de login - 1h
