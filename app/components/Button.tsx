@@ -8,19 +8,19 @@ type Props = IButtonProps & {
 export const Button = ({ title, variant, ...rest }: Props) => {
   return (
     <ButtonNativeBase
-      bgColor={variant === "outline" ? "transparent" : "yellow.900"}
+      bgColor={variant === "outline" ? "transparent" : "yellow.300"}
       borderWidth={variant === "outline" ? 1 : 0}
-      borderColor={"yellow.900"}
+      borderColor={"gray.500"}
       w="full"
-      h={"12"}
+      className="h-14"
       _pressed={{
-        bg: variant === "outline" ? "gray.100" : "yellow.800",
+        bg: variant === "outline" ? "gray.100" : "yellow.200",
       }}
       {...rest}
     >
       <Text
         className="font-raleway700"
-        color={variant === "outline" ? "yellow.800" : "white"}
+        color={variant === "outline" ? "gray.500" : "black"}
       >
         {title}
       </Text>

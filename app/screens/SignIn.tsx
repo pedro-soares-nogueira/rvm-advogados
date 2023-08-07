@@ -15,7 +15,7 @@ export const SignIn = () => {
 
   return (
     <VStack
-      className="flex-1 items-center justify-between bg-yellow-50 p-6"
+      className="flex-1 items-center justify-between bg-white p-6"
       space={"12"}
     >
       <Box className="w-full items-center space-y-10 pt-4">
@@ -26,12 +26,10 @@ export const SignIn = () => {
 
         <Box className="w-full space-y-14">
           <VStack space={4}>
-            <Input
-              placeholder="Email"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
-            <Input placeholder="Senha" secureTextEntry />
+            <Text className="max-w-xs text-start font-raleway500">Email</Text>
+            <Input keyboardType="email-address" autoCapitalize="none" />
+            <Text className="max-w-xs text-start font-raleway500">Senha</Text>
+            <Input secureTextEntry />
           </VStack>
 
           <Button title="Acessar aplicativo" />
