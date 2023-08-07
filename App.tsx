@@ -14,6 +14,7 @@ import {
 import { NativeBaseProvider, Box } from "native-base";
 import { Loading } from "./app/components/Loading";
 import { Routes } from "./app/routes";
+import { Home } from "./app/screens/Home";
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
