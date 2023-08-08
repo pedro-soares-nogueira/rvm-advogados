@@ -3,13 +3,14 @@ import React from "react";
 import Main_logo from "../assets/HLogo.svg";
 import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
 import { StyleSheet } from "react-native";
+import { ScheduleCard } from "../components/ScheduleCard";
 
 const styles = StyleSheet.create({});
 
 export const Home = () => {
   return (
     <VStack flex={1} background={"white"}>
-      <VStack className="border-b border-gray-300 bg-white">
+      <VStack className="bg-white shadow-md shadow-gray-400">
         <VStack className="h-16"></VStack>
         <HStack className="items flex w-full justify-between p-4">
           <Main_logo width={200} />
@@ -36,6 +37,10 @@ export const Home = () => {
             <Plus size={20} color="#2E2E2E" />
           </HStack>
         </VStack>
+      </VStack>
+
+      <VStack className="mx-4 my-6">
+        <ScheduleCard />
       </VStack>
     </VStack>
   );
