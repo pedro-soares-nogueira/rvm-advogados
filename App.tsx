@@ -31,7 +31,7 @@ export default function App() {
   return (
     <NativeBaseProvider>
       {hasLoadedFonts ? <Routes /> : <Loading />}
-      <StatusBar style="light" translucent />
+      <StatusBar style="dark" backgroundColor="transparent" translucent />
     </NativeBaseProvider>
   );
 }
