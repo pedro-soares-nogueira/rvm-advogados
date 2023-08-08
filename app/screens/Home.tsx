@@ -1,9 +1,10 @@
-import { Box, Center, HStack, Image, Text, VStack } from "native-base";
+import { Box, Center, Flex, HStack, Image, Text, VStack } from "native-base";
 import React from "react";
 import Main_logo from "../assets/HLogo.svg";
 import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
 import { StyleSheet } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
+import PracticeArea from "../components/PracticeArea";
 
 const styles = StyleSheet.create({});
 
@@ -39,8 +40,17 @@ export const Home = () => {
         </VStack>
       </VStack>
 
-      <VStack className="mx-4 my-6">
+      <VStack className="mx-4 my-6" space={8}>
         <ScheduleCard />
+
+        <HStack className="flex items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
+          <Text className="text-lg font-normal tracking-tight text-zinc-800">
+            Veja os endereços dos nossos escritórios
+          </Text>
+          <ArrowRight size={20} color="#2E2E2E" />
+        </HStack>
+
+        <PracticeArea />
       </VStack>
     </VStack>
   );
