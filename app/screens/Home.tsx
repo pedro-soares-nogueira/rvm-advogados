@@ -6,6 +6,7 @@ import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import PracticeArea from "../components/PracticeArea";
 import { Button } from "../components/Button";
+import InstagramEmbed from "../components/InstagramEmbedComp";
 
 const styles = StyleSheet.create({});
 
@@ -63,6 +64,8 @@ export const Home = () => {
 
           <PracticeArea />
         </VStack>
+
+        <InstagramEmbed />
       </VStack>
     </ScrollView>
   );
