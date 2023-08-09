@@ -14,7 +14,7 @@ export const ScheduleCard = ({ ...rest }: IInputProps) => {
   return (
     <>
       <VStack className="block space-y-4 rounded-lg border-l-4 border-amber-300 bg-white p-4 shadow-lg shadow-gray-400">
-        <Text className="text-base font-bold tracking-tight text-zinc-800">
+        <Text className="font-raleway800 text-xl tracking-wide text-zinc-800">
           Próximo agendamento
         </Text>
         <VStack space={2} mb={2}>
@@ -38,7 +38,8 @@ export const ScheduleCard = ({ ...rest }: IInputProps) => {
               </Text>
             </HStack>
           </HStack>
-          <HStack space={4}>
+
+          {/* <HStack space={4}>
             <HStack space={1} alignItems={"center"} justifyContent={"center"}>
               <Calendar size={20} color="#2E2E2E" />
               <Text className="text-base font-normal leading-none text-neutral-800">
@@ -57,10 +58,10 @@ export const ScheduleCard = ({ ...rest }: IInputProps) => {
                 Manhã
               </Text>
             </HStack>
-          </HStack>
+          </HStack> */}
         </VStack>
         <Box className="flex w-36 items-center justify-center rounded-sm bg-orange-200 bg-opacity-60 px-2 py-1.5">
-          <Text className="break-words text-base font-normal text-neutral-900">
+          <Text className="mb-1 break-words font-raleway500 text-lg text-neutral-900">
             Previdenciário
           </Text>
         </Box>

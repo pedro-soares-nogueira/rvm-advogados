@@ -1,51 +1,48 @@
-import { Box, Text, VStack } from "native-base";
+import { Box, Text, VStack, View } from "native-base";
 import { AlignBottom, CreditCard, ShieldCheck } from "phosphor-react-native";
 import React from "react";
-import { ScrollView } from "react-native";
+import Icon from "react-native-vector-icons/Octicons";
 
 const PracticeArea = () => {
+  const data = [
+    { id: 1, icon: "shield-check", title: "Previdenciário" },
+    { id: 2, icon: "credit-card", title: "Tributário" },
+    { id: 3, icon: "webhook", title: "Trabalhista" },
+    { id: 4, icon: "star", title: "Cívil" },
+    { id: 5, icon: "versions", title: "Administrativo" },
+    { id: 6, icon: "sort-asc", title: "Digital" },
+    { id: 7, icon: "stack", title: "Transito" },
+  ];
+
   return (
-    <ScrollView
-      contentContainerStyle={{ flexGrow: 1 }}
-      showsVerticalScrollIndicator={false}
-    >
-      <VStack>
-        <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
-          <VStack className="inline-flex items-start justify-start gap-24">
-            <Text className="text-2xl font-bold text-black">
-              Áreas de atuação
-            </Text>
-          </VStack>
-          <Text className="text-lg font-normal text-zinc-800">
-            A Terceira Turma do Tribunal Superior do Trabalho rejeitou recurso
-            de uma
+    <VStack>
+      <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
+        <VStack className="inline-flex items-start justify-start gap-24">
+          <Text className="font-raleway800 text-2xl text-black">
+            Áreas de atuação
           </Text>
         </VStack>
-
-        <Box className="grid grid-cols-2 gap-2 ">
-          <Box className="flex items-start justify-center gap-2.5 rounded bg-white px-5 py-3.5 shadow shadow-gray-600">
-            <ShieldCheck size={36} color="#2E2E2E" />
-            <Text className="text-xl font-bold text-neutral-900">
-              Previdenciário
-            </Text>
-          </Box>
-
-          <Box className="flex items-start justify-center gap-2.5 rounded bg-white px-5 py-3.5 shadow shadow-gray-600">
-            <CreditCard size={36} color="#2E2E2E" />
-            <Text className="text-xl font-bold text-neutral-900">
-              Tributário
-            </Text>
-          </Box>
-
-          <Box className="flex items-start justify-center gap-2.5 rounded bg-white px-5 py-3.5 shadow shadow-gray-600">
-            <AlignBottom size={36} color="#2E2E2E" />
-            <Text className="text-xl font-bold text-neutral-900">
-              Trabalhista
-            </Text>
-          </Box>
-        </Box>
+        <Text className="font-raleway500 text-lg text-zinc-800">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
+          minim veniam
+        </Text>
       </VStack>
-    </ScrollView>
+
+      <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
+        {data.map((item) => (
+          <Box
+            key={item.id}
+            className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white px-5 py-3.5 shadow shadow-gray-600"
+          >
+            <Icon name={item.icon} size={36} color="#2E2E2E" />
+            <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
+              {item.title}
+            </Text>
+          </Box>
+        ))}
+      </View>
+    </VStack>
   );
 };
 
