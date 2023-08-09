@@ -2,9 +2,10 @@ import { Box, Center, Flex, HStack, Image, Text, VStack } from "native-base";
 import React from "react";
 import Main_logo from "../assets/HLogo.svg";
 import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
-import { ScrollView, StyleSheet } from "react-native";
+import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import PracticeArea from "../components/PracticeArea";
+import { Button } from "../components/Button";
 
 const styles = StyleSheet.create({});
 
@@ -25,38 +26,40 @@ export const Home = () => {
 
           <VStack className="space-y-5 px-4 py-6">
             <VStack className="space-y-2">
-              <Text className="font-raleway700 text-lg text-zinc-800">
+              <Text className="font-raleway700 text-2xl text-zinc-800">
                 Olá, Pedro
               </Text>
-              <Text className="font-raleway700 text-lg text-zinc-800">
+              <Text className="font-raleway700 text-xl text-zinc-800">
                 25 de julho, 2023
               </Text>
-              <HStack className="flex items-center">
-                <Text className="mr-2 font-raleway600 text-lg text-zinc-800">
+              <TouchableOpacity className="flex flex-row items-center">
+                <Text className="my-4 mr-2 font-raleway600 text-xl text-zinc-800">
                   Veja todos seus agendamentos aqui
                 </Text>
-                <ArrowRight size={20} color="#2E2E2E" />
-              </HStack>
+                <Box className="my-4">
+                  <ArrowRight size={20} color="#2E2E2E" />
+                </Box>
+              </TouchableOpacity>
             </VStack>
 
-            <HStack className="flex w-64 items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Novo pré-agendamento
               </Text>
               <Plus size={20} color="#2E2E2E" />
-            </HStack>
+            </TouchableOpacity>
           </VStack>
         </VStack>
 
         <VStack className="mx-4 my-6" space={8}>
           <ScheduleCard />
 
-          <HStack className="flex items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
+          <TouchableOpacity className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">
               Veja os endereços dos nossos escritórios
             </Text>
             <ArrowRight size={20} color="#2E2E2E" />
-          </HStack>
+          </TouchableOpacity>
 
           <PracticeArea />
         </VStack>

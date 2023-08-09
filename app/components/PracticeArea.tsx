@@ -1,5 +1,5 @@
-import { Box, Text, VStack, View } from "native-base";
 import { AlignBottom, CreditCard, ShieldCheck } from "phosphor-react-native";
+import { Box, Text, VStack, View } from "native-base";
 import React from "react";
 import Icon from "react-native-vector-icons/Octicons";
 
