@@ -8,6 +8,7 @@ import PracticeArea from "../components/PracticeArea";
 import { Button } from "../components/Button";
 import InstagramEmbed from "../components/InstagramEmbedComp";
 import Team from "../components/Team";
+import SiteBanner from "../components/SiteBanner";
 
 const styles = StyleSheet.create({});
 
@@ -68,6 +69,8 @@ export const Home = () => {
           <InstagramEmbed />
 
           <Team />
+
+          <SiteBanner />
         </VStack>
       </VStack>
     </ScrollView>
