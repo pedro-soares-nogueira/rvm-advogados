@@ -7,6 +7,7 @@ import { ScheduleCard } from "../components/ScheduleCard";
 import PracticeArea from "../components/PracticeArea";
 import { Button } from "../components/Button";
 import InstagramEmbed from "../components/InstagramEmbedComp";
+import Team from "../components/Team";
 
 const styles = StyleSheet.create({});
 
@@ -63,9 +64,11 @@ export const Home = () => {
           </TouchableOpacity>
 
           <PracticeArea />
-        </VStack>
 
-        <InstagramEmbed />
+          <InstagramEmbed />
+
+          <Team />
+        </VStack>
       </VStack>
     </ScrollView>
   );

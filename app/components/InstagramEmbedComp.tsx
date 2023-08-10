@@ -8,7 +8,7 @@ const InstagramEmbedComp = () => {
   const captionText = "Embed ERROR";
 
   return (
-    <Box className="mx-4 mb-10 flex h-52 items-center justify-center rounded-sm border-2 border-red-600">
+    <Box className="mb-6 flex h-96 items-center justify-center rounded-sm border-2 border-red-600">
       {/* <InstagramEmbed
         avatarStyle={{
           width: 200,

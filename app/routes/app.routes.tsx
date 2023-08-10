@@ -37,8 +37,8 @@ export const AppRoutes = () => {
         tabBarShowLabel: false,
         tabBarActiveTintColor: "#826B12",
         tabBarStyle: {
-          paddingBottom: 12,
-          paddingTop: 16,
+          paddingBottom: 20,
+          paddingTop: 20,
           height: 58,
         },
       }}
@@ -48,7 +48,7 @@ export const AppRoutes = () => {
         component={Home}
         options={{
           tabBarIcon: ({ size, color }) => {
-            return <House color={color} size={28} />;
+            return <House color={color} size={34} />;
           },
         }}
       ></Screen>
@@ -58,7 +58,7 @@ export const AppRoutes = () => {
         component={AboutUs}
         options={{
           tabBarIcon: ({ size, color }) => {
-            return <Buildings color={color} size={28} />;
+            return <Buildings color={color} size={34} />;
           },
         }}
       ></Screen>
@@ -68,7 +68,7 @@ export const AppRoutes = () => {
         component={Schedules}
         options={{
           tabBarIcon: ({ size, color }) => {
-            return <Calendar color={color} size={28} />;
+            return <Calendar color={color} size={34} />;
           },
         }}
       ></Screen>
@@ -78,7 +78,7 @@ export const AppRoutes = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ size, color }) => {
-            return <User color={color} size={28} />;
+            return <User color={color} size={34} />;
           },
         }}
       ></Screen>
@@ -88,7 +88,7 @@ export const AppRoutes = () => {
         component={Profile}
         options={{
           tabBarIcon: ({ size, color }) => {
-            return <WhatsappLogo color={color} size={28} />;
+            return <WhatsappLogo color={color} size={34} />;
           },
         }}
       ></Screen>
