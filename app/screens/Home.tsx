@@ -1,6 +1,6 @@
 import { Box, Center, Flex, HStack, Image, Text, VStack } from "native-base";
 import React from "react";
-import Main_logo from "../assets/HLogo.svg";
+import Main_logo from "../assets/HLogo.png";
 import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
@@ -21,8 +21,13 @@ export const Home = () => {
       <VStack flex={1} background={"white"}>
         <VStack className="bg-white shadow-md shadow-gray-400">
           <VStack className="h-16"></VStack>
-          <HStack className="items flex w-full justify-between p-4">
-            <Main_logo width={200} />
+          <HStack className="flex w-full items-center justify-between p-4">
+            <Image
+              source={require("../assets/horizontal_logo.png")}
+              style={{ width: 250, height: 40 }}
+              alt={"Logo RVM"}
+            />
+            {/* <Main_logo width={200} /> */}
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
