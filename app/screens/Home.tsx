@@ -9,6 +9,7 @@ import { Button } from "../components/Button";
 import InstagramEmbed from "../components/InstagramEmbedComp";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
+import PracticeAreaModal from "../components/PracticeAreaModal";
 
 const styles = StyleSheet.create({});
 
@@ -61,6 +62,8 @@ export const Home = () => {
 
         <VStack className="mx-4 my-6" space={8}>
           <ScheduleCard />
+
+          <PracticeAreaModal />
 
           <TouchableOpacity className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">
