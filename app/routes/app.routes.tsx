@@ -86,13 +86,19 @@ export const AppRoutes = () => {
       ></Screen>
 
       <Screen
-        name="adreess"
-        component={Adreess}
+        name="whatsapp"
+        component={Profile}
         options={{
           tabBarIcon: ({ size, color }) => {
             return <WhatsappLogo color={color} size={34} />;
           },
         }}
+      ></Screen>
+
+      <Screen
+        name="adreess"
+        component={Adreess}
+        options={{ tabBarButton: () => null }}
       ></Screen>
     </Navigator>
   );

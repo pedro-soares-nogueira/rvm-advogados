@@ -19,6 +19,8 @@ import InstagramEmbed from "../components/InstagramEmbedComp";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "../routes/app.routes";
 
 const styles = StyleSheet.create({});
 
@@ -33,6 +35,12 @@ const practiceAreaDetails = [
 ];
 
 export const Home = () => {
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+  const handleAdreessPage = () => {
+    // navigation.navigate("adreess");
+    console.log("teste");
+  };
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -70,7 +78,10 @@ export const Home = () => {
               </TouchableOpacity>
             </VStack>
 
-            <TouchableOpacity className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity
+              onPress={() => console.log("Novo pré-agendamento")}
+              className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+            >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Novo pré-agendamento
               </Text>
@@ -82,7 +93,10 @@ export const Home = () => {
         <VStack className="mx-4 my-6" space={8}>
           <ScheduleCard />
 
-          <TouchableOpacity className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
+          <TouchableOpacity
+            onPress={() => console.log("Endereços")}
+            className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4"
+          >
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">
               Veja os endereços dos nossos escritórios
             </Text>
