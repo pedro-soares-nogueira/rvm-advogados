@@ -16,6 +16,7 @@ import {
   WhatsappLogo,
 } from "phosphor-react-native";
 import { Platform } from "react-native";
+import { Adreess } from "../screens/Adreess";
 
 type AppRoutes = {
   home: undefined;
@@ -23,6 +24,7 @@ type AppRoutes = {
   schedules: undefined;
   profile: undefined;
   whatsapp: undefined;
+  adreess: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -84,8 +86,8 @@ export const AppRoutes = () => {
       ></Screen>
 
       <Screen
-        name="whatsapp"
-        component={Profile}
+        name="adreess"
+        component={Adreess}
         options={{
           tabBarIcon: ({ size, color }) => {
             return <WhatsappLogo color={color} size={34} />;
