@@ -1,4 +1,13 @@
-import { Box, Center, Flex, HStack, Image, Text, VStack } from "native-base";
+import {
+  Box,
+  Center,
+  Flex,
+  HStack,
+  Image,
+  Text,
+  VStack,
+  View,
+} from "native-base";
 import React from "react";
 import Main_logo from "../assets/HLogo.png";
 import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
@@ -12,6 +21,16 @@ import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
 
 const styles = StyleSheet.create({});
+
+const practiceAreaDetails = [
+  { id: 1, icon: "shield-check", title: "Previdenciário" },
+  { id: 2, icon: "credit-card", title: "Tributário" },
+  { id: 3, icon: "webhook", title: "Trabalhista" },
+  { id: 4, icon: "star", title: "Cívil" },
+  { id: 5, icon: "versions", title: "Administrativo" },
+  { id: 6, icon: "sort-asc", title: "Digital" },
+  { id: 7, icon: "stack", title: "Transito" },
+];
 
 export const Home = () => {
   return (
@@ -63,16 +82,36 @@ export const Home = () => {
         <VStack className="mx-4 my-6" space={8}>
           <ScheduleCard />
 
-          <PracticeAreaModal />
-
           <TouchableOpacity className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4">
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">
               Veja os endereços dos nossos escritórios
             </Text>
             <ArrowRight size={20} color="#2E2E2E" />
           </TouchableOpacity>
+          <VStack>
+            <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
+              <VStack className="inline-flex items-start justify-start gap-24">
+                <Text className="font-raleway800 text-2xl text-black">
+                  Áreas de atuação
+                </Text>
+              </VStack>
+              <Text className="font-raleway500 text-lg text-zinc-800">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam
+              </Text>
+            </VStack>
 
-          <PracticeArea />
+            <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
+              {practiceAreaDetails.map((item) => (
+                <PracticeAreaModal
+                  key={item.id}
+                  title={item.title}
+                  icon={item.icon}
+                />
+              ))}
+            </View>
+          </VStack>
 
           <InstagramEmbed />
 

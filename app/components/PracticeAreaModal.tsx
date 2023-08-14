@@ -10,22 +10,33 @@ import {
 } from "native-base";
 import React, { useState } from "react";
 import { Button } from "./Button";
+import { TouchableOpacity } from "react-native";
+import Icon from "react-native-vector-icons/Octicons";
 
-const PracticeAreaModal = () => {
+interface IPracticeArea {
+  title: string;
+  icon: string;
+}
+
+const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
   const [showModal, setShowModal] = useState(false);
   return (
-    <Center>
-      <Button
-        title="Modal"
-        size={"lg"}
+    <>
+      <TouchableOpacity
         onPress={() => setShowModal(true)}
-      ></Button>
+        className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white px-5 py-3.5 shadow shadow-gray-600"
+      >
+        <Icon name={icon} size={36} color="#2E2E2E" />
+        <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
+          {title}
+        </Text>
+      </TouchableOpacity>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
         <Modal.Content maxWidth="800px">
           <Modal.CloseButton />
           <Modal.Header>
-            <Text className="font-raleway700 text-2xl text-zinc-800">
-              DIREITO PREVIDENCIÁRIO
+            <Text className="font-raleway700 text-2xl uppercase text-zinc-800">
+              {title}
             </Text>
           </Modal.Header>
           <Modal.Body>
@@ -194,7 +205,7 @@ const PracticeAreaModal = () => {
           </Modal.Body>
         </Modal.Content>
       </Modal>
-    </Center>
+    </>
   );
 };
 
