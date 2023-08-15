@@ -14,7 +14,6 @@ import {
   Stack,
   Text,
   VStack,
-  Button,
 } from "native-base";
 import {
   IdentificationCard,
@@ -26,6 +25,8 @@ import {
 import React, { useState } from "react";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { AntDesign } from "@expo/vector-icons";
+import { Button } from "../components/Button";
+import { TextInput, TouchableOpacity } from "react-native";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -41,6 +42,7 @@ export const NewSchedule = () => {
   const [areas, setAreas] = useState(practiceAreaDetails);
   const [ableTo, setAbleTo] = useState(true);
   const [showModal, setShowModal] = useState(false);
+  const [groupValues, setGroupValues] = useState([]);
 
   const setModalOpen = () => {
     setShowModal(!showModal);
@@ -87,41 +89,28 @@ export const NewSchedule = () => {
                 <Text className="mb-2 font-raleway700 text-xl text-zinc-800">
                   Passo 01
                 </Text>
-                <Box className="h-3 w-32 rounded-full bg-amber-300"></Box>
+                <Box className="h-3 w-44 rounded-full bg-amber-300"></Box>
               </Stack>
               <Stack className="flex-col items-start justify-start gap-0.5">
                 <Text className="mb-2 font-raleway700 text-xl text-zinc-800">
                   Passo 02
                 </Text>
-                <Box className="h-3 w-32 rounded-full bg-gray-300"></Box>
+                <Box className="h-3 w-44 rounded-full bg-gray-300"></Box>
               </Stack>
             </HStack>
           </VStack>
         </VStack>
         <VStack space={4} mx={4} py={8}>
           <>
-            <Button
+            <Text className="max-w-xs text-start font-raleway500 text-lg">
+              Escolha a área que deseja
+            </Text>
+            <TouchableOpacity
               onPress={setModalOpen}
-              rightIcon={
-                <Icon
-                  as={AntDesign}
-                  name="caretdown"
-                  color="gray.300"
-                  size={6}
-                />
-              }
-              bg="white"
-              w="full"
-              fontSize={"md"}
-              borderWidth={"1"}
-              borderColor={"gray.300"}
-              className="h-14"
-              _focus={{
-                bg: "white",
-                borderWidth: 1,
-                borderColor: "gray.400",
-              }}
-            />
+              className="flex flex-col items-end rounded-md border border-gray-300 p-4"
+            >
+              <Icon as={AntDesign} name="caretdown" color="gray.300" size={6} />
+            </TouchableOpacity>
             <Modal
               isOpen={showModal}
               onClose={() => setShowModal(false)}
@@ -136,37 +125,54 @@ export const NewSchedule = () => {
                   </Text>
                 </Modal.Header>
                 <Modal.Body>
-                  {areas.map((item) => (
-                    <VStack
-                      my={2}
-                      py={2}
-                      borderBottomWidth={2}
-                      borderBottomColor={"gray.500"}
-                      key={item.id}
-                    >
-                      <Text className="font-raleway500 text-lg text-zinc-800">
+                  <Checkbox.Group
+                    onChange={setGroupValues}
+                    value={groupValues}
+                    accessibilityLabel="formas de pagamento"
+                  >
+                    {areas.map((item) => (
+                      <Checkbox
+                        key={item.id}
+                        value={item.title}
+                        my={2}
+                        colorScheme={"green"}
+                        fontSize={20}
+                        className="font-raleway400"
+                      >
                         {item.title}
-                      </Text>
-                    </VStack>
-                  ))}
+                      </Checkbox>
+                    ))}
+                  </Checkbox.Group>
                 </Modal.Body>
                 <Modal.Footer>
-                  <Button
-                    onPress={setModalOpen}
-                    px={10}
-                    mr={2}
-                    variant={"outline"}
-                  >
-                    Sair
-                  </Button>
-                  <Button onPress={setModalOpen} px={10}>
-                    Continar
-                  </Button>
+                  <HStack space={4}>
+                    <Button
+                      w={40}
+                      title="Sair"
+                      onPress={setModalOpen}
+                      variant={"outline"}
+                    />
+                    <Button w={40} title="Continuar" onPress={setModalOpen} />
+                  </HStack>
                 </Modal.Footer>
               </Modal.Content>
             </Modal>
           </>
+          <Text className="max-w-xs text-start font-raleway500 text-lg">
+            Como podemos te ajudar?
+          </Text>
+          <Input fontSize={20} multiline numberOfLines={8} />
         </VStack>
+
+        <HStack space={4} margin={"auto"}>
+          <Button
+            title="Voltar"
+            w={"45%"}
+            onPress={setModalOpen}
+            variant={"outline"}
+          />
+          <Button title="Próximo" w={"45%"} onPress={setModalOpen} />
+        </HStack>
       </VStack>
     </ScrollView>
   );
