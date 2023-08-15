@@ -20,9 +20,17 @@ import {
 import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "../routes/app.routes";
 
 export const Schedules = () => {
   const [ableTo, setAbleTo] = useState(true);
+
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+  const handleNewSchedule = () => {
+    navigation.navigate("newSchedule");
+  };
 
   return (
     <ScrollView
@@ -73,7 +81,10 @@ export const Schedules = () => {
                 Aqui estão seus agendamentos mais recentes{" "}
               </Text>
 
-              <TouchableOpacity className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+              <TouchableOpacity
+                onPress={() => handleNewSchedule()}
+                className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+              >
                 <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                   Novo pré-agendamento
                 </Text>

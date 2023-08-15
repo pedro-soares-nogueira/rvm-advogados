@@ -4,8 +4,9 @@ import {
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
 import { Home } from "../screens/Home";
-import { AboutUs } from "../screens/AboutUs";
 import { Schedules } from "../screens/Schedules";
+import { AboutUs } from "../screens/AboutUs";
+import { NewSchedule } from "../screens/NewSchedule";
 import { Profile } from "../screens/Profile";
 import {
   Buildings,
@@ -25,6 +26,7 @@ type AppRoutes = {
   profile: undefined;
   whatsapp: undefined;
   adreess: undefined;
+  newSchedule: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -98,6 +100,12 @@ export const AppRoutes = () => {
       <Screen
         name="adreess"
         component={Adreess}
+        options={{ tabBarButton: () => null }}
+      ></Screen>
+
+      <Screen
+        name="newSchedule"
+        component={NewSchedule}
         options={{ tabBarButton: () => null }}
       ></Screen>
     </Navigator>
