@@ -3,24 +3,28 @@ import React from "react";
 
 type Props = IButtonProps & {
   title: string;
+  textSize?: number;
+  mb?: number;
 };
 
-export const Button = ({ title, variant, ...rest }: Props) => {
+export const Button = ({ title, textSize, mb, variant, ...rest }: Props) => {
   return (
     <ButtonNativeBase
       bgColor={variant === "outline" ? "transparent" : "yellow.300"}
       borderWidth={variant === "outline" ? 1 : 0}
-      borderColor={"gray.500"}
+      borderColor={"yellow.700"}
       w="full"
       className="h-14"
       _pressed={{
-        bg: variant === "outline" ? "gray.100" : "yellow.200",
+        bg: variant === "outline" ? "yellow.50" : "yellow.200",
       }}
       {...rest}
     >
       <Text
         className="font-raleway700"
-        color={variant === "outline" ? "gray.500" : "black"}
+        color={variant === "outline" ? "yellow.700" : "black"}
+        fontSize={textSize}
+        mb={mb}
       >
         {title}
       </Text>

@@ -11,7 +11,7 @@ import {
   Raleway_900Black,
   useFonts,
 } from "@expo-google-fonts/raleway";
-import { NativeBaseProvider, Box } from "native-base";
+import { NativeBaseProvider, Box, Center } from "native-base";
 import { Loading } from "./app/components/Loading";
 import { Routes } from "./app/routes";
 import { Home } from "./app/screens/Home";
@@ -30,7 +30,13 @@ export default function App() {
   });
   return (
     <NativeBaseProvider>
-      {hasLoadedFonts ? <Routes /> : <Loading />}
+      {hasLoadedFonts ? (
+        <Routes />
+      ) : (
+        <Center flex={1}>
+          <Loading />
+        </Center>
+      )}
       <StatusBar style="dark" backgroundColor="transparent" translucent />
     </NativeBaseProvider>
   );

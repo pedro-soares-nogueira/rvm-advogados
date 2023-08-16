@@ -23,12 +23,18 @@ import {
   Plus,
   ArrowRight,
 } from "phosphor-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { AntDesign } from "@expo/vector-icons";
 import { Button } from "../components/Button";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import {
+  Platform,
+  StyleSheet,
+  TextInput,
+  TouchableOpacity,
+} from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
+import moment, { Moment } from "moment";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -60,14 +66,16 @@ export const NewSchedule = () => {
   const [areas, setAreas] = useState(practiceAreaDetails);
   const [ableTo, setAbleTo] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [groupValues, setGroupValues] = useState([]);
-
-  const [step, setStep] = useState(0);
+  const [practiceArea, setPracticeArea] = useState([]);
+  const [shifts, setShifts] = useState(["Photography", "Gardening"]);
+  const [step, setStep] = useState(1);
+  const [selectedDate, setSelectedDate] = useState<string | undefined>(
+    undefined
+  );
 
   const setModalOpen = () => {
     setShowModal(!showModal);
   };
-
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -172,8 +180,8 @@ export const NewSchedule = () => {
                     </Modal.Header>
                     <Modal.Body>
                       <Checkbox.Group
-                        onChange={setGroupValues}
-                        value={groupValues}
+                        onChange={setPracticeArea}
+                        value={practiceArea}
                         accessibilityLabel="formas de pagamento"
                       >
                         {areas.map((item) => (
@@ -232,17 +240,61 @@ export const NewSchedule = () => {
                 weekdays={customDayNames}
                 previousTitle={"   Anterior"}
                 nextTitle={"Próximo   "}
+                selectedDayColor="#FFDE5A"
                 todayBackgroundColor="#FFF0B6"
                 months={customMonthNames}
                 onDateChange={(date) => {
-                  console.log("Selected date:", date);
+                  setSelectedDate(moment(date).format("YYYY-MM-DD"));
                 }}
               />
             </Box>
 
-            <HStack space={4} margin={"auto"}>
-              <Button title="Voltar" w={"45%"} variant={"outline"} />
-              <Button title="Próximo" w={"45%"} onPress={() => setStep(1)} />
+            <VStack space={4} mx={4} pt={6}>
+              <Text className="max-w-xs text-start font-raleway500 text-lg">
+                Selecione o turno que estará livre nesse dia.
+              </Text>
+            </VStack>
+
+            <Box mx={4} w={"100%"}>
+              <Checkbox.Group
+                colorScheme="yellow"
+                className="my-6 flex flex-row items-center justify-start"
+                defaultValue={shifts}
+                w={"100%"}
+                accessibilityLabel="Escolha um turno"
+                onChange={(values) => {
+                  setShifts(values || []);
+                }}
+              >
+                <Checkbox size="lg" value="manha" mr={10}>
+                  Manhã
+                </Checkbox>
+                <Checkbox size="lg" value="tarde">
+                  Tarde
+                </Checkbox>
+              </Checkbox.Group>
+              <Button
+                title="Adicionar horário à lista"
+                textSize={20}
+                mb={1}
+                w={"60%"}
+                variant={"outline"}
+              />
+            </Box>
+
+            <HStack space={4} margin={"auto"} my={10}>
+              <Button
+                title="Voltar"
+                w={"45%"}
+                textSize={18}
+                variant={"outline"}
+              />
+              <Button
+                title="Próximo"
+                w={"45%"}
+                textSize={18}
+                onPress={() => setStep(1)}
+              />
             </HStack>
           </>
         )}

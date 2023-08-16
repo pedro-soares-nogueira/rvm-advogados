@@ -38,7 +38,11 @@ export const Home = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const handleNewSchedule = () => {
-    navigation.navigate("schedules");
+    navigation.navigate("newSchedule");
+  };
+
+  const handleSchedules = () => {
+    navigation.navigate("newSchedule");
   };
 
   return (
@@ -68,7 +72,10 @@ export const Home = () => {
               <Text className="font-raleway700 text-xl text-zinc-800">
                 25 de julho, 2023
               </Text>
-              <TouchableOpacity className="flex flex-row items-center">
+              <TouchableOpacity
+                onPress={() => handleSchedules()}
+                className="flex flex-row items-center"
+              >
                 <Text className="my-4 mr-2 font-raleway600 text-xl text-zinc-800">
                   Veja todos seus agendamentos aqui
                 </Text>
