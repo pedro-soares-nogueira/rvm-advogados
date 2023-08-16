@@ -37,10 +37,10 @@ const practiceAreaDetails = [
 export const Home = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
-  const handleAdreessPage = () => {
-    // navigation.navigate("adreess");
-    console.log("teste");
+  const handleNewSchedule = () => {
+    navigation.navigate("schedules");
   };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -79,7 +79,7 @@ export const Home = () => {
             </VStack>
 
             <TouchableOpacity
-              onPress={() => console.log("Novo pré-agendamento")}
+              onPress={() => handleNewSchedule()}
               className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
             >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
