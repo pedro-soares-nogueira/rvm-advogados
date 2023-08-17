@@ -7,7 +7,6 @@ import {
   Heading,
   Icon,
   Image,
-  Input,
   Modal,
   ScrollView,
   Select,
@@ -22,6 +21,7 @@ import {
   WhatsappLogo,
   Plus,
   ArrowRight,
+  X,
 } from "phosphor-react-native";
 import React, { useEffect, useState } from "react";
 import { ScheduleCard } from "../components/ScheduleCard";
@@ -35,6 +35,8 @@ import {
 } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
 import moment, { Moment } from "moment";
+import { Input } from "../components/Input";
+import { useIsFocused } from "@react-navigation/native";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -62,12 +64,18 @@ const customMonthNames = [
 ];
 const customDayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
+interface IShiftSchedule {
+  shifts: string[] | [];
+  selectedDate: string;
+}
+
 export const NewSchedule = () => {
   const [areas, setAreas] = useState(practiceAreaDetails);
   const [ableTo, setAbleTo] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [practiceArea, setPracticeArea] = useState([]);
-  const [shifts, setShifts] = useState(["Photography", "Gardening"]);
+  const [shifts, setShifts] = useState<string[] | []>([]);
+  const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
   const [step, setStep] = useState(1);
   const [selectedDate, setSelectedDate] = useState<string | undefined>(
     undefined
@@ -76,6 +84,24 @@ export const NewSchedule = () => {
   const setModalOpen = () => {
     setShowModal(!showModal);
   };
+
+  const handleAddShiftSchedule = () => {
+    const newShiftSchedule = { shifts, selectedDate };
+
+    setShiftSchedule((prev) =>
+      prev ? [...prev, newShiftSchedule] : [newShiftSchedule]
+    );
+
+    setSelectedDate(undefined);
+    setPracticeArea([]);
+  };
+
+  const handleDeletShiftSchedule = (index: number) => {
+    setShiftSchedule((prev) => prev.filter((_, i) => i !== index));
+  };
+
+  console.log(shiftSchedule);
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -273,13 +299,64 @@ export const NewSchedule = () => {
                   Tarde
                 </Checkbox>
               </Checkbox.Group>
+
               <Button
                 title="Adicionar horário à lista"
                 textSize={20}
                 mb={1}
                 w={"60%"}
                 variant={"outline"}
+                onPress={() => handleAddShiftSchedule()}
               />
+
+              {shiftSchedule.length === 0 && (
+                <>
+                  <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
+                    Lista de turnos vazia
+                  </Text>
+                </>
+              )}
+              {shiftSchedule !== undefined && (
+                <VStack space={4} mt={6}>
+                  {shiftSchedule.map((item, index) => {
+                    return (
+                      <VStack space={4}>
+                        <Stack
+                          w={"80%"}
+                          className="flex flex-row items-center justify-between space-x-3 
+                    rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
+                        >
+                          <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
+                            {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
+                            {item.shifts.join(", ")}
+                          </Text>
+                          <TouchableOpacity
+                            onPress={() => handleDeletShiftSchedule(index)}
+                          >
+                            <X size={20} color="#2E2E2E" />
+                          </TouchableOpacity>
+                        </Stack>
+                      </VStack>
+                    );
+                  })}
+                </VStack>
+              )}
+
+              <Stack mt={6} space={4}>
+                <Stack space={2}>
+                  <Text className="max-w-xs text-start font-raleway500 text-lg">
+                    Observação
+                  </Text>
+                  <Input />
+                </Stack>
+
+                <Stack space={2}>
+                  <Text className="max-w-xs text-start font-raleway500 text-lg">
+                    Tem preferencia por algum porfissional?
+                  </Text>
+                  <Input />
+                </Stack>
+              </Stack>
             </Box>
 
             <HStack space={4} margin={"auto"} my={10}>

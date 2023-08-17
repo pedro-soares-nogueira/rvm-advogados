@@ -37,7 +37,7 @@ export default function App() {
           <Loading />
         </Center>
       )}
-      <StatusBar style="dark" backgroundColor="transparent" translucent />
+      <StatusBar style="light" backgroundColor="black" translucent />
     </NativeBaseProvider>
   );
 }

@@ -100,13 +100,13 @@ export const AppRoutes = () => {
       <Screen
         name="adreess"
         component={Adreess}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
       ></Screen>
 
       <Screen
         name="newSchedule"
         component={NewSchedule}
-        options={{ tabBarButton: () => null }}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
       ></Screen>
     </Navigator>
   );
