@@ -1,4 +1,13 @@
-import { Box, HStack, Image, Stack, Text, VStack, View } from "native-base";
+import {
+  Box,
+  Center,
+  HStack,
+  Image,
+  Stack,
+  Text,
+  VStack,
+  View,
+} from "native-base";
 import React from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
@@ -127,12 +136,33 @@ export const Home = () => {
               ))}
             </View>
           </VStack>
-          <Stack className="flex flex-row">
-            <NewsModal
-              image="../assets/noticia01.png"
-              details=""
-              title="ATENDENTE DE FAST-FOOD OBRIGADA A LIMPAR BANHEIRO RECEBERÁ ADICIONAL"
-            />
+          <Stack space={8} mt={-4} mb={4}>
+            <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
+              <VStack className="inline-flex items-start justify-start gap-24">
+                <Text className="font-raleway800 text-2xl text-black">
+                  NOTÍCIAS
+                </Text>
+              </VStack>
+            </VStack>
+            <HStack space={4}>
+              <NewsModal
+                image="../assets/noticia01.png"
+                details=""
+                title="ATENDENTE DE FAST-FOOD OBRIGADA A LIMPAR BANHEIRO RECEBERÁ ADICIONAL"
+              />
+              <NewsModal
+                image="../assets/noticia01.png"
+                details=""
+                title="ATENDENTE DE FAST-FOOD OBRIGADA A LIMPAR BANHEIRO RECEBERÁ ADICIONAL"
+              />
+              <Center w={"20%"}>
+                <TouchableOpacity
+                  onPress={() => navigation.navigate("allNews")}
+                >
+                  <ArrowRight size={40} color="#2E2E2E" />
+                </TouchableOpacity>
+              </Center>
+            </HStack>
           </Stack>
           <Team />
         </VStack>

@@ -16,6 +16,7 @@ import {
 } from "phosphor-react-native";
 import { Adreess } from "../screens/Adreess";
 import Whatsapp from "../screens/Whatsapp";
+import AllNews from "../screens/AllNews";
 
 type AppRoutes = {
   home: undefined;
@@ -25,6 +26,7 @@ type AppRoutes = {
   whatsapp: undefined;
   adreess: undefined;
   newSchedule: undefined;
+  allNews: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -95,6 +97,12 @@ export const AppRoutes = () => {
       <Screen
         name="newSchedule"
         component={NewSchedule}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      ></Screen>
+
+      <Screen
+        name="allNews"
+        component={AllNews}
         options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
       ></Screen>
 

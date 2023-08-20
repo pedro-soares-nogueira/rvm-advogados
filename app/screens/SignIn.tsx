@@ -38,7 +38,7 @@ export const SignIn = () => {
           </VStack>
 
           <Button
-            title="Acessar aplicativo"
+            title="Acessar"
             onPress={handleSignIn}
             isLoading={isLoadding}
           />

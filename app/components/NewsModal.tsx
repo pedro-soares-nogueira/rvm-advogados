@@ -28,7 +28,7 @@ const NewsModal = ({ title, details, image }: INewsModal) => {
       <TouchableOpacity onPress={() => setShowModal(true)}>
         <Image
           source={require("../assets/noticia01.png")}
-          style={{ width: 450, height: 450, margin: "auto" }}
+          style={{ width: 160, height: 160, margin: "auto" }}
           alt={"Noticia"}
         />
       </TouchableOpacity>
@@ -36,7 +36,7 @@ const NewsModal = ({ title, details, image }: INewsModal) => {
         <Modal.Content maxWidth="800px">
           <Modal.CloseButton />
           <Modal.Header>
-            <Text className="font-raleway700 text-2xl uppercase text-zinc-800">
+            <Text className="font-raleway700 text-2xl capitalize text-zinc-800">
               {title}
             </Text>
           </Modal.Header>
