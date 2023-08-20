@@ -31,7 +31,7 @@ const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
           {title}
         </Text>
       </TouchableOpacity>
-      <Modal isOpen={showModal} onClose={() => setShowModal(false)}>
+      <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={"xl"}>
         <Modal.Content maxWidth="800px">
           <Modal.CloseButton />
           <Modal.Header>
