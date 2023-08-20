@@ -12,7 +12,7 @@ import {
 } from "native-base";
 import { ArrowLeft, ArrowRight, Plus, Share } from "phosphor-react-native";
 import React from "react";
-import { TouchableOpacity } from "react-native";
+import { Linking, TouchableOpacity } from "react-native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 
 export const Adreess = () => {
@@ -20,6 +20,16 @@ export const Adreess = () => {
 
   const goBack = () => {
     navigation.goBack();
+  };
+
+  const openGoogleMaps = () => {
+    const latitude = "-30.0349024";
+    const longitude = "-51.2218644";
+    const label = "Local";
+
+    const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&query_place_id=${label}`;
+
+    Linking.openURL(url);
   };
 
   return (
@@ -74,7 +84,10 @@ export const Adreess = () => {
               </Text>
             </Stack>
 
-            <TouchableOpacity className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity
+              onPress={() => openGoogleMaps()}
+              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+            >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Ver no mapa
               </Text>
@@ -89,7 +102,10 @@ export const Adreess = () => {
               </Text>
             </Stack>
 
-            <TouchableOpacity className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity
+              onPress={() => openGoogleMaps()}
+              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+            >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Ver no mapa
               </Text>
@@ -115,7 +131,10 @@ export const Adreess = () => {
               </Text>
             </Stack>
 
-            <TouchableOpacity className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity
+              onPress={() => openGoogleMaps()}
+              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+            >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Ver no mapa
               </Text>
@@ -141,7 +160,10 @@ export const Adreess = () => {
               </Text>
             </Stack>
 
-            <TouchableOpacity className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1">
+            <TouchableOpacity
+              onPress={() => openGoogleMaps()}
+              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+            >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
                 Ver no mapa
               </Text>
