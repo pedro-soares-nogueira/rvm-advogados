@@ -18,6 +18,9 @@ export const Button = ({ title, textSize, mb, variant, ...rest }: Props) => {
       _pressed={{
         bg: variant === "outline" ? "yellow.50" : "yellow.200",
       }}
+      _spinner={{
+        color: "black",
+      }}
       {...rest}
     >
       <Text

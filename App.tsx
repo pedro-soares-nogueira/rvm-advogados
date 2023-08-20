@@ -15,6 +15,7 @@ import { NativeBaseProvider, Box, Center } from "native-base";
 import { Loading } from "./app/components/Loading";
 import { Routes } from "./app/routes";
 import { Home } from "./app/screens/Home";
+import { AuthContextProvider } from "./app/contexts/authContext";
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
@@ -29,15 +30,17 @@ export default function App() {
     Raleway_900Black,
   });
   return (
-    <NativeBaseProvider>
-      {hasLoadedFonts ? (
-        <Routes />
-      ) : (
-        <Center flex={1}>
-          <Loading />
-        </Center>
-      )}
-      <StatusBar style="light" backgroundColor="black" translucent />
-    </NativeBaseProvider>
+    <AuthContextProvider>
+      <NativeBaseProvider>
+        {hasLoadedFonts ? (
+          <Routes />
+        ) : (
+          <Center flex={1}>
+            <Loading />
+          </Center>
+        )}
+        <StatusBar style="light" backgroundColor="black" translucent />
+      </NativeBaseProvider>
+    </AuthContextProvider>
   );
 }

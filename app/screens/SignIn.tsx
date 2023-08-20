@@ -1,16 +1,24 @@
 import { Box, Heading, Stack, Text, VStack } from "native-base";
-import React from "react";
+import React, { useState } from "react";
 import Logo from "../assets/rvm-logo.svg";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
+import { useAuth } from "../contexts/authContext";
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
+  const { signIn, isUserLogged } = useAuth();
+  const [isLoadding, setIsLoadding] = useState(false);
 
   const handleNewAccount = () => {
     navigation.navigate("signUp");
+  };
+
+  const handleSignIn = () => {
+    setIsLoadding(true);
+    signIn();
   };
 
   return (
@@ -32,7 +40,11 @@ export const SignIn = () => {
             <Input secureTextEntry />
           </VStack>
 
-          <Button title="Acessar aplicativo" />
+          <Button
+            title="Acessar aplicativo"
+            onPress={handleSignIn}
+            isLoading={isLoadding}
+          />
         </Box>
       </Box>
 

@@ -42,7 +42,7 @@ export const Home = () => {
   };
 
   const handleSchedules = () => {
-    navigation.navigate("newSchedule");
+    navigation.navigate("schedules");
   };
 
   return (
