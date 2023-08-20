@@ -1,20 +1,8 @@
-import {
-  Box,
-  Center,
-  Flex,
-  HStack,
-  Image,
-  Text,
-  VStack,
-  View,
-} from "native-base";
+import { Box, HStack, Image, Stack, Text, VStack, View } from "native-base";
 import React from "react";
-import Main_logo from "../assets/HLogo.png";
-import { ArrowRight, CalendarPlus, Plus } from "phosphor-react-native";
+import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
-import PracticeArea from "../components/PracticeArea";
-import { Button } from "../components/Button";
 import InstagramEmbed from "../components/InstagramEmbedComp";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
@@ -43,6 +31,10 @@ export const Home = () => {
 
   const handleSchedules = () => {
     navigation.navigate("schedules");
+  };
+
+  const handleAdreess = () => {
+    navigation.navigate("adreess");
   };
 
   return (
@@ -97,11 +89,9 @@ export const Home = () => {
           </VStack>
         </VStack>
 
-        <VStack className="mx-4 my-6" space={8}>
-          <ScheduleCard />
-
+        <Stack className="mx-4 mt-6" space={8}>
           <TouchableOpacity
-            onPress={() => console.log("Endereços")}
+            onPress={() => handleAdreess()}
             className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4"
           >
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">
@@ -109,6 +99,11 @@ export const Home = () => {
             </Text>
             <ArrowRight size={20} color="#2E2E2E" />
           </TouchableOpacity>
+        </Stack>
+
+        <VStack className="mx-4 my-6" space={8}>
+          <ScheduleCard />
+
           <VStack>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
               <VStack className="inline-flex items-start justify-start gap-24">

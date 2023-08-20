@@ -32,6 +32,10 @@ export const Schedules = () => {
     navigation.navigate("newSchedule");
   };
 
+  const handleAdreess = () => {
+    navigation.navigate("adreess");
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -46,7 +50,6 @@ export const Schedules = () => {
               style={{ width: 250, height: 40 }}
               alt={"Logo RVM"}
             />
-            {/* <Main_logo width={200} /> */}
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
@@ -95,7 +98,7 @@ export const Schedules = () => {
         </VStack>
         <VStack space={4} mx={4} py={8}>
           <TouchableOpacity
-            onPress={() => console.log("Endereços")}
+            onPress={() => handleAdreess()}
             className="flex flex-row items-center justify-center space-x-3 rounded-md bg-rose-300 bg-opacity-40 p-4"
           >
             <Text className="mb-1 font-raleway600 text-lg tracking-tight text-zinc-800">

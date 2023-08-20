@@ -22,11 +22,8 @@ export const SignIn = () => {
   };
 
   return (
-    <VStack
-      className="flex-1 items-center justify-between bg-white p-6"
-      space={"12"}
-    >
-      <Box className="w-full items-center space-y-10 pt-4">
+    <VStack className="flex-1 items-center justify-between bg-white p-6">
+      <Box className="w-full items-center space-y-10 pt-12">
         <Logo width={250} />
         <Text className="max-w-xs text-center font-raleway500 text-xl">
           Acesse sua conta
