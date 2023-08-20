@@ -19,12 +19,12 @@ import {
 import React, { useState } from "react";
 import { Button } from "../components/Button";
 import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
-import CalendarPicker from "react-native-calendar-picker";
 import moment from "moment";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Picker } from "@react-native-picker/picker";
+import DateTimePickerModal from "react-native-modal-datetime-picker";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -77,15 +77,28 @@ export const NewSchedule = () => {
   const [practiceArea, setPracticeArea] = useState([]);
   const [shifts, setShifts] = useState<string[] | []>([]);
   const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
-  const [selectedDate, setSelectedDate] = useState<string | undefined>(
-    undefined
-  );
   const [hasProfPreference, setHasprofPreference] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const setModalOpen = () => {
     setShowModal(!showModal);
+  };
+
+  const [selectedDate, setSelectedDate] = useState();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
+
+  const showDatePicker = () => {
+    setDatePickerVisibility(true);
+  };
+
+  const hideDatePicker = () => {
+    setDatePickerVisibility(false);
+  };
+
+  const handleConfirmDatePicker = (date) => {
+    setSelectedDate(date); // moment(selectedDate).format("DD/MM/YYYY")
+    hideDatePicker();
   };
 
   const handleAddShiftSchedule = () => {
@@ -333,12 +346,12 @@ export const NewSchedule = () => {
               </VStack>
             </VStack>
             <VStack space={4} mx={4} pt={8}>
-              <Text className="max-w-xs text-start font-raleway500 text-lg">
+              <Text className="text-start font-raleway500 text-xl">
                 Selecione o dia para o pré agendamento.
               </Text>
             </VStack>
 
-            <Box className="m-4 rounded-md border border-gray-300 p-4">
+            {/* <Box className="m-4 rounded-md border border-gray-300 p-4">
               <CalendarPicker
                 weekdays={customDayNames}
                 previousTitle={"   Anterior"}
@@ -350,11 +363,33 @@ export const NewSchedule = () => {
                   setSelectedDate(moment(date).format("YYYY-MM-DD"));
                 }}
               />
-            </Box>
+            </Box> */}
+
+            <View className="mx-4 mt-4">
+              <Button
+                title={`Abrir calendário - ${moment(selectedDate).format(
+                  "DD/MM/YYYY"
+                )}`}
+                textSize={18}
+                mb={1}
+                onPress={showDatePicker}
+              />
+              <DateTimePickerModal
+                accentColor="#ccc"
+                isVisible={isDatePickerVisible}
+                mode="date"
+                onConfirm={handleConfirmDatePicker}
+                onCancel={hideDatePicker}
+              />
+            </View>
 
             <VStack space={4} mx={4} pt={6}>
-              <Text className="max-w-xs text-start font-raleway500 text-lg">
-                Selecione o turno que estará livre nesse dia.
+              <Text className="text-start font-raleway500 text-xl">
+                {selectedDate
+                  ? `Selecione o turno que estará livre no dia ${moment(
+                      selectedDate
+                    ).format("DD/MM/YYYY")}`
+                  : "Selecione o turno que estará livre nesse dia."}
               </Text>
             </VStack>
 
@@ -389,7 +424,7 @@ export const NewSchedule = () => {
               {shiftSchedule.length === 0 && (
                 <>
                   <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
-                    Lista de turnos vazia
+                    Sua lista de horários vazia
                   </Text>
                 </>
               )}
@@ -400,7 +435,7 @@ export const NewSchedule = () => {
                       <VStack space={4}>
                         <Stack
                           w={"80%"}
-                          className="flex flex-row items-center justify-between space-x-3 
+                          className="flex w-[94%] flex-row items-center justify-between space-x-3 
                                       rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
                         >
                           <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
