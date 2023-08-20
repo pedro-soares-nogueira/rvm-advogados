@@ -8,7 +8,7 @@ export const Input = ({ ...rest }: IInputProps) => {
         bg="white"
         w="full"
         fontSize={"md"}
-        className="h-12"
+        className="h-14"
         _focus={{
           bg: "white",
           borderWidth: 1,

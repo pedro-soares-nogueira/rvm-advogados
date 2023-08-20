@@ -1,16 +1,9 @@
 import {
   Box,
-  Center,
   Checkbox,
-  Divider,
-  Flex,
   HStack,
-  Heading,
-  Icon,
   Image,
-  Modal,
   ScrollView,
-  Select,
   Stack,
   Text,
   VStack,
@@ -19,28 +12,19 @@ import {
 import {
   IdentificationCard,
   Phone,
-  WhatsappLogo,
-  Plus,
-  ArrowRight,
   X,
   Warning,
   CheckCircle,
 } from "phosphor-react-native";
-import React, { useEffect, useState } from "react";
-import { ScheduleCard } from "../components/ScheduleCard";
-import { AntDesign } from "@expo/vector-icons";
+import React, { useState } from "react";
 import { Button } from "../components/Button";
-import {
-  Platform,
-  StyleSheet,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
 import CalendarPicker from "react-native-calendar-picker";
-import moment, { Moment } from "moment";
+import moment from "moment";
 import { Input } from "../components/Input";
-import { useIsFocused, useNavigation } from "@react-navigation/native";
+import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { Picker } from "@react-native-picker/picker";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -73,17 +57,30 @@ interface IShiftSchedule {
   selectedDate: string;
 }
 
+const styles = StyleSheet.create({
+  pickerContainer: {
+    borderWidth: 1,
+    borderColor: "#ccc",
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+    paddingTop: 5,
+    paddingBottom: 4,
+  },
+});
+
 export const NewSchedule = () => {
+  const [step, setStep] = useState(0);
   const [areas, setAreas] = useState(practiceAreaDetails);
   const [ableTo, setAbleTo] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [practiceArea, setPracticeArea] = useState([]);
   const [shifts, setShifts] = useState<string[] | []>([]);
   const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
-  const [step, setStep] = useState(0);
   const [selectedDate, setSelectedDate] = useState<string | undefined>(
     undefined
   );
+  const [hasProfPreference, setHasprofPreference] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -110,7 +107,9 @@ export const NewSchedule = () => {
     navigation.navigate("home");
   };
 
-  console.log(shiftSchedule);
+  const handleProfPreference = () => {
+    setHasprofPreference(true);
+  };
 
   return (
     <ScrollView
@@ -149,8 +148,8 @@ export const NewSchedule = () => {
                     </Text>
                   </Stack>
                 </VStack>
-                {/* STEPS */}
 
+                {/* STEPS */}
                 <HStack space={4} pt={8}>
                   <Stack className="flex-col items-start justify-start gap-0.5">
                     <Text className="mb-2 font-raleway700 text-xl text-zinc-800">
@@ -171,7 +170,7 @@ export const NewSchedule = () => {
               <Text className="max-w-xs text-start font-raleway500 text-lg">
                 Escolha a área que deseja
               </Text>
-              <TouchableOpacity
+              {/* <TouchableOpacity
                 onPress={setModalOpen}
                 className="flex flex-col items-end rounded-md border border-gray-300 p-4"
               >
@@ -227,14 +226,58 @@ export const NewSchedule = () => {
                     </HStack>
                   </Modal.Footer>
                 </Modal.Content>
-              </Modal>
+              </Modal> */}
+              <View style={styles.pickerContainer}>
+                <Picker
+                  selectedValue={practiceArea}
+                  onValueChange={(itemValue, itemIndex) =>
+                    setPracticeArea(itemValue)
+                  }
+                >
+                  <Picker.Item label="Selecione" value="" />
+                  {areas.map((item) => (
+                    <Picker.Item
+                      key={item.id}
+                      label={item.title}
+                      value={item.title}
+                    />
+                  ))}
+                </Picker>
+              </View>
+
               <Text className="max-w-xs text-start font-raleway500 text-lg">
                 Como podemos te ajudar?
               </Text>
-              <Input fontSize={20} multiline numberOfLines={8} />
+              <TextInput
+                className="flex flex-col items-end rounded-md border border-gray-300 p-4"
+                multiline
+                numberOfLines={8}
+              />
+              <Stack space={4}>
+                <Text className="max-w-xs text-start font-raleway500 text-lg">
+                  Tem preferencia por algum porfissional?
+                </Text>
+                <Input
+                  _disabled={{
+                    backgroundColor: "gray.200",
+                  }}
+                  isDisabled={hasProfPreference}
+                />
+                <Checkbox.Group
+                  colorScheme="yellow"
+                  className="flex flex-row items-center justify-start"
+                  w={"100%"}
+                  accessibilityLabel="Escolha um turno"
+                  onChange={handleProfPreference}
+                >
+                  <Checkbox size="md" value="no" isChecked={hasProfPreference}>
+                    Não
+                  </Checkbox>
+                </Checkbox.Group>
+              </Stack>
             </VStack>
 
-            <HStack space={4} margin={"auto"}>
+            <HStack space={4} margin={"auto"} my={"10"}>
               <Button title="Voltar" w={"45%"} variant={"outline"} />
               <Button title="Próximo" w={"45%"} onPress={() => setStep(1)} />
             </HStack>
@@ -380,13 +423,6 @@ export const NewSchedule = () => {
                 <Stack space={2}>
                   <Text className="max-w-xs text-start font-raleway500 text-lg">
                     Observação
-                  </Text>
-                  <Input />
-                </Stack>
-
-                <Stack space={2}>
-                  <Text className="max-w-xs text-start font-raleway500 text-lg">
-                    Tem preferencia por algum porfissional?
                   </Text>
                   <Input />
                 </Stack>
