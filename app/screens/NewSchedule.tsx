@@ -110,6 +110,7 @@ export const NewSchedule = () => {
 
     setSelectedDate(undefined);
     setPracticeArea([]);
+    setShifts([]);
   };
 
   const handleDeletShiftSchedule = (index: number) => {
@@ -432,7 +433,7 @@ export const NewSchedule = () => {
                 <VStack space={4} mt={6}>
                   {shiftSchedule.map((item, index) => {
                     return (
-                      <VStack space={4}>
+                      <VStack space={4} key={index}>
                         <Stack
                           w={"80%"}
                           className="flex w-[94%] flex-row items-center justify-between space-x-3 
@@ -585,6 +586,9 @@ export const NewSchedule = () => {
                 w={"45%"}
                 textSize={18}
                 bgColor={"green.600"}
+                _pressed={{
+                  bg: "green.200",
+                }}
                 onPress={() => setStep(3)}
               />
             </HStack>

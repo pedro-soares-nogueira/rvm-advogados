@@ -132,9 +132,10 @@ export const Home = () => {
           <InstagramEmbed />
 
           <Team />
-
-          <SiteBanner />
         </VStack>
+        <Stack mx={4} mt={-10} mb={10}>
+          <SiteBanner />
+        </Stack>
       </VStack>
     </ScrollView>
   );
