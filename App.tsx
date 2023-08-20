@@ -16,6 +16,8 @@ import { Loading } from "./app/components/Loading";
 import { Routes } from "./app/routes";
 import { Home } from "./app/screens/Home";
 import { AuthContextProvider } from "./app/contexts/authContext";
+import { Provider } from "react-redux";
+import { store } from "./app/store";
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
@@ -31,16 +33,18 @@ export default function App() {
   });
   return (
     <AuthContextProvider>
-      <NativeBaseProvider>
-        {hasLoadedFonts ? (
-          <Routes />
-        ) : (
-          <Center flex={1}>
-            <Loading />
-          </Center>
-        )}
-        <StatusBar style="light" backgroundColor="black" translucent />
-      </NativeBaseProvider>
+      <Provider store={store}>
+        <NativeBaseProvider>
+          {hasLoadedFonts ? (
+            <Routes />
+          ) : (
+            <Center flex={1}>
+              <Loading />
+            </Center>
+          )}
+          <StatusBar style="light" backgroundColor="black" translucent />
+        </NativeBaseProvider>
+      </Provider>
     </AuthContextProvider>
   );
 }
