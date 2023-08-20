@@ -13,12 +13,12 @@ import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
 
-interface IPracticeArea {
+interface ITeamsModal {
   title: string;
   details: string;
 }
 
-const TeamModal = ({ title, details }: IPracticeArea) => {
+const TeamModal = ({ title, details }: ITeamsModal) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>

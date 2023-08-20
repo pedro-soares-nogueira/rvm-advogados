@@ -3,12 +3,12 @@ import React from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
-import InstagramEmbed from "../components/InstagramEmbedComp";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import NewsModal from "../components/NewsModal";
 
 const styles = StyleSheet.create({});
 
@@ -23,6 +23,7 @@ const practiceAreaDetails = [
 ];
 
 export const Home = () => {
+  const newsCount = [1, 2, 3, 4, 5];
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const handleNewSchedule = () => {
@@ -51,7 +52,6 @@ export const Home = () => {
               style={{ width: 250, height: 40 }}
               alt={"Logo RVM"}
             />
-            {/* <Main_logo width={200} /> */}
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
@@ -103,7 +103,6 @@ export const Home = () => {
 
         <VStack className="mx-4 my-6" space={8}>
           <ScheduleCard />
-
           <VStack>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
               <VStack className="inline-flex items-start justify-start gap-24">
@@ -128,9 +127,13 @@ export const Home = () => {
               ))}
             </View>
           </VStack>
-
-          <InstagramEmbed />
-
+          <Stack className="flex flex-row">
+            <NewsModal
+              image="../assets/noticia01.png"
+              details=""
+              title="ATENDENTE DE FAST-FOOD OBRIGADA A LIMPAR BANHEIRO RECEBERÁ ADICIONAL"
+            />
+          </Stack>
           <Team />
         </VStack>
         <Stack mx={4} mt={-10} mb={10}>
