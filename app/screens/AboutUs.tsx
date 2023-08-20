@@ -26,7 +26,7 @@ export const AboutUs = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <Stack bgColor={"white"}>
+      <Stack bgColor={"white"} pb={10}>
         <VStack className="bg-white shadow-md shadow-gray-400">
           <VStack className="h-16"></VStack>
           <HStack className="flex w-full items-center justify-between p-4">

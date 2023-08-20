@@ -1,5 +1,4 @@
 import {
-  BottomTabBarButtonProps,
   BottomTabNavigationProp,
   createBottomTabNavigator,
 } from "@react-navigation/bottom-tabs";
@@ -13,10 +12,8 @@ import {
   Calendar,
   House,
   User,
-  Users,
   WhatsappLogo,
 } from "phosphor-react-native";
-import { Platform } from "react-native";
 import { Adreess } from "../screens/Adreess";
 
 type AppRoutes = {
@@ -64,6 +61,7 @@ export const AppRoutes = () => {
           tabBarIcon: ({ size, color }) => {
             return <Buildings color={color} size={34} />;
           },
+          tabBarStyle: { display: "none" },
         }}
       ></Screen>
 
@@ -88,16 +86,6 @@ export const AppRoutes = () => {
       ></Screen>
 
       <Screen
-        name="whatsapp"
-        component={Profile}
-        options={{
-          tabBarIcon: ({ size, color }) => {
-            return <WhatsappLogo color={color} size={34} />;
-          },
-        }}
-      ></Screen>
-
-      <Screen
         name="adreess"
         component={Adreess}
         options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
@@ -107,6 +95,16 @@ export const AppRoutes = () => {
         name="newSchedule"
         component={NewSchedule}
         options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      ></Screen>
+
+      <Screen
+        name="whatsapp"
+        component={Profile}
+        options={{
+          tabBarIcon: ({ size, color }) => {
+            return <WhatsappLogo color={color} size={34} />;
+          },
+        }}
       ></Screen>
     </Navigator>
   );

@@ -18,13 +18,13 @@ import {
   ArrowRight,
 } from "phosphor-react-native";
 import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Linking, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 
 export const Schedules = () => {
-  const [ableTo, setAbleTo] = useState(true);
+  const [ableTo, setAbleTo] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -34,6 +34,17 @@ export const Schedules = () => {
 
   const handleAdreess = () => {
     navigation.navigate("adreess");
+  };
+
+  const handleWhatsApp = () => {
+    const phoneNumber = "XXXXXXXXXXXX";
+    const message = "Olá, esta é a mensagem que você deseja enviar";
+
+    const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+
+    Linking.openURL(url);
   };
 
   return (
@@ -116,16 +127,17 @@ export const Schedules = () => {
             </VStack>
           ) : (
             <Center>
-              <Text
-                mb={8}
-                className="mb-4 mr-2 block text-center font-raleway500 text-lg text-zinc-800"
-              >
+              <Text className="mb-8 mr-2 block text-center font-raleway500 text-lg text-zinc-800">
                 Você ainda não tem acesso aos pré agendamentos anteriores. Entre
                 em contato com a gente!
               </Text>
-              <TouchableOpacity className="mt-4 flex w-96 flex-row items-center justify-between gap-2 rounded-md border-2 border-[#78620acb] px-3 pb-3 pt-1">
+
+              <TouchableOpacity
+                onPress={() => handleWhatsApp()}
+                className="mt-4 flex w-96 flex-row items-center justify-center gap-2 rounded-md border-2 border-[#78620acb] px-3 pb-3 pt-1 text-center"
+              >
                 <Text className="mb-1 font-raleway600 text-lg text-[#78620A]">
-                  Solicitar alteração de dados cadastrais
+                  Entre em contato com a gente
                 </Text>
                 <WhatsappLogo size={20} color="#78620A" />
               </TouchableOpacity>
