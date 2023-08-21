@@ -18,6 +18,8 @@ import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import NewsModal from "../components/NewsModal";
+import InstagramEmbedComp from "../components/InstagramEmbedComp";
+import EmbeddedWebView from "../components/EmbeddedWebView";
 
 const styles = StyleSheet.create({});
 
@@ -136,6 +138,10 @@ export const Home = () => {
               ))}
             </View>
           </VStack>
+
+          {/* <InstagramEmbedComp /> */}
+          <EmbeddedWebView />
+
           <Stack space={8} mt={-4} mb={4}>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
               <VStack className="inline-flex items-start justify-start gap-24">
