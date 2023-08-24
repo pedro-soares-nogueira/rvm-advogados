@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  FlatList,
   HStack,
   Image,
   Stack,
@@ -39,7 +40,6 @@ const practiceAreaDetails = [
 export const Home = () => {
   const newsCount = [1, 2, 3, 4, 5];
   const navigation = useNavigation<AppNavigatorRoutesProps>();
-  const [enderecos, setEnderecos] = useState();
   const [areas_de_atuacao, setAreas_de_atuacao] = useState<
     IPracticeArea[] | undefined
   >(undefined);
@@ -65,7 +65,6 @@ export const Home = () => {
         return response.json();
       })
       .then((data) => {
-        setEnderecos(data.enderecos);
         setAreas_de_atuacao(data.areas_de_atuacao);
       })
       .catch((error) => {
@@ -160,7 +159,11 @@ export const Home = () => {
                   <PracticeAreaModal key={item.id} {...item} />
                 ))}
 
-              {areas_de_atuacao && <Loading />}
+              {!areas_de_atuacao && (
+                <Center w={"100%"}>
+                  <Loading />
+                </Center>
+              )}
             </View>
           </VStack>
 

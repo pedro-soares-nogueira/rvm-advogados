@@ -13,7 +13,7 @@ import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
 import HTML from "react-native-render-html";
-import { Raleway_400Regular } from "@expo-google-fonts/raleway";
+import { List } from "react-native-paper";
 
 export interface IPracticeArea {
   id?: string;
@@ -74,6 +74,18 @@ const PracticeAreaModal = (props: IPracticeArea) => {
     },
   };
 
+  const htmlContent = destaque_items;
+
+  const extractTextFromHtml = (html) => {
+    if (!html) {
+      return "";
+    }
+    return html.replace(/<[^>]*>/g, "");
+  };
+
+  const extractedText = extractTextFromHtml(htmlContent);
+  const lines = extractedText.split("\n");
+
   return (
     <>
       <TouchableOpacity
@@ -86,7 +98,7 @@ const PracticeAreaModal = (props: IPracticeArea) => {
         </Text>
       </TouchableOpacity>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={"xl"}>
-        <Modal.Content maxWidth="800px">
+        <Modal.Content maxWidth="800px" pb={10}>
           <Modal.CloseButton />
           <Modal.Header>
             <Text className="font-raleway700 text-2xl uppercase text-zinc-800">
@@ -116,27 +128,57 @@ const PracticeAreaModal = (props: IPracticeArea) => {
               </Text>
             </Stack>
 
-            <Divider mt={10} />
-
             {destaque_items && (
-              <HTML source={{ html: destaque_items }} tagsStyles={htmlStyles} />
+              <Stack space={4}>
+                <Divider mt={10} />
+                {/*  <HTML
+                  source={{ html: destaque_items }}
+                  tagsStyles={htmlStyles}
+                  contentWidth={100}
+                /> */}
+                {/* <Text className="font-raleway500 text-xl text-zinc-800">
+                  {extractedText}
+                </Text> */}
+                {lines.map((line, index) => (
+                  <Text
+                    className="font-raleway700 text-xl text-zinc-800"
+                    key={index}
+                  >
+                    {line}
+                  </Text>
+                ))}
+
+                {/* <List.Section>
+                  {lines.map((item, index) => (
+                    <List.Item
+                      className="font-raleway500 text-xl text-zinc-800"
+                      key={index}
+                      title={item}
+                      left={(props) => <List.Icon {...props} icon="" />}
+                    />
+                  ))}
+                </List.Section> */}
+              </Stack>
             )}
+            {texto_1 || texto_2 || texto_3 ? (
+              <Stack space={6}>
+                <Text className="font-raleway500 text-xl text-zinc-800">
+                  {texto_3}
+                </Text>
 
-            <Stack space={6}>
-              <Text className="font-raleway500 text-xl text-zinc-800">
-                {texto_3}
-              </Text>
+                <Text className="font-raleway500 text-xl text-zinc-800">
+                  {texto_2}
+                </Text>
 
-              <Text className="font-raleway500 text-xl text-zinc-800">
-                {texto_2}
-              </Text>
+                <Divider mt={2} />
 
-              <Divider mt={2} />
-
-              <Text className="font-raleway500 text-xl text-zinc-800">
-                {texto_1}
-              </Text>
-            </Stack>
+                <Text className="font-raleway500 text-xl text-zinc-800">
+                  {texto_1}
+                </Text>
+              </Stack>
+            ) : (
+              <></>
+            )}
 
             {/* <Stack>
               <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
