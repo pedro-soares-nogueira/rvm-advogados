@@ -1,48 +1,37 @@
-import { Box, Icon, Text, VStack, View } from "native-base";
-import React from "react";
+import { Box, Center, Icon, Text, VStack, View } from "native-base";
+import React, { useEffect, useState } from "react";
 import PracticeAreaModal from "./PracticeAreaModal";
 import TeamModal from "./TeamModal";
+import { Loading } from "./Loading";
+
+export interface IProfessionals {
+  id: string;
+  name: string;
+  cargo: string;
+  email: string;
+  photo: string;
+  areas_of_expertise: string[];
+  languages: string[];
+}
 
 const Team = () => {
-  const data = [
-    {
-      id: 1,
-      name: "RENATO VON MÜHLEN",
-      title:
-        "Áreas de atuação: Direito Previdenciário, Direito do Trabalho, Direito Administrativo",
-    },
-    {
-      id: 2,
-      name: "ANGELA VON MÜHLEN",
-      title: "Áreas de atuação: Direito Previdenciário, Direito Administrativo",
-    },
-    {
-      id: 3,
-      name: "PEDRO INÁCIO VON AMELN E SILVA",
-      title: "Áreas de atuação: Direito do Trabalho, Direito Administrativo",
-    },
-    {
-      id: 4,
-      name: "LIANDRA FRACALOSSI",
-      title: "Áreas de atuação: Direito Previdenciário",
-    },
-    {
-      id: 5,
-      name: "ANGELA VON MÜHLEN",
-      title: "Áreas de atuação: Direito do Trabalho, Direito Administrativo",
-    },
-    {
-      id: 6,
-      name: "PEDRO INÁCIO VON AMELN E SILVA",
-      title: "Áreas de atuação: Direito Previdenciário, Direito Administrativo",
-    },
-    {
-      id: 7,
-      name: "ANGELA VON MÜHLEN",
-      title:
-        "Áreas de atuação: Direito Previdenciário, Direito do Trabalho, Direito Administrativo",
-    },
-  ];
+  const [team, setTeam] = useState<IProfessionals[] | undefined>(undefined);
+
+  useEffect(() => {
+    fetch("https://rvmadvogados.com.br/api/public")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Try again in a few minutes.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setTeam(data.profissionais.advogados);
+      })
+      .catch((error) => {
+        console.log("Fetch error: ", error);
+      });
+  }, []);
 
   return (
     <VStack>
@@ -64,9 +53,13 @@ const Team = () => {
       </VStack>
 
       <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-        {data.map((item) => (
-          <TeamModal key={item.id} title={item.name} details={item.title} />
-        ))}
+        {team && team.map((item) => <TeamModal key={item.id} {...item} />)}
+
+        {!team && (
+          <Center w={"100%"}>
+            <Loading />
+          </Center>
+        )}
       </View>
     </VStack>
   );

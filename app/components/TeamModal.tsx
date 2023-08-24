@@ -12,13 +12,17 @@ import React, { useState } from "react";
 import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
+import { IProfessionals } from "./Team";
 
-interface ITeamsModal {
-  title: string;
-  details: string;
-}
-
-const TeamModal = ({ title, details }: ITeamsModal) => {
+const TeamModal = ({
+  id,
+  name,
+  cargo,
+  email,
+  photo,
+  areas_of_expertise,
+  languages,
+}: IProfessionals) => {
   const [showModal, setShowModal] = useState(false);
   return (
     <>
@@ -27,16 +31,16 @@ const TeamModal = ({ title, details }: ITeamsModal) => {
         className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pr-4 shadow shadow-gray-600"
       >
         <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
-          {title}
+          {name}
         </Text>
-        <Text>{details}</Text>
+        <Text>{cargo}</Text>
       </TouchableOpacity>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={"xl"}>
         <Modal.Content maxWidth="800px">
           <Modal.CloseButton />
           <Modal.Header>
             <Text className="font-raleway700 text-2xl uppercase text-zinc-800">
-              {title}
+              {name}
             </Text>
           </Modal.Header>
           <Modal.Body>
