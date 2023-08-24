@@ -8,27 +8,81 @@ import {
   VStack,
   Divider,
 } from "native-base";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
+import HTML from "react-native-render-html";
+import { Raleway_400Regular } from "@expo-google-fonts/raleway";
 
-interface IPracticeArea {
-  title: string;
-  icon: string;
+export interface IPracticeArea {
+  id?: string;
+  name?: string;
+  resume?: string;
+  thumb?: string;
+  order?: string;
+  active?: string;
+  link?: string;
+  descricao?: string;
+  destaque_chamada?: string;
+  frase_contato?: string;
+  destaque_items?: string;
+  deleted_at?: string;
+  created_at?: string;
+  updated_at?: string;
+  texto_4?: string;
+  texto_3?: string;
+  texto_2?: string;
+  texto_1?: string;
+  resume2?: string;
 }
 
-const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
+const PracticeAreaModal = (props: IPracticeArea) => {
+  const {
+    id,
+    name,
+    resume,
+    thumb,
+    order,
+    active,
+    link,
+    descricao,
+    destaque_chamada,
+    frase_contato,
+    destaque_items,
+    deleted_at,
+    created_at,
+    updated_at,
+    texto_4,
+    texto_3,
+    texto_2,
+    texto_1,
+    resume2,
+  } = props;
   const [showModal, setShowModal] = useState(false);
+
+  const htmlStyles = {
+    ul: {
+      fontSize: 20,
+      fontFamily: "Raleway_400Regular",
+      color: "black",
+      listStyleType: "none",
+      paddingLeft: 0,
+    },
+    li: {
+      marginBottom: 8,
+    },
+  };
+
   return (
     <>
       <TouchableOpacity
         onPress={() => setShowModal(true)}
         className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white px-5 py-3.5 shadow shadow-gray-600"
       >
-        <Icon name={icon} size={36} color="#2E2E2E" />
+        <Icon name="shield-check" size={36} color="#2E2E2E" />
         <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
-          {title}
+          {name}
         </Text>
       </TouchableOpacity>
       <Modal isOpen={showModal} onClose={() => setShowModal(false)} size={"xl"}>
@@ -36,7 +90,7 @@ const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
           <Modal.CloseButton />
           <Modal.Header>
             <Text className="font-raleway700 text-2xl uppercase text-zinc-800">
-              {title}
+              {name}
             </Text>
           </Modal.Header>
           <Modal.Body>
@@ -44,23 +98,47 @@ const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
               <Text className="text-xl font-bold text-zinc-800">
                 36 ANOS DE EXPERIÊNCIA
               </Text>
+              {destaque_chamada && (
+                <>
+                  <Text className="font-raleway500 text-xl text-zinc-800">
+                    {destaque_chamada}
+                  </Text>
+                  <Divider mt={4} />
+                </>
+              )}
+
               <Text className="font-raleway500 text-xl text-zinc-800">
-                Atuamos no ramo do Direito Previdenciário há quase 40 anos e
-                possuímos uma equipe altamente qualificada neste segmento,
-                buscando sempre assegurar aos nossos clientes a percepção do
-                melhor benefício previdenciário a que tem direito.
+                {resume}
               </Text>
+
               <Text className="font-raleway500 text-xl text-zinc-800">
-                Nossa expertise abrange não só o Regime Geral de Previdência
-                Social (INSS), como também os Regimes Próprios (municipais,
-                estaduais e da União Federal) e os Planos de Previdência
-                Complementar (Previdência Privada).
+                {resume2}
               </Text>
             </Stack>
 
             <Divider mt={10} />
 
-            <Stack>
+            {destaque_items && (
+              <HTML source={{ html: destaque_items }} tagsStyles={htmlStyles} />
+            )}
+
+            <Stack space={6}>
+              <Text className="font-raleway500 text-xl text-zinc-800">
+                {texto_3}
+              </Text>
+
+              <Text className="font-raleway500 text-xl text-zinc-800">
+                {texto_2}
+              </Text>
+
+              <Divider mt={2} />
+
+              <Text className="font-raleway500 text-xl text-zinc-800">
+                {texto_1}
+              </Text>
+            </Stack>
+
+            {/* <Stack>
               <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
                 <VStack className="inline-flex items-start justify-start gap-24">
                   <Text className="font-raleway800 text-2xl text-black">
@@ -129,8 +207,8 @@ const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
                   Conselho de Recursos da Previdência Social (CRPS).
                 </Text>
               </VStack>
-            </Stack>
-
+            </Stack> 
+            
             <Divider mt={10} />
 
             <Stack>
@@ -201,7 +279,7 @@ const PracticeAreaModal = ({ title, icon }: IPracticeArea) => {
                   Conselho de Recursos da Previdência Social (CRPS).
                 </Text>
               </VStack>
-            </Stack>
+            </Stack> */}
           </Modal.Body>
         </Modal.Content>
       </Modal>

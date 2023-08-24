@@ -8,18 +8,21 @@ import {
   VStack,
   View,
 } from "native-base";
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
-import PracticeAreaModal from "../components/PracticeAreaModal";
+import PracticeAreaModal, {
+  IPracticeArea,
+} from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import NewsModal from "../components/NewsModal";
 import InstagramEmbedComp from "../components/InstagramEmbedComp";
 import EmbeddedWebView from "../components/EmbeddedWebView";
+import { Loading } from "../components/Loading";
 
 const styles = StyleSheet.create({});
 
@@ -36,6 +39,10 @@ const practiceAreaDetails = [
 export const Home = () => {
   const newsCount = [1, 2, 3, 4, 5];
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const [enderecos, setEnderecos] = useState();
+  const [areas_de_atuacao, setAreas_de_atuacao] = useState<
+    IPracticeArea[] | undefined
+  >(undefined);
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -48,6 +55,25 @@ export const Home = () => {
   const handleAdreess = () => {
     navigation.navigate("adreess");
   };
+
+  useEffect(() => {
+    fetch("https://rvmadvogados.com.br/api/public")
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Try again in a few minutes.");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setEnderecos(data.enderecos);
+        setAreas_de_atuacao(data.areas_de_atuacao);
+      })
+      .catch((error) => {
+        console.log("Fetch error: ", error);
+      });
+  }, []);
+
+  console.log("renderizou");
 
   return (
     <ScrollView
@@ -129,13 +155,12 @@ export const Home = () => {
             </VStack>
 
             <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-              {practiceAreaDetails.map((item) => (
-                <PracticeAreaModal
-                  key={item.id}
-                  title={item.title}
-                  icon={item.icon}
-                />
-              ))}
+              {areas_de_atuacao &&
+                areas_de_atuacao.map((item: IPracticeArea) => (
+                  <PracticeAreaModal key={item.id} {...item} />
+                ))}
+
+              {areas_de_atuacao && <Loading />}
             </View>
           </VStack>
 
