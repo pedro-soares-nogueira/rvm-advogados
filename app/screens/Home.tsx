@@ -200,7 +200,7 @@ export const Home = () => {
           </Stack>
           <Team />
         </VStack>
-        <Stack mx={4} mt={-10} mb={10}>
+        <Stack mx={4} mb={10}>
           <SiteBanner />
         </Stack>
       </VStack>

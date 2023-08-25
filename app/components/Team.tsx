@@ -33,6 +33,8 @@ const Team = () => {
       });
   }, []);
 
+  /* console.log(team); */
+
   return (
     <VStack>
       <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
@@ -53,13 +55,13 @@ const Team = () => {
       </VStack>
 
       <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-        {team && team.map((item) => <TeamModal key={item.id} {...item} />)}
-
-        {!team && (
+        {/* {team ? (
+          team.map((item) => <TeamModal key={item.id} {...item} />)
+        ) : (
           <Center w={"100%"}>
             <Loading />
           </Center>
-        )}
+        )} */}
       </View>
     </VStack>
   );
