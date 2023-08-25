@@ -17,7 +17,7 @@ import { Routes } from "./app/routes";
 import { Home } from "./app/screens/Home";
 import { AuthContextProvider } from "./app/contexts/authContext";
 import { Provider } from "react-redux";
-import { store } from "./app/store";
+import { store } from "./app/reducers/store";
 
 export default function App() {
   const [hasLoadedFonts] = useFonts({
