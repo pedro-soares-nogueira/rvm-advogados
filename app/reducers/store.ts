@@ -1,4 +1,4 @@
-import { configureStore, createSlice } from "@reduxjs/toolkit";
+import { configureStore } from "@reduxjs/toolkit";
 import { scheduleSlice } from "./scheduleSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { fetchDetailsSlice } from "./fetchSlice";
@@ -8,6 +8,10 @@ export const store = configureStore({
     schedule: scheduleSlice.reducer,
     fetcher: fetchDetailsSlice.reducer,
   },
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;

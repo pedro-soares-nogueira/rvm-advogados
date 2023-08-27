@@ -42,11 +42,7 @@ const practiceAreaDetails = [
 export const Home = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
-  const newsCount = [1, 2, 3, 4, 5];
   const navigation = useNavigation<AppNavigatorRoutesProps>();
-  const [areas_de_atuacao, setAreas_de_atuacao] = useState<
-    IPracticeArea[] | undefined
-  >(undefined);
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -60,22 +56,6 @@ export const Home = () => {
     navigation.navigate("adreess");
   };
 
-  /*   useEffect(() => {
-    fetch("https://rvmadvogados.com.br/api/public")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Try again in a few minutes.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setAreas_de_atuacao(data.areas_de_atuacao);
-      })
-      .catch((error) => {
-        console.log("Fetch error: ", error);
-      });
-  }, []); */
-
   useEffect(() => {
     dispatch(loadDetails());
   }, []);
@@ -87,7 +67,7 @@ export const Home = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <VStack flex={1} background={"white"}>
+      <VStack flex={1} background={"white"} mb={40}>
         <VStack className="bg-white shadow-md shadow-gray-400">
           <VStack className="h-16"></VStack>
           <HStack className="flex w-full items-center justify-between p-4">
