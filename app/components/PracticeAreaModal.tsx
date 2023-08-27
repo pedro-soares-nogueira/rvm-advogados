@@ -7,14 +7,19 @@ import {
   Stack,
   VStack,
   Divider,
+  Image,
 } from "native-base";
 import React, { useEffect, useState } from "react";
 import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
-import Icon from "react-native-vector-icons/Octicons";
-import HTML from "react-native-render-html";
-import { List } from "react-native-paper";
-
+import DireitoAdministrativo from "../assets/areas_de_atuacao_icons/Direito Administrativo.svg";
+import DireitoCivil from "../assets/areas_de_atuacao_icons/Direito Civil.svg";
+import DireitoDigital from "../assets/areas_de_atuacao_icons/Direito Digital.svg";
+import DireitoPrevidenciário from "../assets/areas_de_atuacao_icons/Direito Previdenciário.svg";
+import DireitoTributário from "../assets/areas_de_atuacao_icons/Direito Tributário.svg";
+import DireitoFamília from "../assets/areas_de_atuacao_icons/Direito de Família.svg";
+import DireitoTrabalho from "../assets/areas_de_atuacao_icons/Direito do Trabalho.svg";
+import Trânsito from "../assets/areas_de_atuacao_icons/Trânsito.svg";
 export interface IPracticeArea {
   id?: string;
   name?: string;
@@ -61,19 +66,6 @@ const PracticeAreaModal = (props: IPracticeArea) => {
   } = props;
   const [showModal, setShowModal] = useState(false);
 
-  const htmlStyles = {
-    ul: {
-      fontSize: 20,
-      fontFamily: "Raleway_400Regular",
-      color: "black",
-      listStyleType: "none",
-      paddingLeft: 0,
-    },
-    li: {
-      marginBottom: 8,
-    },
-  };
-
   const htmlContent = destaque_items;
 
   const extractTextFromHtml = (html) => {
@@ -86,13 +78,18 @@ const PracticeAreaModal = (props: IPracticeArea) => {
   const extractedText = extractTextFromHtml(htmlContent);
   const lines = extractedText.split("\n");
 
+  // const iconUrl = `../assets/areas_de_atuacao_icons/${name}.svg`;
+
   return (
     <>
       <TouchableOpacity
         onPress={() => setShowModal(true)}
         className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white px-5 py-3.5 shadow shadow-gray-600"
       >
-        <Icon name="shield-check" size={36} color="#2E2E2E" />
+        {/*  <Icon name="shield-check" size={36} color="#2E2E2E" /> */}
+        {/* <Image source={iconUrl} alt="" /> */}
+
+        {}
         <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
           {name}
         </Text>

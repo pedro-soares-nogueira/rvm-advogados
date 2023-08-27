@@ -1,7 +1,6 @@
 import {
   Box,
   Center,
-  FlatList,
   HStack,
   Image,
   Stack,
@@ -9,9 +8,9 @@ import {
   VStack,
   View,
 } from "native-base";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
-import { ScrollView, StyleSheet, TouchableOpacity } from "react-native";
+import { ScrollView, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
@@ -21,23 +20,10 @@ import PracticeAreaModal, {
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import NewsModal from "../components/NewsModal";
-import InstagramEmbedComp from "../components/InstagramEmbedComp";
 import EmbeddedWebView from "../components/EmbeddedWebView";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
-
-const styles = StyleSheet.create({});
-
-const practiceAreaDetails = [
-  { id: 1, icon: "shield-check", title: "Previdenciário" },
-  { id: 2, icon: "credit-card", title: "Tributário" },
-  { id: 3, icon: "webhook", title: "Trabalhista" },
-  { id: 4, icon: "star", title: "Cívil" },
-  { id: 5, icon: "versions", title: "Administrativo" },
-  { id: 6, icon: "sort-asc", title: "Digital" },
-  { id: 7, icon: "stack", title: "Transito" },
-];
 
 export const Home = () => {
   const dispatch = useAppDispatch();
