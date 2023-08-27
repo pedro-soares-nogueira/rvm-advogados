@@ -24,6 +24,8 @@ import NewsModal from "../components/NewsModal";
 import InstagramEmbedComp from "../components/InstagramEmbedComp";
 import EmbeddedWebView from "../components/EmbeddedWebView";
 import { Loading } from "../components/Loading";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
+import { loadDetails } from "../reducers/fetchSlice";
 
 const styles = StyleSheet.create({});
 
@@ -38,6 +40,8 @@ const practiceAreaDetails = [
 ];
 
 export const Home = () => {
+  const dispatch = useAppDispatch();
+  const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const newsCount = [1, 2, 3, 4, 5];
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const [areas_de_atuacao, setAreas_de_atuacao] = useState<
@@ -56,7 +60,7 @@ export const Home = () => {
     navigation.navigate("adreess");
   };
 
-  useEffect(() => {
+  /*   useEffect(() => {
     fetch("https://rvmadvogados.com.br/api/public")
       .then((response) => {
         if (!response.ok) {
@@ -70,6 +74,10 @@ export const Home = () => {
       .catch((error) => {
         console.log("Fetch error: ", error);
       });
+  }, []); */
+
+  useEffect(() => {
+    dispatch(loadDetails());
   }, []);
 
   console.log("renderizou");
@@ -137,7 +145,7 @@ export const Home = () => {
           </TouchableOpacity>
         </Stack>
 
-        <VStack className="mx-4 my-6" space={8}>
+        <VStack className="mx-4 mt-6" space={8}>
           <ScheduleCard />
           <VStack>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
@@ -154,15 +162,14 @@ export const Home = () => {
             </VStack>
 
             <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-              {areas_de_atuacao &&
-                areas_de_atuacao.map((item: IPracticeArea) => (
-                  <PracticeAreaModal key={item.id} {...item} />
-                ))}
-
-              {!areas_de_atuacao && (
+              {isLoading ? (
                 <Center w={"100%"}>
                   <Loading />
                 </Center>
+              ) : (
+                details.areas_de_atuacao.map((item: IPracticeArea) => (
+                  <PracticeAreaModal key={item.id} {...item} />
+                ))
               )}
             </View>
           </VStack>
@@ -198,8 +205,10 @@ export const Home = () => {
               </Center>
             </HStack>
           </Stack>
+
           <Team />
         </VStack>
+
         <Stack mx={4} mb={10}>
           <SiteBanner />
         </Stack>
