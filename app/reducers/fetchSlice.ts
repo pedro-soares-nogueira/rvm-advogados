@@ -1,29 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
-interface GeneralDetailsAPIType {
-  enderecos: Array<{
-    id?: string;
-    title?: string;
-    fone_1?: string;
-    fone_2?: string;
-    email?: string;
-  }>;
-  profissionais: {
-    advogados: IAdvogados[];
-    outros: Array<{
-      id?: string;
-      name?: string;
-      cargo?: string;
-      email?: string;
-      photo?: string;
-      areas_of_expertise?: string;
-      languages?: string;
-    }>;
-  };
-  areas_de_atuacao: Array<IAreasDeAtuação>;
-  quem_somos: { sobre: string };
-}
-
 export interface IAreasDeAtuação {
   id?: string;
   name?: string;
@@ -54,6 +30,30 @@ export interface IAdvogados {
   photo?: string;
   areas_of_expertise?: string;
   languages?: string;
+}
+
+interface GeneralDetailsAPIType {
+  enderecos: Array<{
+    id?: string;
+    title?: string;
+    fone_1?: string;
+    fone_2?: string;
+    email?: string;
+  }>;
+  profissionais: {
+    advogados: IAdvogados[];
+    outros: Array<{
+      id?: string;
+      name?: string;
+      cargo?: string;
+      email?: string;
+      photo?: string;
+      areas_of_expertise?: string;
+      languages?: string;
+    }>;
+  };
+  areas_de_atuacao: Array<IAreasDeAtuação>;
+  quem_somos: { sobre: string };
 }
 
 interface GeneralDetailsAPI {

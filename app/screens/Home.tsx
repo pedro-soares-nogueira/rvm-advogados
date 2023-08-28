@@ -21,6 +21,7 @@ import EmbeddedWebView from "../components/EmbeddedWebView";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
+import Team from "../components/Team";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -169,7 +170,7 @@ export const Home = () => {
             </HStack>
           </Stack>
 
-          {/*  <Team /> */}
+          <Team />
         </VStack>
 
         <Stack mx={4} mb={10}>

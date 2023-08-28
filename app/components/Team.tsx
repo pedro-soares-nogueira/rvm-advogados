@@ -20,11 +20,7 @@ const Team = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
 
-  useEffect(() => {
-    dispatch(loadDetails());
-  }, []);
-
-  console.log(isLoading);
+  console.log(details?.profissionais.advogados);
 
   return (
     <VStack>
