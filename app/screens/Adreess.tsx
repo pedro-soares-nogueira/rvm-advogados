@@ -3,6 +3,7 @@ import {
   Box,
   Center,
   Divider,
+  FlatList,
   HStack,
   Image,
   ScrollView,
@@ -10,13 +11,27 @@ import {
   Text,
   VStack,
 } from "native-base";
-import { ArrowLeft, ArrowRight, Plus, Share } from "phosphor-react-native";
+import {
+  ArrowLeft,
+  ArrowRight,
+  PhoneCall,
+  Plus,
+  Share,
+} from "phosphor-react-native";
 import React from "react";
-import { Linking, TouchableOpacity } from "react-native";
+import {
+  Linking,
+  ListRenderItem,
+  ListRenderItemInfo,
+  TouchableOpacity,
+} from "react-native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { useAppSelector } from "../reducers/store";
+import { IAdreess } from "../reducers/fetchSlice";
 
 export const Adreess = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const { details, isLoading } = useAppSelector((state) => state.fetcher);
 
   const goBack = () => {
     navigation.goBack();
@@ -30,6 +45,39 @@ export const Adreess = () => {
     const url = `https://www.google.com/maps/search/?api=1&query=${latitude},${longitude}&query_place_id=${label}`;
 
     Linking.openURL(url);
+  };
+
+  console.log(details.enderecos);
+
+  const AdreessCard = ({ email, fone_1, fone_2, id, title }: IAdreess) => {
+    return (
+      <Stack mx={4} mb={8} alignItems={"center"}>
+        <Box
+          borderWidth={1}
+          borderColor={"gray.300"}
+          rounded={4}
+          width={"100%"}
+          p={4}
+        >
+          <Text className="font-raleway700 text-2xl">{title}</Text>
+          <Divider my={4} />
+          <Stack mb={8}>
+            <Text className="text-xl font-bold">{fone_1}</Text>
+            <Text className="font-raleway400 text-xl">{email}</Text>
+          </Stack>
+
+          <TouchableOpacity
+            onPress={() => openGoogleMaps()}
+            className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
+          >
+            <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
+              Ligar
+            </Text>
+            <PhoneCall size={20} color="#2E2E2E" />
+          </TouchableOpacity>
+        </Box>
+      </Stack>
+    );
   };
 
   return (
@@ -67,54 +115,15 @@ export const Adreess = () => {
           </TouchableOpacity>
         </Stack>
 
-        <Stack mx={4} mb={8} alignItems={"center"}>
-          <Box
-            borderWidth={1}
-            borderColor={"gray.300"}
-            rounded={4}
-            width={"100%"}
-            p={4}
-          >
-            <Text className="font-raleway700 text-2xl">PORTO ALEGRE/RS</Text>
-            <Divider my={4} />
-            <Stack mb={8}>
-              <Text className="font-raleway700 text-xl">SEDE 1</Text>
-              <Text className="font-raleway400 text-xl">
-                RUA DOS ANDRADAS, 1137/1107 CENTRO HISTÓRICO
-              </Text>
-            </Stack>
+        {isLoading ? (
+          <Text>Espere</Text>
+        ) : (
+          details.enderecos.map((item) => {
+            return <AdreessCard key={item.id} {...item} />;
+          })
+        )}
 
-            <TouchableOpacity
-              onPress={() => openGoogleMaps()}
-              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
-            >
-              <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
-                Ver no mapa
-              </Text>
-              <Share size={20} color="#2E2E2E" />
-            </TouchableOpacity>
-
-            <Divider my={4} />
-            <Stack mb={8}>
-              <Text className="font-raleway700 text-xl">SEDE 2</Text>
-              <Text className="font-raleway400 text-xl">
-                RUA DOS ANDRADAS, 1137/1107 CENTRO HISTÓRICO
-              </Text>
-            </Stack>
-
-            <TouchableOpacity
-              onPress={() => openGoogleMaps()}
-              className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
-            >
-              <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
-                Ver no mapa
-              </Text>
-              <Share size={20} color="#2E2E2E" />
-            </TouchableOpacity>
-          </Box>
-        </Stack>
-
-        <Stack mx={4} mb={8} alignItems={"center"}>
+        {/*  <Stack mx={4} mb={8} alignItems={"center"}>
           <Box
             borderWidth={1}
             borderColor={"gray.300"}
@@ -170,7 +179,7 @@ export const Adreess = () => {
               <Share size={20} color="#2E2E2E" />
             </TouchableOpacity>
           </Box>
-        </Stack>
+        </Stack> */}
       </Stack>
     </ScrollView>
   );

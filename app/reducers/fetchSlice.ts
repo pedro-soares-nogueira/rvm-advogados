@@ -32,14 +32,16 @@ export interface IAdvogados {
   languages?: string;
 }
 
+export interface IAdreess {
+  id?: string;
+  title?: string;
+  fone_1?: string;
+  fone_2?: string;
+  email?: string;
+}
+
 interface GeneralDetailsAPIType {
-  enderecos: Array<{
-    id?: string;
-    title?: string;
-    fone_1?: string;
-    fone_2?: string;
-    email?: string;
-  }>;
+  enderecos: IAdreess[];
   profissionais: {
     advogados: IAdvogados[];
     outros: Array<{

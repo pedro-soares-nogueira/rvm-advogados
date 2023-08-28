@@ -20,7 +20,7 @@ const Team = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
 
-  console.log(details?.profissionais.advogados);
+  // console.log(details?.profissionais.advogados);
 
   return (
     <VStack>
