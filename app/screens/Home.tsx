@@ -47,6 +47,7 @@ export const Home = () => {
   }, []);
 
   console.log("renderizou");
+  console.log("renderizou");
 
   return (
     <ScrollView
