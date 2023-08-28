@@ -21,7 +21,7 @@ interface GeneralDetailsAPIType {
     }>;
   };
   areas_de_atuacao: Array<IAreasDeAtuação>;
-  quem_somos: [sobre: string];
+  quem_somos: { sobre: string };
 }
 
 export interface IAreasDeAtuação {

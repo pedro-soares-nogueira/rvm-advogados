@@ -10,16 +10,33 @@ import {
   VStack,
 } from "native-base";
 import { ArrowLeft, ArrowRight, Plus } from "phosphor-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
+import { loadDetails } from "../reducers/fetchSlice";
+import HTMLRender from "react-native-render-html";
+
+const extractTextFromHtml = (html) => {
+  if (!html) {
+    return "";
+  }
+  return html.replace(/<[^>]*>/g, "");
+};
 
 export const AboutUs = () => {
+  const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const goBack = () => {
     navigation.goBack();
   };
+
+  const htmlContent = details.quem_somos.sobre;
+  const extractedText = extractTextFromHtml(htmlContent);
+  const lines = extractedText.split("\n");
+
+  console.log(lines);
 
   return (
     <ScrollView
@@ -68,27 +85,15 @@ export const AboutUs = () => {
             </Text>
             <ArrowRight size={20} color="#2E2E2E" />
           </TouchableOpacity>
-          <Text className="my-4 mr-2 text-justify font-raleway500 text-xl text-zinc-800">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, qut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore
-            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum. Consequat duis aute irure dolor in reprehenderit in
-            voluptate vrunt mollit anim id est laborum
-          </Text>
 
-          <Text className="my-4 mr-2 text-justify font-raleway500 text-xl text-zinc-800">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, qut aliquip ex ea commodo consequat. Duis aute
-            irure dolor in reprehenderit in voluptate velit esse cillum dolore
-            eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-            proident, sunt in culpa qui officia deserunt mollit anim id est
-            laborum. Consequat duis aute irure dolor in reprehenderit in
-            voluptate vrunt mollit anim id est laborum
-          </Text>
+          {lines.map((line, index) => (
+            <Text
+              className="mr-2 text-justify font-raleway500 text-xl text-zinc-800"
+              key={index}
+            >
+              {line}
+            </Text>
+          ))}
         </Stack>
       </Stack>
     </ScrollView>
