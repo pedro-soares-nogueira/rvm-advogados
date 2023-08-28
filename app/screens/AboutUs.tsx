@@ -36,8 +36,6 @@ export const AboutUs = () => {
   const extractedText = extractTextFromHtml(htmlContent);
   const lines = extractedText.split("\n");
 
-  console.log(lines);
-
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
