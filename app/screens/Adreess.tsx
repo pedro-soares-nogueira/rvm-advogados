@@ -47,8 +47,6 @@ export const Adreess = () => {
     Linking.openURL(url);
   };
 
-  console.log(details.enderecos);
-
   const AdreessCard = ({ email, fone_1, fone_2, id, title }: IAdreess) => {
     return (
       <Stack mx={4} mb={8} alignItems={"center"}>

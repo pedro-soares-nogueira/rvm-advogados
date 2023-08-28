@@ -23,13 +23,13 @@ export interface IAreasDeAtuação {
 }
 
 export interface IAdvogados {
-  id?: string;
+  id?: number;
   name?: string;
   cargo?: string;
   email?: string;
   photo?: string;
-  areas_of_expertise?: string;
-  languages?: string;
+  areas_of_expertise?: string[];
+  languages?: string[];
 }
 
 export interface IAdreess {
@@ -60,11 +60,13 @@ interface GeneralDetailsAPIType {
 
 interface GeneralDetailsAPI {
   details: GeneralDetailsAPIType | null;
+  advogados: IAdvogados[];
   isLoading: boolean;
 }
 
 const initialState: GeneralDetailsAPI = {
   details: null,
+  advogados: null,
   isLoading: true,
 };
 
@@ -87,6 +89,7 @@ export const fetchDetailsSlice = createSlice({
     });
     builder.addCase(loadDetails.fulfilled, (state, action) => {
       state.details = action.payload;
+      state.advogados = action.payload.profissionais.advogados;
       state.isLoading = false;
     });
     builder.addCase(loadDetails.rejected, (state, action) => {
