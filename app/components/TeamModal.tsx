@@ -12,7 +12,7 @@ import React, { useState } from "react";
 import { Button } from "./Button";
 import { TouchableOpacity } from "react-native";
 import Icon from "react-native-vector-icons/Octicons";
-import { IProfessionals } from "./Team";
+import { IAdvogados } from "../reducers/fetchSlice";
 
 const TeamModal = ({
   id,
@@ -22,8 +22,10 @@ const TeamModal = ({
   photo,
   areas_of_expertise,
   languages,
-}: IProfessionals) => {
+}: IAdvogados) => {
   const [showModal, setShowModal] = useState(false);
+
+  console.log(name);
   return (
     <>
       <TouchableOpacity

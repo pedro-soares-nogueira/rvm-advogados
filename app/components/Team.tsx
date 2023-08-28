@@ -3,6 +3,8 @@ import React, { useEffect, useState } from "react";
 import PracticeAreaModal from "./PracticeAreaModal";
 import TeamModal from "./TeamModal";
 import { Loading } from "./Loading";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
+import { loadDetails } from "../reducers/fetchSlice";
 
 export interface IProfessionals {
   id: string;
@@ -15,25 +17,14 @@ export interface IProfessionals {
 }
 
 const Team = () => {
-  const [team, setTeam] = useState<IProfessionals[] | undefined>(undefined);
+  const dispatch = useAppDispatch();
+  const { details, isLoading } = useAppSelector((state) => state.fetcher);
 
   useEffect(() => {
-    fetch("https://rvmadvogados.com.br/api/public")
-      .then((response) => {
-        if (!response.ok) {
-          throw new Error("Try again in a few minutes.");
-        }
-        return response.json();
-      })
-      .then((data) => {
-        setTeam(data.profissionais.advogados);
-      })
-      .catch((error) => {
-        console.log("Fetch error: ", error);
-      });
+    dispatch(loadDetails());
   }, []);
 
-  /* console.log(team); */
+  console.log(isLoading);
 
   return (
     <VStack>
@@ -55,12 +46,14 @@ const Team = () => {
       </VStack>
 
       <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-        {/* {team ? (
-          team.map((item) => <TeamModal key={item.id} {...item} />)
-        ) : (
+        {/*   {isLoading ? (
           <Center w={"100%"}>
             <Loading />
           </Center>
+        ) : (
+          details.profissionais.advogados.map((item) => (
+            <TeamModal key={item.id} {...item} />
+          ))
         )} */}
       </View>
     </VStack>

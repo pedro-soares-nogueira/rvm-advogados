@@ -8,16 +8,8 @@ interface GeneralDetailsAPIType {
     fone_2?: string;
     email?: string;
   }>;
-  profissionais: Array<{
-    advogados: Array<{
-      id?: string;
-      name?: string;
-      cargo?: string;
-      email?: string;
-      photo?: string;
-      areas_of_expertise?: string;
-      languages?: string;
-    }>;
+  profissionais: {
+    advogados: IAdvogados[];
     outros: Array<{
       id?: string;
       name?: string;
@@ -27,7 +19,7 @@ interface GeneralDetailsAPIType {
       areas_of_expertise?: string;
       languages?: string;
     }>;
-  }>;
+  };
   areas_de_atuacao: Array<{
     id?: string;
     name?: string;
@@ -51,6 +43,17 @@ interface GeneralDetailsAPIType {
   }>;
   quem_somos: [sobre: string];
 }
+
+export interface IAdvogados {
+  id?: string;
+  name?: string;
+  cargo?: string;
+  email?: string;
+  photo?: string;
+  areas_of_expertise?: string;
+  languages?: string;
+}
+
 interface GeneralDetailsAPI {
   details: GeneralDetailsAPIType | null;
   isLoading: boolean;
