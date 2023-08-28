@@ -20,29 +20,9 @@ import DireitoTributário from "../assets/areas_de_atuacao_icons/Direito Tribut�
 import DireitoFamília from "../assets/areas_de_atuacao_icons/Direito de Família.svg";
 import DireitoTrabalho from "../assets/areas_de_atuacao_icons/Direito do Trabalho.svg";
 import Trânsito from "../assets/areas_de_atuacao_icons/Trânsito.svg";
-export interface IPracticeArea {
-  id?: string;
-  name?: string;
-  resume?: string;
-  thumb?: string;
-  order?: string;
-  active?: string;
-  link?: string;
-  descricao?: string;
-  destaque_chamada?: string;
-  frase_contato?: string;
-  destaque_items?: string;
-  deleted_at?: string;
-  created_at?: string;
-  updated_at?: string;
-  texto_4?: string;
-  texto_3?: string;
-  texto_2?: string;
-  texto_1?: string;
-  resume2?: string;
-}
+import { IAreasDeAtuação } from "../reducers/fetchSlice";
 
-const PracticeAreaModal = (props: IPracticeArea) => {
+const PracticeAreaModal = (props: IAreasDeAtuação) => {
   const {
     id,
     name,

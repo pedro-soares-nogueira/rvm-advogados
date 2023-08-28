@@ -12,11 +12,8 @@ import React, { useEffect } from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
-import Team from "../components/Team";
 import SiteBanner from "../components/SiteBanner";
-import PracticeAreaModal, {
-  IPracticeArea,
-} from "../components/PracticeAreaModal";
+import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import NewsModal from "../components/NewsModal";
@@ -46,7 +43,6 @@ export const Home = () => {
     dispatch(loadDetails());
   }, []);
 
-  console.log("renderizou");
   console.log("renderizou");
 
   return (
@@ -134,7 +130,7 @@ export const Home = () => {
                   <Loading />
                 </Center>
               ) : (
-                details.areas_de_atuacao.map((item: IPracticeArea) => (
+                details.areas_de_atuacao.map((item) => (
                   <PracticeAreaModal key={item.id} {...item} />
                 ))
               )}
@@ -173,7 +169,7 @@ export const Home = () => {
             </HStack>
           </Stack>
 
-          <Team />
+          {/*  <Team /> */}
         </VStack>
 
         <Stack mx={4} mb={10}>

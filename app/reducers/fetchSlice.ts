@@ -20,28 +20,30 @@ interface GeneralDetailsAPIType {
       languages?: string;
     }>;
   };
-  areas_de_atuacao: Array<{
-    id?: string;
-    name?: string;
-    resume?: string;
-    thumb?: string;
-    order?: string;
-    active?: string;
-    link?: string;
-    descricao?: string;
-    destaque_chamada?: string;
-    frase_contato?: string;
-    destaque_items?: string;
-    deleted_at?: string;
-    created_at?: string;
-    updated_at?: string;
-    texto_4?: string;
-    texto_3?: string;
-    texto_2?: string;
-    texto_1?: string;
-    resume2?: string;
-  }>;
+  areas_de_atuacao: Array<IAreasDeAtuação>;
   quem_somos: [sobre: string];
+}
+
+export interface IAreasDeAtuação {
+  id?: string;
+  name?: string;
+  resume?: string;
+  thumb?: string;
+  order?: string;
+  active?: string;
+  link?: string;
+  descricao?: string;
+  destaque_chamada?: string;
+  frase_contato?: string;
+  destaque_items?: string;
+  deleted_at?: string;
+  created_at?: string;
+  updated_at?: string;
+  texto_4?: string;
+  texto_3?: string;
+  texto_2?: string;
+  texto_1?: string;
+  resume2?: string;
 }
 
 export interface IAdvogados {
