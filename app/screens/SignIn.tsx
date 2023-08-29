@@ -1,4 +1,4 @@
-import { Box, Heading, Stack, Text, VStack } from "native-base";
+import { Box, Heading, Stack, Text, VStack, useToast } from "native-base";
 import React, { useState } from "react";
 import Logo from "../assets/rvm-logo.svg";
 import { Button } from "../components/Button";
@@ -7,11 +7,13 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { ISignIn, useAuth } from "../contexts/authContext";
 import { Controller, useForm } from "react-hook-form";
+import { AppError } from "../utils/AppError";
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
-  const { signIn, isUserLogged } = useAuth();
-  const [isLoadding, setIsLoadding] = useState(false);
+  const { signIn } = useAuth();
+  const [isLoading, setIsLoading] = useState(false);
+  const toast = useToast();
   const {
     handleSubmit,
     control,
@@ -23,9 +25,25 @@ export const SignIn = () => {
   };
 
   const handleSignIn = async (data: ISignIn) => {
-    // setIsLoadding(true);
+    try {
+      setIsLoading(true);
 
-    await signIn(data);
+      await signIn(data);
+    } catch (error) {
+      console.log(error);
+
+      toast.show({
+        title: "Verifique as credenciais ou entre em contato!.",
+        placement: "top",
+        bgColor: "red.500",
+        size: "20",
+        style: {
+          marginTop: 30,
+        },
+      });
+
+      setIsLoading(false);
+    }
   };
 
   return (
@@ -77,7 +95,7 @@ export const SignIn = () => {
           <Button
             title="Acessar"
             onPress={handleSubmit(handleSignIn)}
-            isLoading={isLoadding}
+            isLoading={isLoading}
           />
         </Box>
       </Box>

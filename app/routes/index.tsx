@@ -5,12 +5,12 @@ import { AppRoutes } from "./app.routes";
 import { useAuth } from "../contexts/authContext";
 
 export const Routes = () => {
-  const { isUserLogged } = useAuth();
+  const { token } = useAuth();
 
   return (
     <NavigationContainer>
-      {!isUserLogged && <AuthRoutes />}
-      {isUserLogged && <AppRoutes />}
+      {!token && <AuthRoutes />}
+      {token && <AppRoutes />}
     </NavigationContainer>
   );
 };

@@ -7,8 +7,8 @@ export interface ISignIn {
 }
 
 type AuthContextProps = {
-  isUserLogged: boolean;
   signIn: ({ document, password }: ISignIn) => Promise<void>;
+  token: string;
 };
 
 export const AuthContext = createContext<AuthContextProps>(
@@ -30,14 +30,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
   const signIn = async ({ document, password }: ISignIn) => {
     // console.log(`doc: ${document} | pass: ${password}`);
-    const { data } = await api.post("/login", { document, password });
-    setToken(data.success.token);
 
-    console.log(data.success.token);
+    try {
+      const { data } = await api.post("/login", { document, password });
+
+      if (data.success) {
+        setToken(data.success.token);
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+    }
   };
 
   return (
-    <AuthContext.Provider value={{ isUserLogged, signIn }}>
+    <AuthContext.Provider value={{ signIn, token }}>
       {children}
     </AuthContext.Provider>
   );
