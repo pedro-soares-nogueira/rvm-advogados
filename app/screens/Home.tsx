@@ -52,7 +52,7 @@ export const Home = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      <VStack flex={1} background={"white"} mb={40}>
+      <VStack flex={1} background={"white"} pb={10}>
         <VStack className="bg-white shadow-md shadow-gray-400">
           <VStack className="h-16"></VStack>
           <HStack className="flex w-full items-center justify-between p-4">
