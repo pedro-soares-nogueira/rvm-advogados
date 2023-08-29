@@ -22,6 +22,7 @@ import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
+import { OurTeam } from "../components/OurTeam";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -141,7 +142,7 @@ export const Home = () => {
           {/* <InstagramEmbedComp /> */}
           <EmbeddedWebView />
 
-          <Stack space={8} mt={-4} mb={4}>
+          {/* <Stack space={8} mt={-4} mb={4}>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
               <VStack className="inline-flex items-start justify-start gap-24">
                 <Text className="font-raleway800 text-2xl text-black">
@@ -168,12 +169,13 @@ export const Home = () => {
                 </TouchableOpacity>
               </Center>
             </HStack>
-          </Stack>
+          </Stack> */}
 
-          {/* <Team /> */}
+          {/*  <Team /> */}
+          <OurTeam />
         </VStack>
 
-        <Stack mx={4} mb={10}>
+        <Stack mx={4}>
           <SiteBanner />
         </Stack>
       </VStack>

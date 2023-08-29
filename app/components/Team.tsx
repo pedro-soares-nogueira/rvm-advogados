@@ -146,7 +146,7 @@ const Team = () => {
       <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
         <VStack className="inline-flex items-start justify-start gap-24">
           <Text className="font-raleway800 text-3xl text-black">
-            Conheça nossa equipe---
+            Conheça nossa equipe
           </Text>
         </VStack>
         <Text className="font-raleway500 text-lg capitalize text-zinc-800">
