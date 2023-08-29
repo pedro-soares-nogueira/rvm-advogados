@@ -170,7 +170,7 @@ export const Home = () => {
             </HStack>
           </Stack>
 
-          <Team />
+          {/* <Team /> */}
         </VStack>
 
         <Stack mx={4} mb={10}>
