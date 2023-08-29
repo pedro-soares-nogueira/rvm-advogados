@@ -3,6 +3,6 @@
 #### TODO
 
 - [ ] login/register contextAPI
-  - [ ] controlled inputs (react hook form)
-  - [ ] error handlers
+  - [x] controlled inputs (react hook form)
+  - [x] error handlers
   - [ ] create signin contextAPI

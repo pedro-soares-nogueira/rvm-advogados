@@ -5,13 +5,8 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
-import { useAuth } from "../contexts/authContext";
+import { ISignIn, useAuth } from "../contexts/authContext";
 import { Controller, useForm } from "react-hook-form";
-
-interface ISignIn {
-  document: string;
-  password: string;
-}
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
@@ -27,11 +22,10 @@ export const SignIn = () => {
     navigation.navigate("signUp");
   };
 
-  const handleSignIn = (data: ISignIn) => {
+  const handleSignIn = async (data: ISignIn) => {
     // setIsLoadding(true);
-    // signIn();
 
-    console.log(data);
+    await signIn(data);
   };
 
   return (
