@@ -139,7 +139,7 @@ const advogados = [
 const Team = () => {
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
 
-  console.log(advogados);
+  // console.log(advogados);
 
   return (
     <VStack>

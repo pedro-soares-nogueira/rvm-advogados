@@ -6,19 +6,32 @@ import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { useAuth } from "../contexts/authContext";
+import { Controller, useForm } from "react-hook-form";
+
+interface ISignIn {
+  document: string;
+  password: string;
+}
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const { signIn, isUserLogged } = useAuth();
   const [isLoadding, setIsLoadding] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<ISignIn>();
 
   const handleNewAccount = () => {
     navigation.navigate("signUp");
   };
 
-  const handleSignIn = () => {
-    setIsLoadding(true);
-    signIn();
+  const handleSignIn = (data: ISignIn) => {
+    // setIsLoadding(true);
+    // signIn();
+
+    console.log(data);
   };
 
   return (
@@ -31,15 +44,45 @@ export const SignIn = () => {
 
         <Box className="w-full space-y-14">
           <VStack space={4}>
-            <Text className="max-w-xs text-start font-raleway500">Email</Text>
-            <Input keyboardType="email-address" autoCapitalize="none" />
+            <Text className="max-w-xs text-start font-raleway500">
+              Documento
+            </Text>
+
+            <Controller
+              control={control}
+              name="document"
+              rules={{ required: "Informe o documento" }}
+              render={({ field: { onChange } }) => (
+                <Input
+                  placeholder="Documento"
+                  keyboardType="numeric"
+                  autoCapitalize="none"
+                  onChangeText={onChange}
+                  errorMessage={errors.document?.message}
+                />
+              )}
+            />
+
             <Text className="max-w-xs text-start font-raleway500">Senha</Text>
-            <Input secureTextEntry />
+            <Controller
+              control={control}
+              name="password"
+              rules={{ required: "Informe a senha" }}
+              render={({ field: { onChange } }) => (
+                <Input
+                  placeholder="Senha"
+                  secureTextEntry
+                  onChangeText={onChange}
+                  autoCapitalize="none"
+                  errorMessage={errors.password?.message}
+                />
+              )}
+            />
           </VStack>
 
           <Button
             title="Acessar"
-            onPress={handleSignIn}
+            onPress={handleSubmit(handleSignIn)}
             isLoading={isLoadding}
           />
         </Box>

@@ -54,8 +54,8 @@ export const OurTeam = () => {
     fetchData();
   }, []);
 
-  console.log(advogados);
-  console.log(areas_de_atuacao);
+  // console.log(advogados);
+  // console.log(areas_de_atuacao);
 
   return (
     <Stack>
