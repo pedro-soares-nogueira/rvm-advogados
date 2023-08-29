@@ -1,5 +1,15 @@
-import { ReactNode, createContext, useContext, useState } from "react";
+import {
+  ReactNode,
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import { api } from "../lib/axios";
+import {
+  storageAuthTokenGet,
+  storageAuthTokenSave,
+} from "../storage/storageAuthToken";
 
 export interface ISignIn {
   document: string;
@@ -8,7 +18,7 @@ export interface ISignIn {
 
 type AuthContextProps = {
   signIn: ({ document, password }: ISignIn) => Promise<void>;
-  token: string;
+  loadUserToken: string;
 };
 
 export const AuthContext = createContext<AuthContextProps>(
@@ -26,16 +36,34 @@ type AuthContextProviderProps = {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const [token, setToken] = useState("");
+  const [loadUserToken, setLoadUserToken] = useState("");
+  const [isLoadingTokenStorageData, setIsLoadingTokenStorageData] =
+    useState(true);
+
+  async function tokenHeader(token: string) {
+    api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+  }
+
+  async function storageAndSaveToken(token: string) {
+    try {
+      setIsLoadingTokenStorageData(true);
+      tokenHeader(token);
+
+      await storageAuthTokenSave({ token });
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoadingTokenStorageData(false);
+    }
+  }
 
   const signIn = async ({ document, password }: ISignIn) => {
-    // console.log(`doc: ${document} | pass: ${password}`);
-
     try {
       const { data } = await api.post("/login", { document, password });
 
       if (data.success) {
-        setToken(data.success.token);
+        setLoadUserToken(data.success.token);
+        storageAndSaveToken(data.success.token);
       }
     } catch (error) {
       throw error;
@@ -43,8 +71,29 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   };
 
+  async function loadToken() {
+    try {
+      setIsLoadingTokenStorageData(true);
+
+      const { token } = await storageAuthTokenGet();
+
+      if (token) {
+        storageAndSaveToken(token);
+        setLoadUserToken(token);
+      }
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoadingTokenStorageData(false);
+    }
+  }
+
+  useEffect(() => {
+    loadToken();
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ signIn, token }}>
+    <AuthContext.Provider value={{ signIn, loadUserToken }}>
       {children}
     </AuthContext.Provider>
   );

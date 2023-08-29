@@ -5,12 +5,12 @@ import { AppRoutes } from "./app.routes";
 import { useAuth } from "../contexts/authContext";
 
 export const Routes = () => {
-  const { token } = useAuth();
+  const { loadUserToken } = useAuth();
 
   return (
     <NavigationContainer>
-      {!token && <AuthRoutes />}
-      {token && <AppRoutes />}
+      {!loadUserToken && <AuthRoutes />}
+      {loadUserToken && <AppRoutes />}
     </NavigationContainer>
   );
 };
