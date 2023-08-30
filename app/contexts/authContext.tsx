@@ -8,6 +8,7 @@ import {
 import { api } from "../lib/axios";
 import {
   storageAuthTokenGet,
+  storageAuthTokenRemove,
   storageAuthTokenSave,
 } from "../storage/storageAuthToken";
 
@@ -18,6 +19,7 @@ export interface ISignIn {
 
 type AuthContextProps = {
   signIn: ({ document, password }: ISignIn) => Promise<void>;
+  signOut: () => Promise<void>;
   loadUserToken: string;
 };
 
@@ -71,6 +73,18 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   };
 
+  const signOut = async () => {
+    try {
+      setIsLoadingTokenStorageData(true);
+      await storageAuthTokenRemove();
+      setLoadUserToken("");
+    } catch (error) {
+      throw error;
+    } finally {
+      setIsLoadingTokenStorageData(false);
+    }
+  };
+
   async function loadToken() {
     try {
       setIsLoadingTokenStorageData(true);
@@ -93,7 +107,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signIn, loadUserToken }}>
+    <AuthContext.Provider value={{ signIn, signOut, loadUserToken }}>
       {children}
     </AuthContext.Provider>
   );

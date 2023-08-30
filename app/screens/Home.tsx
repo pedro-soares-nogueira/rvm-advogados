@@ -9,7 +9,7 @@ import {
   View,
 } from "native-base";
 import React, { useEffect } from "react";
-import { ArrowRight, Plus } from "phosphor-react-native";
+import { ArrowRight, Plus, SignOut } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import SiteBanner from "../components/SiteBanner";
@@ -23,11 +23,13 @@ import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { OurTeam } from "../components/OurTeam";
+import { useAuth } from "../contexts/authContext";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const { signOut } = useAuth();
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -61,6 +63,9 @@ export const Home = () => {
               style={{ width: 250, height: 40 }}
               alt={"Logo RVM"}
             />
+            <TouchableOpacity className="mr-2 p-3" onPress={() => signOut()}>
+              <SignOut size={32} color="#858383" />
+            </TouchableOpacity>
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
