@@ -1,51 +1,166 @@
-import { Box, Heading, Stack, Text, VStack } from "native-base";
-import React from "react";
+import { Box, Heading, ScrollView, Stack, Text, VStack } from "native-base";
+import React, { useState } from "react";
 import Logo from "../assets/rvm-logo.svg";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
+import { Controller, useForm } from "react-hook-form";
+import { IRegister, useAuth } from "../contexts/authContext";
 
 export const SignUp = () => {
   const navigation = useNavigation();
+  const [isLoading, setIsLoading] = useState(false);
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm<IRegister>();
+  const { register } = useAuth();
 
   const handleGoBack = () => {
     navigation.goBack();
   };
 
+  const handleRegister = async (data: IRegister) => {
+    try {
+      setIsLoading(true);
+
+      await register(data);
+
+      setIsLoading(false);
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
-    <VStack
-      className="flex-1 items-center justify-between bg-white p-6"
-      space={"12"}
+    <ScrollView
+      contentContainerStyle={{ flexGrow: 1 }}
+      showsVerticalScrollIndicator={false}
     >
-      <Box className="w-full items-center space-y-10 pt-4">
-        <Logo width={250} />
-        <Text className="max-w-xs text-center font-raleway500 text-xl">
-          Crie uma conta
-        </Text>
+      <VStack
+        className="flex-1 items-center justify-between bg-white p-6"
+        space={"12"}
+      >
+        <Box className="w-full items-center space-y-10 pt-4">
+          <Logo width={250} />
+          <Text className="max-w-xs text-center font-raleway500 text-xl">
+            Crie uma conta
+          </Text>
 
-        <Box className="w-full space-y-14">
-          <VStack space={4}>
-            <Text className="max-w-xs text-start font-raleway500">Nome</Text>
-            <Input />
-            <Text className="max-w-xs text-start font-raleway500">Email</Text>
-            <Input keyboardType="email-address" autoCapitalize="none" />
-            <Text className="max-w-xs text-start font-raleway500">Senha</Text>
-            <Input secureTextEntry />
-            <Text className="max-w-xs text-start font-raleway500">
-              Confirme a senha
-            </Text>
-            <Input secureTextEntry />
-          </VStack>
+          <Box className="w-full space-y-14">
+            <VStack space={4}>
+              <Text className="max-w-xs text-start font-raleway500">Nome</Text>
+              <Controller
+                control={control}
+                name="name"
+                rules={{ required: "Informe o Nome" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Nome"
+                    autoCapitalize="none"
+                    onChangeText={onChange}
+                    errorMessage={errors.name?.message}
+                  />
+                )}
+              />
+              <Text className="max-w-xs text-start font-raleway500">
+                Telefone
+              </Text>
+              <Controller
+                control={control}
+                name="phone"
+                rules={{ required: "Informe o Telefone" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Telefone"
+                    autoCapitalize="none"
+                    keyboardType="phone-pad"
+                    onChangeText={onChange}
+                    errorMessage={errors.phone?.message}
+                  />
+                )}
+              />
+              <Text className="max-w-xs text-start font-raleway500">
+                Documento
+              </Text>
+              <Controller
+                control={control}
+                name="document"
+                rules={{ required: "Informe o Documento" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Documento"
+                    autoCapitalize="none"
+                    keyboardType="phone-pad"
+                    onChangeText={onChange}
+                    errorMessage={errors.document?.message}
+                  />
+                )}
+              />
+              <Text className="max-w-xs text-start font-raleway500">Email</Text>
+              <Controller
+                control={control}
+                name="email"
+                rules={{ required: "Informe o Email" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Email"
+                    autoCapitalize="none"
+                    keyboardType="email-address"
+                    onChangeText={onChange}
+                    errorMessage={errors.email?.message}
+                  />
+                )}
+              />
+              <Text className="max-w-xs text-start font-raleway500">Senha</Text>
+              <Controller
+                control={control}
+                name="password"
+                rules={{ required: "Informe a Senha" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Senha"
+                    autoCapitalize="none"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    errorMessage={errors.password?.message}
+                  />
+                )}
+              />
+              <Text className="max-w-xs text-start font-raleway500">
+                Confirme a senha
+              </Text>
+              <Controller
+                control={control}
+                name="c_password"
+                rules={{ required: "Informe a confirmação de senha" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Confirme a senha"
+                    autoCapitalize="none"
+                    secureTextEntry
+                    onChangeText={onChange}
+                    errorMessage={errors.c_password?.message}
+                  />
+                )}
+              />
+            </VStack>
 
-          <Button title="Criar conta" />
+            <Button
+              title="Criar conta"
+              onPress={handleSubmit(handleRegister)}
+              isLoading={isLoading}
+            />
+          </Box>
         </Box>
-      </Box>
 
-      <Button
-        title="Já tenho uma conta"
-        variant={"outline"}
-        onPress={handleGoBack}
-      />
-    </VStack>
+        <Button
+          title="Já tenho uma conta"
+          variant={"outline"}
+          onPress={handleGoBack}
+        />
+      </VStack>
+    </ScrollView>
   );
 };

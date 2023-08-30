@@ -7,7 +7,6 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { ISignIn, useAuth } from "../contexts/authContext";
 import { Controller, useForm } from "react-hook-form";
-import { AppError } from "../utils/AppError";
 
 export const SignIn = () => {
   const navigation = useNavigation<AuthNavigatorRoutesProps>();

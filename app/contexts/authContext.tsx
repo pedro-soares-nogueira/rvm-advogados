@@ -17,8 +17,25 @@ export interface ISignIn {
   password: string;
 }
 
+export interface IRegister {
+  name: string;
+  email: string;
+  phone: string;
+  document: string;
+  password: string;
+  c_password: string;
+}
+
 type AuthContextProps = {
   signIn: ({ document, password }: ISignIn) => Promise<void>;
+  register: ({
+    c_password,
+    document,
+    email,
+    name,
+    password,
+    phone,
+  }: IRegister) => Promise<void>;
   signOut: () => Promise<void>;
   loadUserToken: string;
 };
@@ -85,7 +102,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     }
   };
 
-  async function loadToken() {
+  const loadToken = async () => {
     try {
       setIsLoadingTokenStorageData(true);
 
@@ -100,14 +117,32 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     } finally {
       setIsLoadingTokenStorageData(false);
     }
-  }
+  };
+
+  const register = async ({
+    c_password,
+    document,
+    email,
+    name,
+    password,
+    phone,
+  }: IRegister) => {
+    console.log({
+      c_password,
+      document,
+      email,
+      name,
+      password,
+      phone,
+    });
+  };
 
   useEffect(() => {
     loadToken();
   }, []);
 
   return (
-    <AuthContext.Provider value={{ signIn, signOut, loadUserToken }}>
+    <AuthContext.Provider value={{ signIn, signOut, register, loadUserToken }}>
       {children}
     </AuthContext.Provider>
   );
