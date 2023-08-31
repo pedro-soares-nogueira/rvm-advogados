@@ -6,6 +6,11 @@ export interface IAppointmentType {
   professional?: string;
   possibleDates?: string;
   obs?: string;
+
+  // area_id?: string | null;
+  // description?: string | null;
+  // user_id?: string | null;
+  // possible_dates?: string | null;
 }
 
 export interface AppointmentSliceDetails {
