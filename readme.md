@@ -3,6 +3,9 @@
 #### TODO
 
 - [ ] Appointment
+  - [ ] First Step
+  - [ ] Control inputs
+  - [ ] ConnectSlice
 
 #### Issues:
 
