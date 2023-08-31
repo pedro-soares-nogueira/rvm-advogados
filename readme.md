@@ -2,10 +2,10 @@
 
 #### TODO
 
-- [ ] Register
-
+- [ ] Appointment
 
 #### Issues:
 
-* Tipo do token 
-* Tempo de validade do token
+- Tipo do token
+- Tempo de validade do token
+- Register erro 500

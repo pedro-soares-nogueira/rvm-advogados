@@ -1,11 +1,11 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { scheduleSlice } from "./scheduleSlice";
+import { appointmentSlice } from "./appointmentSlice";
 import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
 import { fetchDetailsSlice } from "./fetchSlice";
 
 export const store = configureStore({
   reducer: {
-    schedule: scheduleSlice.reducer,
+    Appointment: appointmentSlice.reducer,
     fetcher: fetchDetailsSlice.reducer,
   },
   middleware: (getDefaultMiddleware) =>

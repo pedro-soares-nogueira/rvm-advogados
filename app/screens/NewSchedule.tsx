@@ -25,6 +25,10 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
+import { Controller, useForm } from "react-hook-form";
+import { IAppointmentType } from "../reducers/appointmentSlice";
+import { zodResolver } from "@hookform/resolvers/zod";
+import * as z from "zod";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -69,6 +73,14 @@ const styles = StyleSheet.create({
   },
 });
 
+const appointmentSchema = z.object({
+  areaOfExpertise: z.string().optional(),
+  howCanWeHelp: z.string().optional(),
+  professional: z.string().optional(),
+});
+
+type AppointmentInput = z.infer<typeof appointmentSchema>;
+
 export const NewSchedule = () => {
   const [step, setStep] = useState(0);
   const [areas, setAreas] = useState(practiceAreaDetails);
@@ -80,6 +92,10 @@ export const NewSchedule = () => {
   const [hasProfPreference, setHasprofPreference] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+
+  const { handleSubmit, control, reset } = useForm<AppointmentInput>({
+    resolver: zodResolver(appointmentSchema),
+  });
 
   const setModalOpen = () => {
     setShowModal(!showModal);
@@ -118,6 +134,7 @@ export const NewSchedule = () => {
   };
 
   const handleHome = () => {
+    setStep(0);
     navigation.navigate("home");
   };
 
@@ -125,6 +142,10 @@ export const NewSchedule = () => {
     setHasprofPreference(true);
   };
 
+  const handleFirstStep = (data: AppointmentInput) => {
+    console.log(data);
+    // setStep(1);
+  };
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -242,40 +263,63 @@ export const NewSchedule = () => {
                 </Modal.Content>
               </Modal> */}
               <View style={styles.pickerContainer}>
-                <Picker
-                  selectedValue={practiceArea}
-                  onValueChange={(itemValue, itemIndex) =>
-                    setPracticeArea(itemValue)
-                  }
-                >
-                  <Picker.Item label="Selecione" value="" />
-                  {areas.map((item) => (
-                    <Picker.Item
-                      key={item.id}
-                      label={item.title}
-                      value={item.title}
-                    />
-                  ))}
-                </Picker>
+                <Controller
+                  control={control}
+                  name="areaOfExpertise"
+                  render={({ field: { onChange } }) => (
+                    <Picker
+                      selectedValue={practiceArea}
+                      onValueChange={(itemValue, itemIndex) => {
+                        setPracticeArea(itemValue);
+                        onChange(itemValue);
+                      }}
+                    >
+                      <Picker.Item label="Selecione" value="" />
+                      {areas.map((item) => (
+                        <Picker.Item
+                          key={item.id}
+                          label={item.title}
+                          value={item.title}
+                        />
+                      ))}
+                    </Picker>
+                  )}
+                />
               </View>
 
               <Text className="max-w-xs text-start font-raleway500 text-lg">
                 Como podemos te ajudar?
               </Text>
-              <TextInput
-                className="flex flex-col items-end rounded-md border border-gray-300 p-4"
-                multiline
-                numberOfLines={8}
+
+              <Controller
+                control={control}
+                name="howCanWeHelp"
+                render={({ field: { onChange, value } }) => (
+                  <TextInput
+                    className="flex flex-col items-end rounded-md border border-gray-300 p-4"
+                    multiline
+                    numberOfLines={8}
+                    onChangeText={onChange}
+                  />
+                )}
               />
               <Stack space={4}>
                 <Text className="max-w-xs text-start font-raleway500 text-lg">
                   Tem preferencia por algum porfissional?
                 </Text>
-                <Input
-                  _disabled={{
-                    backgroundColor: "gray.200",
-                  }}
-                  isDisabled={hasProfPreference}
+
+                <Controller
+                  control={control}
+                  name="professional"
+                  render={({ field: { onChange } }) => (
+                    <Input
+                      _disabled={{
+                        backgroundColor: "gray.200",
+                      }}
+                      onChangeText={onChange}
+                      isDisabled={hasProfPreference}
+                    />
+                  )}
                 />
                 <Checkbox.Group
                   colorScheme="yellow"
@@ -293,7 +337,11 @@ export const NewSchedule = () => {
 
             <HStack space={4} margin={"auto"} my={"10"}>
               <Button title="Voltar" w={"45%"} variant={"outline"} />
-              <Button title="Próximo" w={"45%"} onPress={() => setStep(1)} />
+              <Button
+                title="Próximo"
+                w={"45%"}
+                onPress={handleSubmit(handleFirstStep)}
+              />
             </HStack>
           </>
         )}
