@@ -32,7 +32,7 @@ export const SignIn = () => {
       console.log(error);
 
       toast.show({
-        title: "Verifique as credenciais ou entre em contato!.",
+        title: "Verifique as credenciais ou entre em contato!",
         placement: "top",
         bgColor: "red.500",
         size: "20",

@@ -127,14 +127,23 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     password,
     phone,
   }: IRegister) => {
-    console.log({
+    const user = {
       c_password,
       document,
       email,
       name,
       password,
       phone,
-    });
+    };
+
+    try {
+      // const { data } = await api.post("/register", user);
+
+      console.log(user);
+    } catch (error) {
+      throw error;
+    } finally {
+    }
   };
 
   useEffect(() => {

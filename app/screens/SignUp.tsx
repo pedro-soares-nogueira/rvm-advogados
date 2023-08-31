@@ -1,21 +1,31 @@
-import { Box, Heading, ScrollView, Stack, Text, VStack } from "native-base";
+import {
+  Box,
+  Heading,
+  ScrollView,
+  Stack,
+  Text,
+  VStack,
+  useToast,
+} from "native-base";
 import React, { useState } from "react";
 import Logo from "../assets/rvm-logo.svg";
 import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
-import { IRegister, useAuth } from "../contexts/authContext";
+import { IRegister, ISignIn, useAuth } from "../contexts/authContext";
 
 export const SignUp = () => {
   const navigation = useNavigation();
+  const toast = useToast();
+
   const [isLoading, setIsLoading] = useState(false);
   const {
     handleSubmit,
     control,
     formState: { errors },
   } = useForm<IRegister>();
-  const { register } = useAuth();
+  const { register, signIn } = useAuth();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -27,9 +37,27 @@ export const SignUp = () => {
 
       await register(data);
 
+      const userToSigin: ISignIn = {
+        document: data.document,
+        password: data.password,
+      };
+      await signIn(userToSigin);
+
       setIsLoading(false);
     } catch (error) {
       console.log(error);
+
+      toast.show({
+        title: "Verifique as credenciais ou entre em contato!",
+        placement: "top",
+        bgColor: "red.500",
+        size: "20",
+        style: {
+          marginTop: 30,
+        },
+      });
+
+      setIsLoading(false);
     }
   };
 
