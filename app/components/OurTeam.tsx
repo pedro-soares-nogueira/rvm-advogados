@@ -2,13 +2,13 @@ import { Stack, Text } from "native-base";
 import React, { useEffect, useState } from "react";
 
 interface IAdvogado {
-  id: number;
-  name: string;
+  areas_of_expertise: string[];
   cargo: string;
   email: string;
-  photo: string;
-  areas_of_expertise: string[];
+  id: number;
   languages: string[];
+  name: string;
+  photo: string;
 }
 
 interface IAreasDeAtuação {
@@ -54,13 +54,14 @@ export const OurTeam = () => {
     fetchData();
   }, []);
 
-  // console.log(advogados);
   // console.log(areas_de_atuacao);
 
   return (
     <Stack>
-      {/* {advogados &&
-        advogados.map((item) => <Text key={item.id}>{item.id}</Text>)} */}
+      {advogados &&
+        Object.values(advogados).map((item) => (
+          <Text key={item.id}>{item.id}</Text>
+        ))}
 
       {/*  {areas_de_atuacao &&
         areas_de_atuacao.map((item) => <Text key={item.id}>{item.id}</Text>)} */}

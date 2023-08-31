@@ -16,13 +16,11 @@ import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import NewsModal from "../components/NewsModal";
 import EmbeddedWebView from "../components/EmbeddedWebView";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
-import { OurTeam } from "../components/OurTeam";
 import { useAuth } from "../contexts/authContext";
 
 export const Home = () => {
@@ -145,7 +143,7 @@ export const Home = () => {
           </VStack>
 
           {/* <InstagramEmbedComp /> */}
-          <EmbeddedWebView />
+          {/* <EmbeddedWebView /> */}
 
           {/* <Stack space={8} mt={-4} mb={4}>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
@@ -176,8 +174,7 @@ export const Home = () => {
             </HStack>
           </Stack> */}
 
-          {/*  <Team /> */}
-          <OurTeam />
+          <Team />
         </VStack>
 
         <Stack mx={4}>

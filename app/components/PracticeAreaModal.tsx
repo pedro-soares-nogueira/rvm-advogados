@@ -64,13 +64,9 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
     <>
       <TouchableOpacity
         onPress={() => setShowModal(true)}
-        className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white px-5 py-3.5 shadow shadow-gray-600"
+        className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pl-2 pr-6 shadow shadow-gray-600"
       >
-        {/*  <Icon name="shield-check" size={36} color="#2E2E2E" /> */}
-        {/* <Image source={iconUrl} alt="" /> */}
-
-        {}
-        <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
+        <Text className="line-clamp-2 font-raleway700 text-xl text-neutral-900">
           {name}
         </Text>
       </TouchableOpacity>

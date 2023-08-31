@@ -32,8 +32,11 @@ const TeamModal = ({
         onPress={() => setShowModal(true)}
         className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pr-4 shadow shadow-gray-600"
       >
-        <Text className="mb-1 font-raleway700 text-xl text-neutral-900">
-          {name}teste
+        <Text
+          numberOfLines={2}
+          className="mb-1 font-raleway700 text-xl text-neutral-900"
+        >
+          {name}
         </Text>
         <Text>{cargo}</Text>
       </TouchableOpacity>
