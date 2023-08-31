@@ -1,6 +1,7 @@
 import {
   Box,
   Center,
+  Divider,
   HStack,
   Image,
   Stack,
@@ -114,7 +115,7 @@ export const Home = () => {
         </Stack>
 
         <VStack className="mx-4 mt-6" space={8}>
-          <ScheduleCard />
+          {/* <ScheduleCard /> */}
           <VStack>
             <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
               <VStack className="inline-flex items-start justify-start gap-24">
@@ -129,18 +130,26 @@ export const Home = () => {
               </Text>
             </VStack>
 
-            <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
+            <View className="mt-6 p-4">
               {isLoading ? (
                 <Center w={"100%"}>
                   <Loading />
                 </Center>
               ) : (
-                details.areas_de_atuacao.map((item) => (
-                  <PracticeAreaModal key={item.id} {...item} />
-                ))
+                <Box
+                  mb={-10}
+                  w={"100%"}
+                  className="flex flex-row flex-wrap justify-between "
+                >
+                  {details.areas_de_atuacao.map((item) => (
+                    <PracticeAreaModal key={item.id} {...item} />
+                  ))}
+                </Box>
               )}
             </View>
           </VStack>
+
+          <Divider />
 
           {/* <InstagramEmbedComp /> */}
           {/* <EmbeddedWebView /> */}

@@ -1,4 +1,4 @@
-import { Text, VStack, View } from "native-base";
+import { Center, Text, VStack, View } from "native-base";
 import React from "react";
 import TeamModal from "./TeamModal";
 import { Loading } from "./Loading";
@@ -29,10 +29,15 @@ const Team = () => {
       </VStack>
 
       <View className="mt-6 flex flex-row flex-wrap justify-between p-4">
-        {details &&
+        {isLoading ? (
+          <Center w={"100%"}>
+            <Loading />
+          </Center>
+        ) : (
           Object.values(details.profissionais.advogados).map((item) => (
             <TeamModal key={item.id} {...item} />
-          ))}
+          ))
+        )}
       </View>
     </VStack>
   );
