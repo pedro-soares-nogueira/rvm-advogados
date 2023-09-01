@@ -18,18 +18,14 @@ import {
 } from "phosphor-react-native";
 import React, { useState } from "react";
 import { Button } from "../components/Button";
-import { StyleSheet, TextInput, TouchableOpacity } from "react-native";
+import { TouchableOpacity } from "react-native";
 import moment from "moment";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import { Picker } from "@react-native-picker/picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
-import { Controller, useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
-import { useDispatch } from "react-redux";
-import { useAppSelector } from "../reducers/store";
+import { Step01 } from "../components/steps/Step01";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -62,18 +58,6 @@ interface IShiftSchedule {
   selectedDate: string;
 }
 
-const styles = StyleSheet.create({
-  pickerContainer: {
-    borderWidth: 1,
-    borderColor: "#ccc",
-    borderRadius: 8,
-    paddingHorizontal: 10,
-    marginBottom: 10,
-    paddingTop: 5,
-    paddingBottom: 4,
-  },
-});
-
 const appointmentSchema = z.object({
   areaOfExpertise: z.string().optional(),
   howCanWeHelp: z.string().optional(),
@@ -83,21 +67,13 @@ const appointmentSchema = z.object({
 type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const NewSchedule = () => {
-  const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const [step, setStep] = useState(0);
-  const [areas, setAreas] = useState(details.areas_de_atuacao);
-  const [practiceArea, setPracticeArea] = useState([]);
   const [shifts, setShifts] = useState<string[] | []>([]);
   const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
-  const [hasProfPreference, setHasprofPreference] = useState(false);
   const [selectedDate, setSelectedDate] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
-
-  const { handleSubmit, control, reset } = useForm<AppointmentInput>({
-    resolver: zodResolver(appointmentSchema),
-  });
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -120,7 +96,6 @@ export const NewSchedule = () => {
     );
 
     setSelectedDate(undefined);
-    setPracticeArea([]);
     setShifts([]);
   };
 
@@ -133,157 +108,13 @@ export const NewSchedule = () => {
     navigation.navigate("home");
   };
 
-  const handleProfPreference = () => {
-    setHasprofPreference(true);
-  };
-
-  const handleFirstStep = (data: AppointmentInput) => {
-    console.log(data);
-    // setStep(1);
-  };
-
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
       <VStack flex={1} background={"white"}>
-        {step === 0 && (
-          <>
-            <VStack className="bg-white shadow-md shadow-gray-400">
-              <VStack className="h-16"></VStack>
-              <HStack className="flex w-full items-center justify-between p-4">
-                <Image
-                  source={require("../assets/horizontal_logo.png")}
-                  style={{ width: 250, height: 40 }}
-                  alt={"Logo RVM"}
-                />
-              </HStack>
-
-              <Box className="mx-4 border-t border-gray-300"></Box>
-
-              <VStack className="space-y-5 px-4 py-6">
-                <VStack className="space-y-2">
-                  <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
-                    Novo pré-agendamento
-                  </Text>
-                  <Text className="font-raleway700 text-3xl text-zinc-800">
-                    Jhon Doe
-                  </Text>
-                  <Stack className="flex flex-row items-center">
-                    <Box className="mr-2">
-                      <IdentificationCard size={30} color="#2E2E2E" />
-                    </Box>
-                    <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                      999-999-999-99
-                    </Text>
-                  </Stack>
-                </VStack>
-
-                {/* STEPS */}
-                <HStack space={4} pt={8}>
-                  <Stack className="flex-col items-start justify-start gap-0.5">
-                    <Text className="mb-2 font-raleway700 text-xl text-zinc-800">
-                      Passo 01
-                    </Text>
-                    <Box className="h-3 w-44 rounded-full bg-amber-300"></Box>
-                  </Stack>
-                  <Stack className="flex-col items-start justify-start gap-0.5">
-                    <Text className="mb-2 font-raleway700 text-xl text-zinc-800">
-                      Passo 02
-                    </Text>
-                    <Box className="h-3 w-44 rounded-full bg-gray-300"></Box>
-                  </Stack>
-                </HStack>
-              </VStack>
-            </VStack>
-            <VStack space={4} mx={4} py={8}>
-              <Text className="max-w-xs text-start font-raleway500 text-lg">
-                Escolha a área que deseja
-              </Text>
-              <View style={styles.pickerContainer}>
-                <Controller
-                  control={control}
-                  name="areaOfExpertise"
-                  render={({ field: { onChange } }) => (
-                    <Picker
-                      selectedValue={practiceArea}
-                      onValueChange={(itemValue, itemIndex) => {
-                        setPracticeArea(itemValue);
-                        onChange(itemValue);
-                      }}
-                    >
-                      <Picker.Item label="Selecione" value="" />
-                      {areas.map((item) => (
-                        <Picker.Item
-                          key={item.id}
-                          label={item.name}
-                          value={item.name}
-                        />
-                      ))}
-                    </Picker>
-                  )}
-                />
-              </View>
-
-              <Text className="max-w-xs text-start font-raleway500 text-lg">
-                Como podemos te ajudar?
-              </Text>
-
-              <Controller
-                control={control}
-                name="howCanWeHelp"
-                render={({ field: { onChange, value } }) => (
-                  <TextInput
-                    className="flex flex-col items-end rounded-md border border-gray-300 p-4"
-                    multiline
-                    numberOfLines={8}
-                    onChangeText={onChange}
-                  />
-                )}
-              />
-              <Stack space={4}>
-                <Text className="max-w-xs text-start font-raleway500 text-lg">
-                  Tem preferencia por algum porfissional?
-                </Text>
-
-                <Controller
-                  control={control}
-                  name="professional"
-                  render={({ field: { onChange } }) => (
-                    <Input
-                      _disabled={{
-                        backgroundColor: "gray.200",
-                      }}
-                      onChangeText={onChange}
-                      isDisabled={hasProfPreference}
-                    />
-                  )}
-                />
-                <Checkbox.Group
-                  colorScheme="yellow"
-                  className="flex flex-row items-center justify-start"
-                  w={"100%"}
-                  accessibilityLabel="Escolha um turno"
-                  onChange={handleProfPreference}
-                >
-                  <Checkbox size="md" value="no" isChecked={hasProfPreference}>
-                    Não
-                  </Checkbox>
-                </Checkbox.Group>
-              </Stack>
-            </VStack>
-
-            <HStack space={4} margin={"auto"} my={"10"}>
-              <Button title="Voltar" w={"45%"} variant={"outline"} />
-              <Button
-                title="Próximo"
-                w={"45%"}
-                onPress={handleSubmit(handleFirstStep)}
-              />
-            </HStack>
-          </>
-        )}
+        {step === 0 && <Step01 />}
 
         {step === 1 && (
           <>
