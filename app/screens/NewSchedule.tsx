@@ -26,9 +26,10 @@ import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Picker } from "@react-native-picker/picker";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Controller, useForm } from "react-hook-form";
-import { IAppointmentType } from "../reducers/appointmentSlice";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
+import { useDispatch } from "react-redux";
+import { useAppSelector } from "../reducers/store";
 
 const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -82,8 +83,9 @@ const appointmentSchema = z.object({
 type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const NewSchedule = () => {
+  const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const [step, setStep] = useState(0);
-  const [areas, setAreas] = useState(practiceAreaDetails);
+  const [areas, setAreas] = useState(details.areas_de_atuacao);
   const [ableTo, setAbleTo] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const [practiceArea, setPracticeArea] = useState([]);
@@ -146,6 +148,7 @@ export const NewSchedule = () => {
     console.log(data);
     // setStep(1);
   };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -205,63 +208,6 @@ export const NewSchedule = () => {
               <Text className="max-w-xs text-start font-raleway500 text-lg">
                 Escolha a área que deseja
               </Text>
-              {/* <TouchableOpacity
-                onPress={setModalOpen}
-                className="flex flex-col items-end rounded-md border border-gray-300 p-4"
-              >
-                <Icon
-                  as={AntDesign}
-                  name="caretdown"
-                  color="gray.300"
-                  size={6}
-                />
-              </TouchableOpacity>
-              <Modal
-                isOpen={showModal}
-                onClose={() => setShowModal(false)}
-                justifyContent="flex-end"
-                size="full"
-              >
-                <Modal.Content>
-                  <Modal.CloseButton />
-                  <Modal.Header>
-                    <Text className="font-raleway600 text-2xl text-zinc-800">
-                      Áreas de atuação
-                    </Text>
-                  </Modal.Header>
-                  <Modal.Body>
-                    <Checkbox.Group
-                      onChange={setPracticeArea}
-                      value={practiceArea}
-                      accessibilityLabel="formas de pagamento"
-                    >
-                      {areas.map((item) => (
-                        <Checkbox
-                          key={item.id}
-                          value={item.title}
-                          my={2}
-                          colorScheme={"green"}
-                          fontSize={20}
-                          className="font-raleway400"
-                        >
-                          {item.title}
-                        </Checkbox>
-                      ))}
-                    </Checkbox.Group>
-                  </Modal.Body>
-                  <Modal.Footer>
-                    <HStack space={4}>
-                      <Button
-                        w={40}
-                        title="Sair"
-                        onPress={setModalOpen}
-                        variant={"outline"}
-                      />
-                      <Button w={40} title="Continuar" onPress={setModalOpen} />
-                    </HStack>
-                  </Modal.Footer>
-                </Modal.Content>
-              </Modal> */}
               <View style={styles.pickerContainer}>
                 <Controller
                   control={control}
@@ -278,8 +224,8 @@ export const NewSchedule = () => {
                       {areas.map((item) => (
                         <Picker.Item
                           key={item.id}
-                          label={item.title}
-                          value={item.title}
+                          label={item.name}
+                          value={item.name}
                         />
                       ))}
                     </Picker>
