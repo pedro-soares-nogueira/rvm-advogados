@@ -86,25 +86,18 @@ export const NewSchedule = () => {
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const [step, setStep] = useState(0);
   const [areas, setAreas] = useState(details.areas_de_atuacao);
-  const [ableTo, setAbleTo] = useState(true);
-  const [showModal, setShowModal] = useState(false);
   const [practiceArea, setPracticeArea] = useState([]);
   const [shifts, setShifts] = useState<string[] | []>([]);
   const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
   const [hasProfPreference, setHasprofPreference] = useState(false);
+  const [selectedDate, setSelectedDate] = useState();
+  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const { handleSubmit, control, reset } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
   });
-
-  const setModalOpen = () => {
-    setShowModal(!showModal);
-  };
-
-  const [selectedDate, setSelectedDate] = useState();
-  const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
