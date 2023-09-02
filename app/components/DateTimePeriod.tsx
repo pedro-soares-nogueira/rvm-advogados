@@ -5,6 +5,9 @@ import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button } from "./Button";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 const periodToSelect = [
   {
@@ -19,16 +22,34 @@ const periodToSelect = [
   },
 ];
 
-interface IShiftSchedule {
-  shifts: string[] | [];
+const appointmentSchema = z.object({
+  selectedDate: z.date(),
+});
+
+type AppointmentInput = z.infer<typeof appointmentSchema>;
+
+interface IAppointmentPeriod {
   selectedDate: string;
+  periods: string[] | [];
 }
 const DateTimePeriod = () => {
-  const [selectedDate, setSelectedDate] = useState();
+  //   const [selectedDate, setSelectedDate] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
-  const [shifts, setShifts] = useState<string[] | []>([]);
   const [periods, setPeriods] = useState<string[] | []>([]);
-  const [shiftSchedule, setShiftSchedule] = useState<IShiftSchedule[] | []>([]);
+  const [periodAppointment, setPeriodAppointment] = useState<
+    IAppointmentPeriod[] | []
+  >([]);
+
+  const {
+    handleSubmit,
+    control,
+    reset,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<AppointmentInput>({
+    resolver: zodResolver(appointmentSchema),
+  });
 
   const showDatePicker = () => {
     setDatePickerVisibility(true);
@@ -37,32 +58,43 @@ const DateTimePeriod = () => {
     setDatePickerVisibility(false);
   };
 
-  const handleConfirmDatePicker = (date) => {
-    setSelectedDate(date); // moment(selectedDate).format("DD/MM/YYYY")
+  const handleConfirmDatePicker = (date: Date) => {
+    const appointmentInput: AppointmentInput = {
+      selectedDate: date,
+    };
+
+    setValue("selectedDate", appointmentInput.selectedDate);
     hideDatePicker();
   };
 
-  const handleAddShiftSchedule = () => {
-    const newShiftSchedule = { shifts, selectedDate };
+  /*   const handleAddShiftSchedule = () => {
+    const newShiftSchedule = { periods, selectedDate };
 
-    setShiftSchedule((prev) =>
+    setPeriodAppointment((prev) =>
       prev ? [...prev, newShiftSchedule] : [newShiftSchedule]
     );
 
     setSelectedDate(undefined);
-    setShifts([]);
-  };
-  const handleDeletShiftSchedule = (index: number) => {
-    setShiftSchedule((prev) => prev.filter((_, i) => i !== index));
-  };
+    setPeriods([]);
+  }; */
 
-  //   console.log(selectedDate);
+  const handleDeletShiftSchedule = (index: number) => {
+    setPeriodAppointment((prev) => prev.filter((_, i) => i !== index));
+  };
 
   const handleCheckboxChange = (value) => {
-    //setShifts(value || []);
     setPeriods(value);
     console.log(periods);
   };
+
+  const onSubmit = (data: AppointmentInput) => {
+    console.log(
+      "Data selecionada:",
+      moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD")
+      // .format("YYYY-MM-DD HH:mm:ss")
+    );
+  };
+
   return (
     <Box>
       <VStack space={4} mx={4} pt={8}>
@@ -87,29 +119,30 @@ const DateTimePeriod = () => {
 
       <View className="mx-4 mt-4">
         <Button
-          title={`Abrir calendário - ${moment(selectedDate).format(
-            "DD/MM/YYYY"
-          )}`}
+          title={`Abrir calendário`}
           textSize={18}
           mb={1}
           onPress={showDatePicker}
         />
-        <DateTimePickerModal
-          accentColor="#ccc"
-          isVisible={isDatePickerVisible}
-          mode="date"
-          onConfirm={handleConfirmDatePicker}
-          onCancel={hideDatePicker}
+        <Controller
+          control={control}
+          name="selectedDate"
+          defaultValue={undefined}
+          render={({ field: { value } }) => (
+            <DateTimePickerModal
+              isVisible={isDatePickerVisible}
+              mode="date"
+              onConfirm={handleConfirmDatePicker}
+              onCancel={hideDatePicker}
+              date={value}
+            />
+          )}
         />
       </View>
 
       <VStack space={4} mx={4} pt={6}>
         <Text className="text-start font-raleway500 text-xl">
-          {selectedDate
-            ? `Selecione o turno que estará livre no dia ${moment(
-                selectedDate
-              ).format("DD/MM/YYYY")}`
-            : "Selecione o turno que estará livre nesse dia."}
+          Selecione o turno que estará livre nesse dia
         </Text>
       </VStack>
 
@@ -117,7 +150,7 @@ const DateTimePeriod = () => {
         <Checkbox.Group
           colorScheme="yellow"
           className="my-6 flex flex-row items-center justify-start"
-          defaultValue={shifts}
+          defaultValue={periods}
           w={"100%"}
           accessibilityLabel="Escolha um turno"
           onChange={handleCheckboxChange}
@@ -130,24 +163,24 @@ const DateTimePeriod = () => {
         </Checkbox.Group>
 
         <Button
-          title="Adicionar horário à lista"
+          title="Adicionar horário à lista---"
           textSize={20}
           mb={1}
           w={"60%"}
           variant={"outline"}
-          onPress={() => handleAddShiftSchedule()}
+          onPress={handleSubmit(onSubmit)}
         />
 
-        {shiftSchedule.length === 0 && (
+        {periodAppointment.length === 0 && (
           <>
             <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
               Sua lista de horários vazia
             </Text>
           </>
         )}
-        {shiftSchedule !== undefined && (
+        {periodAppointment !== undefined && (
           <VStack space={4} mt={6}>
-            {shiftSchedule.map((item, index) => {
+            {periodAppointment.map((item, index) => {
               return (
                 <VStack space={4} key={index}>
                   <Stack
@@ -156,8 +189,8 @@ const DateTimePeriod = () => {
                                       rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
                   >
                     <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                      {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
-                      {item.shifts.join(", ")}
+                      {/*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
+                      {item.shifts.join(", ")} */}
                     </Text>
                     <TouchableOpacity
                       onPress={() => handleDeletShiftSchedule(index)}

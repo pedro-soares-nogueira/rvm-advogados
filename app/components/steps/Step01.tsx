@@ -31,6 +31,7 @@ const appointmentSchema = z.object({
 });
 
 type AppointmentInput = z.infer<typeof appointmentSchema>;
+
 export const Step01 = () => {
   const { details } = useAppSelector((state) => state.fetcher);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
