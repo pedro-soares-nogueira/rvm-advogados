@@ -8,6 +8,7 @@ import { Button } from "./Button";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import CheckBoxGroup from "react-native-checkbox-group";
 
 const periodToSelect = [
   {
@@ -24,6 +25,7 @@ const periodToSelect = [
 
 const appointmentSchema = z.object({
   selectedDate: z.date(),
+  selectedShifts: z.array(z.string()),
 });
 
 type AppointmentInput = z.infer<typeof appointmentSchema>;
@@ -67,33 +69,27 @@ const DateTimePeriod = () => {
     hideDatePicker();
   };
 
-  /*   const handleAddShiftSchedule = () => {
-    const newShiftSchedule = { periods, selectedDate };
-
-    setPeriodAppointment((prev) =>
-      prev ? [...prev, newShiftSchedule] : [newShiftSchedule]
-    );
-
-    setSelectedDate(undefined);
-    setPeriods([]);
-  }; */
-
   const handleDeletShiftSchedule = (index: number) => {
     setPeriodAppointment((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleCheckboxChange = (value) => {
-    setPeriods(value);
-    console.log(periods);
+  const handleCheckboxChange = (selectedShifts) => {
+    setValue("selectedShifts", selectedShifts); // Atualiza os turnos selecionados no RHF
   };
 
   const onSubmit = (data: AppointmentInput) => {
     console.log(
       "Data selecionada:",
-      moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD")
+      typeof moment(data.selectedDate)
+        .subtract(1, "month")
+        .format("YYYY-MM-DD"),
+      data.selectedShifts
       // .format("YYYY-MM-DD HH:mm:ss")
     );
   };
+
+  const selectedDate = watch("selectedDate");
+  const selectedShifts = watch("selectedShifts");
 
   return (
     <Box>
@@ -147,20 +143,27 @@ const DateTimePeriod = () => {
       </VStack>
 
       <Box mx={4} w={"100%"}>
-        <Checkbox.Group
-          colorScheme="yellow"
-          className="my-6 flex flex-row items-center justify-start"
-          defaultValue={periods}
-          w={"100%"}
-          accessibilityLabel="Escolha um turno"
-          onChange={handleCheckboxChange}
-        >
-          {periodToSelect.map((item) => (
-            <Checkbox key={item.id} size="lg" value={item.time} mr={10}>
-              {item.title}
-            </Checkbox>
-          ))}
-        </Checkbox.Group>
+        <Controller
+          control={control}
+          name="selectedShifts"
+          defaultValue={undefined}
+          render={({ field: { value, onChange } }) => (
+            <Checkbox.Group
+              colorScheme="yellow"
+              className="my-6 flex flex-row items-center justify-start"
+              defaultValue={periods}
+              w={"100%"}
+              accessibilityLabel="Escolha um turno"
+              onChange={onChange}
+            >
+              {periodToSelect.map((item) => (
+                <Checkbox key={item.id} size="lg" value={item.time} mr={10}>
+                  {item.title}
+                </Checkbox>
+              ))}
+            </Checkbox.Group>
+          )}
+        />
 
         <Button
           title="Adicionar horário à lista---"
