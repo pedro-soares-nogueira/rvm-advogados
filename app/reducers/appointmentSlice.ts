@@ -35,7 +35,8 @@ export const appointmentSlice = createSlice({
       console.log(state.area_id, state.description, state.user_id);
     },
     addDate: (state, action) => {
-      console.log(action.payload);
+      state.possible_dates = action.payload;
+      console.log(state, action.payload);
     },
     addDescription: (state, action) => {
       console.log();

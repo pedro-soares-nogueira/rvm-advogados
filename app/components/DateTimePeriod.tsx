@@ -31,16 +31,9 @@ const appointmentSchema = z.object({
 
 type AppointmentInput = z.infer<typeof appointmentSchema>;
 
-interface IAppointmentPeriod {
-  selectedDate: string;
-  periods: string[] | [];
-}
 const DateTimePeriod = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [periods, setPeriods] = useState<string[] | []>([]);
-  const [periodAppointment, setPeriodAppointment] = useState<
-    IAppointmentPeriod[] | []
-  >([]);
   const dispatch = useAppDispatch();
 
   const {
@@ -68,15 +61,11 @@ const DateTimePeriod = () => {
     hideDatePicker();
   };
 
-  const handleDeletShiftSchedule = (index: number) => {
-    setPeriodAppointment((prev) => prev.filter((_, i) => i !== index));
-  };
-
   const onSubmit = (data: AppointmentInput) => {
     const possible_dates =
       moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD") +
       " " +
-      data.selectedShifts;
+      [data.selectedShifts];
 
     dispatch(addDate(possible_dates));
   };
@@ -164,38 +153,27 @@ const DateTimePeriod = () => {
           onPress={handleSubmit(onSubmit)}
         />
 
-        {periodAppointment.length === 0 && (
-          <>
-            <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
-              Sua lista de horários vazia
-            </Text>
-          </>
-        )}
-        {periodAppointment !== undefined && (
-          <VStack space={4} mt={6}>
-            {periodAppointment.map((item, index) => {
-              return (
-                <VStack space={4} key={index}>
-                  <Stack
-                    w={"80%"}
-                    className="flex w-[94%] flex-row items-center justify-between space-x-3 
+        <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
+          Sua lista de horários vazia
+        </Text>
+
+        <VStack space={4} mt={6}>
+          <VStack space={4}>
+            <Stack
+              w={"80%"}
+              className="flex w-[94%] flex-row items-center justify-between space-x-3 
                                       rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
-                  >
-                    <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                      {/*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
+            >
+              <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
+                {/*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
                       {item.shifts.join(", ")} */}
-                    </Text>
-                    <TouchableOpacity
-                      onPress={() => handleDeletShiftSchedule(index)}
-                    >
-                      <X size={20} color="#2E2E2E" />
-                    </TouchableOpacity>
-                  </Stack>
-                </VStack>
-              );
-            })}
+              </Text>
+              <TouchableOpacity>
+                <X size={20} color="#2E2E2E" />
+              </TouchableOpacity>
+            </Stack>
           </VStack>
-        )}
+        </VStack>
       </Box>
     </Box>
   );
