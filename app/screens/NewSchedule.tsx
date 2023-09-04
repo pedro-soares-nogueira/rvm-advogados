@@ -26,8 +26,9 @@ import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import * as z from "zod";
 import { Step01 } from "../components/steps/Step01";
 import { Step02 } from "../components/steps/Step02";
+import { useAppSelector } from "../reducers/store";
 
-const practiceAreaDetails = [
+/* const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
   { id: 2, icon: "credit-card", title: "Tributário" },
   { id: 3, icon: "webhook", title: "Trabalhista" },
@@ -51,23 +52,23 @@ const customMonthNames = [
   "Novembro",
   "Dezembro",
 ];
-const customDayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"];
 
-const appointmentSchema = z.object({
+const customDayNames = ["Dom", "Seg", "Ter", "Qua", "Qui", "Sex", "Sáb"]; */
+
+/* const appointmentSchema = z.object({
   areaOfExpertise: z.string().optional(),
   howCanWeHelp: z.string().optional(),
   professional: z.string().optional(),
 });
 
-type AppointmentInput = z.infer<typeof appointmentSchema>;
+type AppointmentInput = z.infer<typeof appointmentSchema>; */
 
 export const NewSchedule = () => {
-  const [step, setStep] = useState(1);
+  const { currentStep } = useAppSelector((store) => store.Appointment);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const handleHome = () => {
-    setStep(0);
     navigation.navigate("home");
   };
 
@@ -77,11 +78,11 @@ export const NewSchedule = () => {
       showsVerticalScrollIndicator={false}
     >
       <VStack flex={1} background={"white"}>
-        {step === 0 && <Step01 />}
+        {currentStep === 0 && <Step01 />}
 
-        {step === 1 && <Step02 />}
+        {currentStep === 1 && <Step02 />}
 
-        {step === 2 && (
+        {currentStep === 2 && (
           <>
             <VStack className="bg-white shadow-md shadow-gray-400">
               <VStack className="h-16"></VStack>
@@ -188,13 +189,12 @@ export const NewSchedule = () => {
                 _pressed={{
                   bg: "green.200",
                 }}
-                onPress={() => setStep(3)}
               />
             </HStack>
           </>
         )}
 
-        {step === 3 && (
+        {currentStep === 3 && (
           <>
             <VStack className="bg-white shadow-md shadow-gray-400">
               <VStack className="h-16"></VStack>

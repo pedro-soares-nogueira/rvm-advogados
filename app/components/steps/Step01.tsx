@@ -11,7 +11,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
-import { addDetails } from "../../reducers/appointmentSlice";
+import { addDetails, nextStep } from "../../reducers/appointmentSlice";
+import { Loading } from "../Loading";
 
 const styles = StyleSheet.create({
   pickerContainer: {
@@ -34,6 +35,7 @@ const appointmentSchema = z.object({
 type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const Step01 = () => {
+  const [isLoading, setIsLoading] = useState(false);
   const { details } = useAppSelector((state) => state.fetcher);
   const dispatch = useAppDispatch();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -50,7 +52,10 @@ export const Step01 = () => {
   };
 
   const handleData = (data: AppointmentInput) => {
+    setIsLoading(true);
+
     dispatch(addDetails(data));
+    dispatch(nextStep(1));
   };
 
   return (
@@ -107,27 +112,30 @@ export const Step01 = () => {
           Escolha a área que deseja
         </Text>
         <View style={styles.pickerContainer}>
-          <Controller
-            control={control}
-            name="area_id"
-            render={({ field: { onChange, value } }) => (
-              <Picker
-                selectedValue={value}
-                onValueChange={(itemValue, itemIndex) => {
-                  onChange(itemValue);
-                }}
-              >
-                <Picker.Item label="Selecione" value="" />
-                {areas.map((item) => (
-                  <Picker.Item
-                    key={item.id}
-                    label={item.name}
-                    value={item.id}
-                  />
-                ))}
-              </Picker>
-            )}
-          />
+          {!areas && <Loading />}
+          {areas && (
+            <Controller
+              control={control}
+              name="area_id"
+              render={({ field: { onChange, value } }) => (
+                <Picker
+                  selectedValue={value}
+                  onValueChange={(itemValue, itemIndex) => {
+                    onChange(itemValue);
+                  }}
+                >
+                  <Picker.Item label="Selecione" value="" />
+                  {areas.map((item) => (
+                    <Picker.Item
+                      key={item.id}
+                      label={item.name}
+                      value={item.id}
+                    />
+                  ))}
+                </Picker>
+              )}
+            />
+          )}
         </View>
 
         <Text className="max-w-xs text-start font-raleway500 text-lg">
@@ -208,7 +216,12 @@ export const Step01 = () => {
           variant={"outline"}
           onPress={() => handleHome()}
         />
-        <Button title="Próximo" w={"45%"} onPress={handleSubmit(handleData)} />
+        <Button
+          title="Próximo"
+          w={"45%"}
+          onPress={handleSubmit(handleData)}
+          isLoading={isLoading}
+        />
       </HStack>
     </>
   );

@@ -8,7 +8,7 @@ import { Button } from "./Button";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useAppDispatch } from "../reducers/store";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { addDate } from "../reducers/appointmentSlice";
 
 const periodToSelect = [
@@ -35,6 +35,7 @@ const DateTimePeriod = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [periods, setPeriods] = useState<string[] | []>([]);
   const dispatch = useAppDispatch();
+  const { possible_dates } = useAppSelector((store) => store.Appointment);
 
   const {
     handleSubmit,
@@ -65,10 +66,20 @@ const DateTimePeriod = () => {
     const possible_dates =
       moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD") +
       " " +
-      [data.selectedShifts];
+      data.selectedShifts;
 
     dispatch(addDate(possible_dates));
   };
+  const hasTwoPeriods = possible_dates?.includes(",");
+
+  if (hasTwoPeriods) {
+    const [dataPart, timePart] = possible_dates?.split(" ");
+    const [periodOne, periodTwo] = timePart.split(",");
+    console.log(periodTwo);
+  } else {
+    const [dataPart, timePart] = possible_dates?.split(" ");
+    console.log(dataPart);
+  }
 
   return (
     <Box>
@@ -165,6 +176,7 @@ const DateTimePeriod = () => {
                                       rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
             >
               <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
+                {possible_dates}
                 {/*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
                       {item.shifts.join(", ")} */}
               </Text>

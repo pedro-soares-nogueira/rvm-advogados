@@ -1,14 +1,22 @@
 import moment from "moment";
-import { VStack, HStack, Box, Stack, Checkbox, Image, Text } from "native-base";
+import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { IdentificationCard, X } from "phosphor-react-native";
-import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
+import React from "react";
 import { Button } from "../Button";
 
 import { Input } from "../Input";
 import DateTimePeriod from "../DateTimePeriod";
+import { useAppDispatch } from "../../reducers/store";
+import { nextStep } from "../../reducers/appointmentSlice";
 
 export const Step02 = () => {
+  const dispatch = useAppDispatch();
+
+  const handleBack = () => {
+    console.log("222");
+    dispatch(nextStep(0));
+  };
+
   return (
     <>
       <VStack className="bg-white shadow-md shadow-gray-400">
@@ -71,7 +79,13 @@ export const Step02 = () => {
       </Box>
 
       <HStack space={4} margin={"auto"} my={10}>
-        <Button title="Voltar" w={"45%"} textSize={18} variant={"outline"} />
+        <Button
+          title="Voltar"
+          w={"45%"}
+          textSize={18}
+          variant={"outline"}
+          onPress={() => handleBack()}
+        />
         <Button
           title="Próximo"
           w={"45%"}
