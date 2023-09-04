@@ -1,12 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 export interface IAppointmentType {
-  areaOfExpertise?: string;
-  howCanWeHelp?: string;
-  professional?: string;
-  possibleDates?: string;
-  obs?: string;
-
   // area_id?: string | null;
   // description?: string | null;
   // user_id?: string | null;
@@ -14,12 +8,18 @@ export interface IAppointmentType {
 }
 
 export interface AppointmentSliceDetails {
-  appointment: IAppointmentType | null;
+  possible_dates?: string | null;
+  area_id?: string | null;
+  description?: string | null;
+  user_id?: string | null;
   isLoading: boolean;
 }
 
 const initialState: AppointmentSliceDetails = {
-  appointment: null,
+  possible_dates: null,
+  area_id: null,
+  description: null,
+  user_id: null,
   isLoading: true,
 };
 
@@ -28,9 +28,19 @@ export const appointmentSlice = createSlice({
   initialState,
   reducers: {
     addDetails: (state, action) => {
-      console.log(state, action);
+      state.area_id = action.payload.area_id;
+      state.description = action.payload.description;
+      state.user_id = action.payload.user_id;
+
+      console.log(state.area_id, state.description, state.user_id);
+    },
+    addDate: (state, action) => {
+      console.log(action.payload);
+    },
+    addDescription: (state, action) => {
+      console.log();
     },
   },
 });
 
-export const { addDetails } = appointmentSlice.actions;
+export const { addDetails, addDate, addDescription } = appointmentSlice.actions;

@@ -5,12 +5,13 @@ import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { View, TextInput, StyleSheet } from "react-native";
 import { Button } from "../Button";
-import { useAppSelector } from "../../reducers/store";
+import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Input } from "../Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
+import { addDetails } from "../../reducers/appointmentSlice";
 
 const styles = StyleSheet.create({
   pickerContainer: {
@@ -34,6 +35,7 @@ type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const Step01 = () => {
   const { details } = useAppSelector((state) => state.fetcher);
+  const dispatch = useAppDispatch();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const [areas, setAreas] = useState(details.areas_de_atuacao);
@@ -48,7 +50,7 @@ export const Step01 = () => {
   };
 
   const handleData = (data: AppointmentInput) => {
-    console.log(data);
+    dispatch(addDetails(data));
   };
 
   return (

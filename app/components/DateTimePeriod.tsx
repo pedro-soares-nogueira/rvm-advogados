@@ -1,5 +1,5 @@
 import moment from "moment";
-import { VStack, Box, Checkbox, Stack, Text, HStack } from "native-base";
+import { VStack, Box, Checkbox, Stack, Text } from "native-base";
 import { X } from "phosphor-react-native";
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
@@ -8,7 +8,8 @@ import { Button } from "./Button";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import CheckBoxGroup from "react-native-checkbox-group";
+import { useAppDispatch } from "../reducers/store";
+import { addDate } from "../reducers/appointmentSlice";
 
 const periodToSelect = [
   {
@@ -35,19 +36,17 @@ interface IAppointmentPeriod {
   periods: string[] | [];
 }
 const DateTimePeriod = () => {
-  //   const [selectedDate, setSelectedDate] = useState();
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [periods, setPeriods] = useState<string[] | []>([]);
   const [periodAppointment, setPeriodAppointment] = useState<
     IAppointmentPeriod[] | []
   >([]);
+  const dispatch = useAppDispatch();
 
   const {
     handleSubmit,
     control,
-    reset,
     setValue,
-    watch,
     formState: { errors },
   } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
@@ -73,23 +72,14 @@ const DateTimePeriod = () => {
     setPeriodAppointment((prev) => prev.filter((_, i) => i !== index));
   };
 
-  const handleCheckboxChange = (selectedShifts) => {
-    setValue("selectedShifts", selectedShifts); // Atualiza os turnos selecionados no RHF
-  };
-
   const onSubmit = (data: AppointmentInput) => {
-    console.log(
-      "Data selecionada:",
-      typeof moment(data.selectedDate)
-        .subtract(1, "month")
-        .format("YYYY-MM-DD"),
-      data.selectedShifts
-      // .format("YYYY-MM-DD HH:mm:ss")
-    );
-  };
+    const possible_dates =
+      moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD") +
+      " " +
+      data.selectedShifts;
 
-  const selectedDate = watch("selectedDate");
-  const selectedShifts = watch("selectedShifts");
+    dispatch(addDate(possible_dates));
+  };
 
   return (
     <Box>
@@ -166,7 +156,7 @@ const DateTimePeriod = () => {
         />
 
         <Button
-          title="Adicionar horário à lista---"
+          title="Adicionar horário à lista"
           textSize={20}
           mb={1}
           w={"60%"}
