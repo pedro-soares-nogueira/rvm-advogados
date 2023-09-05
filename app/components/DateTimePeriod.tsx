@@ -1,5 +1,5 @@
 import moment from "moment";
-import { VStack, Box, Checkbox, Stack, Text } from "native-base";
+import { VStack, Box, Checkbox, Stack, Text, Divider } from "native-base";
 import { X } from "phosphor-react-native";
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
@@ -41,6 +41,7 @@ const DateTimePeriod = () => {
     handleSubmit,
     control,
     setValue,
+    reset,
     formState: { errors },
   } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
@@ -82,6 +83,7 @@ const DateTimePeriod = () => {
     }
 
     dispatch(addDate(periodToDispatch));
+    // reset();
   };
 
   return (
@@ -167,27 +169,35 @@ const DateTimePeriod = () => {
           onPress={handleSubmit(onSubmit)}
         />
 
-        <Text className="mb-1 mt-6 font-raleway800 text-xl tracking-tight text-zinc-800">
-          Sua lista de horários vazia
-        </Text>
-
         <VStack space={4} mt={6}>
-          <VStack space={4}>
-            <Stack
-              w={"80%"}
-              className="flex w-[94%] flex-row items-center justify-between space-x-3 
-                                      rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
-            >
-              <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                {possible_dates}
-                {/*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
-                      {item.shifts.join(", ")} */}
-              </Text>
-              <TouchableOpacity>
-                <X size={20} color="#2E2E2E" />
-              </TouchableOpacity>
-            </Stack>
-          </VStack>
+          {possible_dates ? (
+            possible_dates.map((item) => {
+              /* const parts = item.includes(",") ? item.split(" ") : ["Não"];
+
+              const datePart = parts[0];
+              const timePart = parts[1]; */
+              <>
+                <VStack space={4}>
+                  <Stack
+                    w={"80%"}
+                    className="flex w-[94%] flex-row items-center justify-between space-x-3 
+                  rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
+                  >
+                    <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
+                      {item}
+                    </Text>
+                    <TouchableOpacity>
+                      <X size={20} color="#2E2E2E" />
+                    </TouchableOpacity>
+                  </Stack>
+                </VStack>
+              </>;
+            })
+          ) : (
+            <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">
+              Sua lista de horários vazia
+            </Text>
+          )}
         </VStack>
       </Box>
     </Box>
@@ -195,3 +205,8 @@ const DateTimePeriod = () => {
 };
 
 export default DateTimePeriod;
+
+{
+  /*   {moment(item.selectedDate).format("DD/MM/YYYY")} •{" "}
+      {item.shifts.join(", ")} */
+}

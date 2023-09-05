@@ -9,7 +9,7 @@ export interface IAppointmentType {
 
 export interface AppointmentSliceDetails {
   currentStep: number;
-  possible_dates?: string | null;
+  possible_dates?: string[] | null;
   area_id?: string | null;
   description?: string | null;
   user_id?: string | null;
@@ -17,8 +17,8 @@ export interface AppointmentSliceDetails {
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 0,
-  possible_dates: null,
+  currentStep: 1,
+  possible_dates: [],
   area_id: null,
   description: null,
   user_id: null,
@@ -40,8 +40,7 @@ export const appointmentSlice = createSlice({
       console.log(state.area_id, state.description, state.user_id);
     },
     addDate: (state, action) => {
-      //state.possible_dates = action.payload;
-      console.log(state, action.payload);
+      state.possible_dates = [...state.possible_dates, action.payload];
     },
     addDescription: (state, action) => {
       console.log();
