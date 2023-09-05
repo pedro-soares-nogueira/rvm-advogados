@@ -16,6 +16,7 @@ import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Step01 } from "../components/steps/Step01";
 import { Step02 } from "../components/steps/Step02";
 import { useAppSelector } from "../reducers/store";
+import { Step03 } from "../components/steps/Step03";
 
 /* const practiceAreaDetails = [
   { id: 1, icon: "shield-check", title: "Previdenciário" },
@@ -71,117 +72,7 @@ export const NewSchedule = () => {
 
         {currentStep === 1 && <Step02 />}
 
-        {currentStep === 2 && (
-          <>
-            <VStack className="bg-white shadow-md shadow-gray-400">
-              <VStack className="h-16"></VStack>
-              <HStack className="flex w-full items-center justify-between p-4">
-                <Image
-                  source={require("../assets/horizontal_logo.png")}
-                  style={{ width: 250, height: 40 }}
-                  alt={"Logo RVM"}
-                />
-              </HStack>
-
-              <Box className="mx-4 border-t border-gray-300"></Box>
-
-              <VStack className="space-y-5 px-4 py-6">
-                <HStack space={6} alignItems={"center"}>
-                  <Warning size={44} />
-                  <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-                    Os dados do pré-agendamento conferem?
-                  </Text>
-                </HStack>
-              </VStack>
-            </VStack>
-            <VStack
-              space={4}
-              mx={4}
-              mt={10}
-              p={4}
-              borderWidth={1}
-              borderColor={"gray.300"}
-              borderRadius={4}
-            >
-              <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-                John Doe,
-              </Text>
-              <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-                Administrativo
-              </Text>
-              <Text className="text-start font-raleway500 text-lg">
-                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
-                enim ad minim veniam, quis
-              </Text>
-              <VStack space={4} mt={6}>
-                <Stack
-                  w={"80%"}
-                  className="flex flex-row items-center justify-between space-x-3 
-                                      rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
-                >
-                  <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                    18/07/2023 •Tarde
-                  </Text>
-                  <TouchableOpacity>
-                    <X size={20} color="#2E2E2E" />
-                  </TouchableOpacity>
-                </Stack>
-                <Stack
-                  w={"80%"}
-                  className="flex flex-row items-center justify-between space-x-3 
-                                      rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
-                >
-                  <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                    18/07/2023 •Tarde
-                  </Text>
-                  <TouchableOpacity>
-                    <X size={20} color="#2E2E2E" />
-                  </TouchableOpacity>
-                </Stack>
-              </VStack>
-
-              <Button
-                title="Adicionar mais datas"
-                w={"45%"}
-                textSize={18}
-                variant={"outline"}
-              />
-              <VStack mt={6} space={4}>
-                <Text className="text-start font-raleway500 text-lg">
-                  Confirme seu telefone, entraremos em contato para confirmação
-                  do atendimento e data.
-                </Text>
-                <Stack className="flex flex-row items-center">
-                  <Box className="mr-2">
-                    <Phone size={30} color="#2E2E2E" />
-                  </Box>
-                  <Text className="mb-2.5 text-xl font-semibold text-zinc-800">
-                    (99) 9999-9999
-                  </Text>
-                </Stack>
-              </VStack>
-            </VStack>
-
-            <HStack space={4} margin={"auto"} my={10}>
-              <Button
-                title="Voltar"
-                w={"45%"}
-                textSize={18}
-                variant={"outline"}
-              />
-              <Button
-                title="Confirmar"
-                w={"45%"}
-                textSize={18}
-                bgColor={"green.600"}
-                _pressed={{
-                  bg: "green.200",
-                }}
-              />
-            </HStack>
-          </>
-        )}
+        {currentStep === 2 && <Step03 />}
 
         {currentStep === 3 && (
           <>
