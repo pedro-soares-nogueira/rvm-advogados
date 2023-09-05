@@ -1,29 +1,18 @@
 import {
   Box,
-  Checkbox,
   HStack,
   Image,
   ScrollView,
   Stack,
   Text,
   VStack,
-  View,
 } from "native-base";
-import {
-  IdentificationCard,
-  Phone,
-  X,
-  Warning,
-  CheckCircle,
-} from "phosphor-react-native";
-import React, { useState } from "react";
+import { Phone, X, Warning, CheckCircle } from "phosphor-react-native";
+import React from "react";
 import { Button } from "../components/Button";
 import { TouchableOpacity } from "react-native";
-import moment from "moment";
-import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import * as z from "zod";
 import { Step01 } from "../components/steps/Step01";
 import { Step02 } from "../components/steps/Step02";
 import { useAppSelector } from "../reducers/store";

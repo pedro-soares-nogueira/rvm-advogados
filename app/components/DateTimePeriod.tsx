@@ -68,18 +68,21 @@ const DateTimePeriod = () => {
       " " +
       data.selectedShifts;
 
-    dispatch(addDate(possible_dates));
-  };
-  const hasTwoPeriods = possible_dates?.includes(",");
+    const hasTwoPeriods = possible_dates?.includes(",");
+    let periodToDispatch;
 
-  if (hasTwoPeriods) {
-    const [dataPart, timePart] = possible_dates?.split(" ");
-    const [periodOne, periodTwo] = timePart.split(",");
-    console.log(periodTwo);
-  } else {
-    const [dataPart, timePart] = possible_dates?.split(" ");
-    console.log(dataPart);
-  }
+    if (hasTwoPeriods) {
+      const [date, times] = possible_dates?.split(" ");
+      const [periodOne, periodTwo] = times?.split(",");
+
+      periodToDispatch = `${date} ["${periodOne}", "${periodTwo}"]`;
+    } else {
+      const [date, time] = possible_dates?.split(" ");
+      periodToDispatch = `${date} ["${time}"]`;
+    }
+
+    dispatch(addDate(periodToDispatch));
+  };
 
   return (
     <Box>
