@@ -60,7 +60,7 @@ export const appointmentSlice = createSlice({
       };
     },
     addDescription: (state, action) => {
-      console.log();
+      state.description = action.payload;
     },
   },
 });

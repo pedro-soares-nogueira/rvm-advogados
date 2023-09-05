@@ -7,14 +7,31 @@ import { Button } from "../Button";
 import { Input } from "../Input";
 import DateTimePeriod from "../DateTimePeriod";
 import { useAppDispatch } from "../../reducers/store";
-import { nextStep } from "../../reducers/appointmentSlice";
+import { addDescription, nextStep } from "../../reducers/appointmentSlice";
+import { z } from "zod";
+import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+
+const descriptionSchema = z.object({
+  description: z.string().optional(),
+});
+
+type DescriptionInput = z.infer<typeof descriptionSchema>;
 
 export const Step02 = () => {
   const dispatch = useAppDispatch();
+  const { handleSubmit, control, reset } = useForm<DescriptionInput>({
+    resolver: zodResolver(descriptionSchema),
+  });
 
   const handleBack = () => {
     console.log("222");
     dispatch(nextStep(0));
+  };
+
+  const onSubmit = (data: DescriptionInput) => {
+    dispatch(addDescription(data));
+    dispatch(nextStep(2));
   };
 
   return (
@@ -73,7 +90,17 @@ export const Step02 = () => {
             <Text className="max-w-xs text-start font-raleway500 text-lg">
               Observação
             </Text>
-            <Input />
+            <Controller
+              control={control}
+              name="description"
+              render={({ field: { onChange, value } }) => (
+                <Input
+                  placeholder="Alguma observação sobre os horários?"
+                  autoCapitalize="none"
+                  onChangeText={onChange}
+                />
+              )}
+            />
           </Stack>
         </Stack>
       </Box>
@@ -90,7 +117,7 @@ export const Step02 = () => {
           title="Próximo"
           w={"45%"}
           textSize={18}
-          onPress={() => console.log(2)}
+          onPress={handleSubmit(onSubmit)}
         />
       </HStack>
     </>
