@@ -1,5 +1,14 @@
 import moment from "moment";
-import { VStack, Box, Checkbox, Stack, Text, Divider } from "native-base";
+import {
+  VStack,
+  Box,
+  Checkbox,
+  Stack,
+  Text,
+  Divider,
+  Flex,
+  HStack,
+} from "native-base";
 import { X } from "phosphor-react-native";
 import React, { useState } from "react";
 import { View, TouchableOpacity } from "react-native";
@@ -9,7 +18,9 @@ import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
-import { addDate } from "../reducers/appointmentSlice";
+import { addDate, deleteDate } from "../reducers/appointmentSlice";
+import { format, parseISO } from "date-fns";
+import { ptBR } from "date-fns/locale";
 
 const periodToSelect = [
   {
@@ -83,7 +94,10 @@ const DateTimePeriod = () => {
     }
 
     dispatch(addDate(periodToDispatch));
-    // reset();
+  };
+
+  const handleDelete = (item: string) => {
+    dispatch(deleteDate(item));
   };
 
   return (
@@ -171,27 +185,62 @@ const DateTimePeriod = () => {
 
         <VStack space={4} mt={6}>
           {possible_dates ? (
-            possible_dates.map((item) => {
-              /* const parts = item.includes(",") ? item.split(" ") : ["Não"];
+            possible_dates.map((item, index) => {
+              const regex = /(\d{4}-\d{2}-\d{2}) \[([^\]]+)\]/;
+              const matches = item.match(regex);
+              let date: string;
+              let times: string[];
 
-              const datePart = parts[0];
-              const timePart = parts[1]; */
-              <>
-                <VStack space={4}>
+              if (matches) {
+                date = matches[1];
+                times = matches[2]
+                  .split(", ")
+                  .map((time) => time.replace(/['"]/g, ""));
+              } else {
+                console.log("String não corresponde ao formato esperado.");
+              }
+
+              return (
+                <VStack space={4} key={index}>
                   <Stack
                     w={"80%"}
                     className="flex w-[94%] flex-row items-center justify-between space-x-3 
                   rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
                   >
-                    <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-                      {item}
-                    </Text>
-                    <TouchableOpacity>
+                    <HStack space={3} alignItems={"center"}>
+                      <Text className="mb-1 text-xl font-semibold capitalize tracking-tight text-zinc-800">
+                        {moment(date, "YYYY-MM-DD").format("DD/MM/YYYY")}
+                      </Text>
+                      <Text className="text-4xl">•</Text>
+                      {times.map((item, index) => {
+                        const hora = parseInt(item.split(":")[0]);
+                        if (hora >= 8 && hora < 12) {
+                          return (
+                            <Text
+                              key={index}
+                              className="mb-[8px] font-raleway500 text-xl capitalize tracking-tight text-zinc-800"
+                            >
+                              Manhã
+                            </Text>
+                          );
+                        } else if (hora >= 12 && hora < 18) {
+                          return (
+                            <Text
+                              key={index}
+                              className="mb-[8px] font-raleway500 text-xl capitalize tracking-tight text-zinc-800"
+                            >
+                              Tarde
+                            </Text>
+                          );
+                        }
+                      })}
+                    </HStack>
+                    <TouchableOpacity onPress={() => handleDelete(item)}>
                       <X size={20} color="#2E2E2E" />
                     </TouchableOpacity>
                   </Stack>
                 </VStack>
-              </>;
+              );
             })
           ) : (
             <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">

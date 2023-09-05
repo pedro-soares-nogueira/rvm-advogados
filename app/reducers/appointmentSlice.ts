@@ -40,7 +40,24 @@ export const appointmentSlice = createSlice({
       console.log(state.area_id, state.description, state.user_id);
     },
     addDate: (state, action) => {
-      state.possible_dates = [...state.possible_dates, action.payload];
+      const payloadDate = action.payload;
+
+      const alreadyExists = state.possible_dates.some(
+        (hasDate) => hasDate === payloadDate
+      );
+
+      if (!alreadyExists) {
+        state.possible_dates = [...state.possible_dates, payloadDate];
+      }
+    },
+    deleteDate: (state, action) => {
+      const dataToDelete = state.possible_dates.filter(
+        (data) => data !== action.payload
+      );
+      return {
+        ...state,
+        possible_dates: dataToDelete,
+      };
     },
     addDescription: (state, action) => {
       console.log();
@@ -48,5 +65,5 @@ export const appointmentSlice = createSlice({
   },
 });
 
-export const { addDetails, addDate, addDescription, nextStep } =
+export const { addDetails, deleteDate, addDate, addDescription, nextStep } =
   appointmentSlice.actions;
