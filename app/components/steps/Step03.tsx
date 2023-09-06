@@ -111,6 +111,7 @@ export const Step03 = () => {
           _pressed={{
             bg: "green.200",
           }}
+          onPress={() => dispatch(nextStep(3))}
         />
       </HStack>
     </>
