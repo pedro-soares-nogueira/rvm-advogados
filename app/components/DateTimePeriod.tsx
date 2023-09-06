@@ -1,26 +1,13 @@
 import moment from "moment";
-import {
-  VStack,
-  Box,
-  Checkbox,
-  Stack,
-  Text,
-  Divider,
-  Flex,
-  HStack,
-} from "native-base";
-import { X } from "phosphor-react-native";
+import { VStack, Box, Checkbox, Text, View } from "native-base";
 import React, { useState } from "react";
-import { View, TouchableOpacity } from "react-native";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button } from "./Button";
 import { z } from "zod";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
-import { addDate, deleteDate } from "../reducers/appointmentSlice";
-import { format, parseISO } from "date-fns";
-import { ptBR } from "date-fns/locale";
+import { addDate } from "../reducers/appointmentSlice";
 import { DateCard } from "./DateCard";
 
 const periodToSelect = [
@@ -55,6 +42,7 @@ const DateTimePeriod = () => {
     setValue,
     reset,
     formState: { errors },
+    watch,
   } = useForm<AppointmentInput>({
     resolver: zodResolver(appointmentSchema),
   });
@@ -97,6 +85,8 @@ const DateTimePeriod = () => {
     dispatch(addDate(periodToDispatch));
   };
 
+  const selectedDate = watch("selectedDate");
+
   return (
     <Box>
       <VStack space={4} mx={4} pt={8}>
@@ -121,7 +111,13 @@ const DateTimePeriod = () => {
 
       <View className="mx-4 mt-4">
         <Button
-          title={`Abrir calendário`}
+          title={
+            selectedDate
+              ? `Data selecionada ${moment(selectedDate)
+                  .subtract(1, "month")
+                  .format("DD/MM/YYYY")}`
+              : "Abrir calendário"
+          }
           textSize={18}
           mb={1}
           onPress={showDatePicker}
@@ -181,7 +177,7 @@ const DateTimePeriod = () => {
         />
 
         <VStack space={4} mt={6}>
-          {possible_dates ? (
+          {selectedDate ? (
             possible_dates.map((item, index) => (
               <DateCard key={index} completeDate={item} />
             ))

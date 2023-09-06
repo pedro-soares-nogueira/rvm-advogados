@@ -20,12 +20,11 @@ type DescriptionInput = z.infer<typeof descriptionSchema>;
 
 export const Step02 = () => {
   const dispatch = useAppDispatch();
-  const { handleSubmit, control, reset } = useForm<DescriptionInput>({
+  const { handleSubmit, control, reset, watch } = useForm<DescriptionInput>({
     resolver: zodResolver(descriptionSchema),
   });
 
   const handleBack = () => {
-    console.log("222");
     dispatch(nextStep(0));
   };
 
@@ -85,7 +84,7 @@ export const Step02 = () => {
       <Box>
         <DateTimePeriod />
 
-        <Stack mt={6} space={4} mx={4}>
+        {/* <Stack mt={6} space={4} mx={4}>
           <Stack space={2}>
             <Text className="max-w-xs text-start font-raleway500 text-lg">
               Observação
@@ -102,23 +101,17 @@ export const Step02 = () => {
               )}
             />
           </Stack>
-        </Stack>
+        </Stack> */}
       </Box>
 
       <HStack space={4} margin={"auto"} my={10}>
         <Button
           title="Voltar"
           w={"45%"}
-          textSize={18}
           variant={"outline"}
           onPress={() => handleBack()}
         />
-        <Button
-          title="Próximo"
-          w={"45%"}
-          textSize={18}
-          onPress={handleSubmit(onSubmit)}
-        />
+        <Button title="Próximo" w={"45%"} onPress={handleSubmit(onSubmit)} />
       </HStack>
     </>
   );

@@ -1,6 +1,6 @@
 import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { Warning, X, Phone } from "phosphor-react-native";
-import React from "react";
+import React, { useState } from "react";
 import { TouchableOpacity } from "react-native";
 import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
@@ -8,8 +8,13 @@ import { DateCard } from "../DateCard";
 import { nextStep } from "../../reducers/appointmentSlice";
 
 export const Step03 = () => {
-  const { possible_dates } = useAppSelector((store) => store.Appointment);
+  const { details } = useAppSelector((state) => state.fetcher);
   const dispatch = useAppDispatch();
+
+  const { possible_dates, area_id, description } = useAppSelector(
+    (store) => store.Appointment
+  );
+  const area = details.areas_de_atuacao.find((item) => item.id === area_id);
 
   const handleBackToDates = () => {
     dispatch(nextStep(2));
@@ -50,12 +55,10 @@ export const Step03 = () => {
           John Doe,
         </Text>
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-          Administrativo
+          {area ? area.name : "Você não informou uma área de atuação"}
         </Text>
         <Text className="text-start font-raleway500 text-lg">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad
-          minim veniam, quis
+          {Object.values(description)}
         </Text>
         <VStack space={4} mt={6}>
           {possible_dates ? (
