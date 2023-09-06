@@ -4,9 +4,14 @@ import React from "react";
 import { Button } from "../Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
+import { useAppSelector } from "../../reducers/store";
+import { DateCard } from "../DateCard";
 
 export const Step04 = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const { possible_dates, area_id, description } = useAppSelector(
+    (store) => store.Appointment
+  );
 
   const handleHome = () => {
     navigation.navigate("home");
@@ -49,25 +54,17 @@ export const Step04 = () => {
         <Text className="text-start font-raleway500 text-lg">
           Nós entraremos em contato para confirmação do horário. Fique atento!
         </Text>
+        {/* #D3FFCF */}
         <VStack space={4} mt={6}>
-          <Stack
-            w={"80%"}
-            className="flex flex-row items-center justify-between space-x-3 
-                            rounded-md bg-[#D3FFCF] bg-opacity-40 p-4"
-          >
-            <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-              18/07/2023 • Tarde
+          {possible_dates ? (
+            possible_dates.map((item, index) => (
+              <DateCard color="#D3FFCF" key={index} completeDate={item} />
+            ))
+          ) : (
+            <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">
+              Sua lista de horários vazia
             </Text>
-          </Stack>
-          <Stack
-            w={"80%"}
-            className="flex flex-row items-center justify-between space-x-3 
-                            rounded-md bg-[#D3FFCF] bg-opacity-40 p-4"
-          >
-            <Text className="text-xl font-bold capitalize tracking-tight text-zinc-800">
-              18/07/2023 • Tarde
-            </Text>
-          </Stack>
+          )}
         </VStack>
         <VStack mt={6} space={4}>
           <Text className="text-start font-raleway500 text-lg">

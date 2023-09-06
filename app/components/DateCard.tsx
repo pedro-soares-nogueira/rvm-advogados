@@ -6,7 +6,13 @@ import { TouchableOpacity } from "react-native";
 import { deleteDate } from "../reducers/appointmentSlice";
 import { useAppDispatch } from "../reducers/store";
 
-export const DateCard = ({ completeDate }: { completeDate: string }) => {
+export const DateCard = ({
+  completeDate,
+  color = "#FFF0B6",
+}: {
+  completeDate: string;
+  color?: string;
+}) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = (completeDate: string) => {
@@ -29,8 +35,8 @@ export const DateCard = ({ completeDate }: { completeDate: string }) => {
     <VStack space={4} key={completeDate}>
       <Stack
         w={"80%"}
-        className="flex w-[94%] flex-row items-center justify-between space-x-3 
-                  rounded-md bg-[#FFF0B6] bg-opacity-40 p-4"
+        className={`flex w-[94%] flex-row items-center justify-between space-x-3 
+        rounded-md bg-[${color}] bg-opacity-40 p-4`}
       >
         <HStack space={3} alignItems={"center"}>
           <Text className="mb-1 text-xl font-semibold capitalize tracking-tight text-zinc-800">

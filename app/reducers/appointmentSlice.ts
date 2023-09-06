@@ -17,7 +17,7 @@ export interface AppointmentSliceDetails {
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 0,
+  currentStep: 1,
   possible_dates: [],
   area_id: null,
   description: null,
