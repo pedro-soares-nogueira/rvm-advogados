@@ -22,9 +22,11 @@ import { Linking, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { useAppSelector } from "../reducers/store";
 
 export const Schedules = () => {
   const [ableTo, setAbleTo] = useState(false);
+  const { user } = useAppSelector((state) => state.user);
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -71,14 +73,14 @@ export const Schedules = () => {
                 Agendamentos
               </Text>
               <Text className="font-raleway700 text-3xl text-zinc-800">
-                Jhon Doe
+                {user?.name}
               </Text>
               <Stack className="flex flex-row items-center">
                 <Box className="mr-2">
                   <IdentificationCard size={30} color="#2E2E2E" />
                 </Box>
                 <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                  999-999-999-99
+                  {user?.document}
                 </Text>
               </Stack>
 
@@ -87,7 +89,7 @@ export const Schedules = () => {
                   <Phone size={30} color="#2E2E2E" />
                 </Box>
                 <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                  (99) 9999-9999
+                  {user?.phone}
                 </Text>
               </Stack>
 

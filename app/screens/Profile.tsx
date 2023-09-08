@@ -16,8 +16,11 @@ import {
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { Input } from "../components/Input";
+import { useAppSelector } from "../reducers/store";
 
 export const Profile = () => {
+  const { user } = useAppSelector((state) => state.user);
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -43,14 +46,14 @@ export const Profile = () => {
                 Seus dados
               </Text>
               <Text className="font-raleway700 text-3xl text-zinc-800">
-                Jhon Doe
+                {user?.name}
               </Text>
               <Stack className="flex flex-row items-center">
                 <Box className="mr-2">
                   <IdentificationCard size={30} color="#2E2E2E" />
                 </Box>
                 <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                  999-999-999-99
+                  {user?.document}
                 </Text>
               </Stack>
 
@@ -59,7 +62,7 @@ export const Profile = () => {
                   <Phone size={30} color="#2E2E2E" />
                 </Box>
                 <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                  (99) 9999-9999
+                  {user?.phone}
                 </Text>
               </Stack>
 
