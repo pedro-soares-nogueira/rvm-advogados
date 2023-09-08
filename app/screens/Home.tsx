@@ -23,10 +23,12 @@ import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { useAuth } from "../contexts/authContext";
+import { loadUser } from "../reducers/loggedUserSlice";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
+  const { user } = useAppSelector((state) => state.user);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { signOut } = useAuth();
 
@@ -44,9 +46,11 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(loadDetails());
-  }, []);
+    dispatch(loadUser());
+  }, [dispatch]);
 
   console.log("renderizou");
+  console.log(user);
 
   return (
     <ScrollView
