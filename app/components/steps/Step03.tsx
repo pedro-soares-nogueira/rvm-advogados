@@ -1,7 +1,6 @@
 import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { Warning, X, Phone } from "phosphor-react-native";
-import React, { useState } from "react";
-import { TouchableOpacity } from "react-native";
+import React from "react";
 import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { DateCard } from "../DateCard";
@@ -19,6 +18,7 @@ export const Step03 = () => {
   const handleBackToDates = () => {
     dispatch(nextStep(2));
   };
+
   return (
     <>
       <VStack className="bg-white shadow-md shadow-gray-400">
@@ -55,10 +55,12 @@ export const Step03 = () => {
           John Doe,
         </Text>
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-          {area ? area.name : "Você não informou uma área de atuação"}
+          {area && area.name}
+          {!area && "Você não informou uma área de atuação"}
         </Text>
-        <Text className="text-start font-raleway500 text-lg">
-          {Object.values(description)}
+        <Text className="mt-2 text-start font-raleway500 text-lg">
+          {description && description}
+          {!description && "Você não informou detalhes do agendamento"}
         </Text>
         <VStack space={4} mt={6}>
           {possible_dates ? (

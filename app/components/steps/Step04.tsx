@@ -58,7 +58,12 @@ export const Step04 = () => {
         <VStack space={4} mt={6}>
           {possible_dates ? (
             possible_dates.map((item, index) => (
-              <DateCard color="#D3FFCF" key={index} completeDate={item} />
+              <DateCard
+                hasDelete={false}
+                color="#D3FFCF"
+                key={index}
+                completeDate={item}
+              />
             ))
           ) : (
             <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">

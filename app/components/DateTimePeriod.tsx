@@ -177,12 +177,12 @@ const DateTimePeriod = () => {
         />
 
         <VStack space={4} mt={6}>
-          {selectedDate ? (
+          {possible_dates.length !== 0 ? (
             possible_dates.map((item, index) => (
               <DateCard key={index} completeDate={item} />
             ))
           ) : (
-            <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">
+            <Text className="mb-2 mt-3 font-raleway800 text-xl tracking-tight text-zinc-800">
               Sua lista de horários vazia
             </Text>
           )}

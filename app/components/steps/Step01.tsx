@@ -1,5 +1,5 @@
 import { Picker } from "@react-native-picker/picker";
-import { VStack, HStack, Box, Stack, Checkbox, Image, Text } from "native-base";
+import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { IdentificationCard } from "phosphor-react-native";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
@@ -8,7 +8,6 @@ import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { z } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Input } from "../Input";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { addDetails, nextStep } from "../../reducers/appointmentSlice";
@@ -53,6 +52,8 @@ export const Step01 = () => {
 
   const handleData = (data: AppointmentInput) => {
     setIsLoading(true);
+
+    // console.log(typeof data.description);
 
     dispatch(addDetails(data));
     dispatch(nextStep(1));

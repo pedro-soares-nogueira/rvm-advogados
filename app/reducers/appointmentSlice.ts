@@ -14,15 +14,17 @@ export interface AppointmentSliceDetails {
   description?: string | null;
   user_id?: string | null;
   isLoading: boolean;
+  error: string | null;
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 1,
+  currentStep: 0,
   possible_dates: [],
   area_id: null,
   description: null,
   user_id: null,
   isLoading: false,
+  error: null,
 };
 
 export const appointmentSlice = createSlice({
@@ -37,7 +39,7 @@ export const appointmentSlice = createSlice({
       state.description = action.payload.description;
       state.user_id = action.payload.user_id;
 
-      console.log(state.area_id, state.description, state.user_id);
+      console.log(state.area_id, typeof state.description, state.user_id);
     },
     addDate: (state, action) => {
       const payloadDate = action.payload;
@@ -48,6 +50,7 @@ export const appointmentSlice = createSlice({
 
       if (!alreadyExists) {
         state.possible_dates = [...state.possible_dates, payloadDate];
+      } else {
       }
     },
     deleteDate: (state, action) => {
@@ -59,11 +62,8 @@ export const appointmentSlice = createSlice({
         possible_dates: dataToDelete,
       };
     },
-    addDescription: (state, action) => {
-      state.description = action.payload;
-    },
   },
 });
 
-export const { addDetails, deleteDate, addDate, addDescription, nextStep } =
+export const { addDetails, deleteDate, addDate, nextStep } =
   appointmentSlice.actions;

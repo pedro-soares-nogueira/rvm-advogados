@@ -3,13 +3,11 @@ import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { IdentificationCard, X } from "phosphor-react-native";
 import React from "react";
 import { Button } from "../Button";
-
-import { Input } from "../Input";
 import DateTimePeriod from "../DateTimePeriod";
 import { useAppDispatch } from "../../reducers/store";
-import { addDescription, nextStep } from "../../reducers/appointmentSlice";
+import { nextStep } from "../../reducers/appointmentSlice";
 import { z } from "zod";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 
 const descriptionSchema = z.object({
@@ -29,7 +27,7 @@ export const Step02 = () => {
   };
 
   const onSubmit = (data: DescriptionInput) => {
-    dispatch(addDescription(data));
+    // dispatch(addDescription(data));
     dispatch(nextStep(2));
   };
 

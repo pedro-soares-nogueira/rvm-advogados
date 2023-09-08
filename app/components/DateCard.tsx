@@ -9,9 +9,11 @@ import { useAppDispatch } from "../reducers/store";
 export const DateCard = ({
   completeDate,
   color = "#FFF0B6",
+  hasDelete = true,
 }: {
   completeDate: string;
   color?: string;
+  hasDelete?: boolean;
 }) => {
   const dispatch = useAppDispatch();
 
@@ -66,9 +68,12 @@ export const DateCard = ({
             }
           })}
         </HStack>
-        <TouchableOpacity onPress={() => handleDelete(completeDate)}>
-          <X size={20} color="#2E2E2E" />
-        </TouchableOpacity>
+        {hasDelete && (
+          <TouchableOpacity onPress={() => handleDelete(completeDate)}>
+            <X size={20} color="#2E2E2E" />
+          </TouchableOpacity>
+        )}
+        {!hasDelete && <></>}
       </Stack>
     </VStack>
   );
