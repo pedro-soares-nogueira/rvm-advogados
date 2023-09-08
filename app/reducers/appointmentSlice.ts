@@ -51,7 +51,6 @@ export const appointmentSlice = createSlice({
       if (!alreadyExists) {
         state.possible_dates = [...state.possible_dates, payloadDate];
       } else {
-        // state.hasDateError = "Essa data e horário já existem";
         throw new Error();
       }
     },
