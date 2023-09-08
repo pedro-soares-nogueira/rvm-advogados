@@ -1,5 +1,5 @@
 import moment from "moment";
-import { VStack, Box, Checkbox, Text, View } from "native-base";
+import { VStack, Box, Checkbox, Text, View, useToast } from "native-base";
 import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button } from "./Button";
@@ -34,6 +34,7 @@ const DateTimePeriod = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [periods, setPeriods] = useState<string[] | []>([]);
   const dispatch = useAppDispatch();
+  const toast = useToast();
   const { possible_dates } = useAppSelector((store) => store.Appointment);
 
   const {
@@ -63,7 +64,7 @@ const DateTimePeriod = () => {
     hideDatePicker();
   };
 
-  const onSubmit = (data: AppointmentInput) => {
+  const onSubmit = async (data: AppointmentInput) => {
     const possible_dates =
       moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD") +
       " " +
@@ -82,7 +83,19 @@ const DateTimePeriod = () => {
       periodToDispatch = `${date} ["${time}"]`;
     }
 
-    dispatch(addDate(periodToDispatch));
+    try {
+      await dispatch(addDate(periodToDispatch));
+    } catch (error) {
+      toast.show({
+        title: "A data informada já foi adicionada! Tente outra data.",
+        placement: "top",
+        bgColor: "red.500",
+        size: "20",
+        style: {
+          marginTop: 30,
+        },
+      });
+    }
   };
 
   const selectedDate = watch("selectedDate");

@@ -14,7 +14,7 @@ export interface AppointmentSliceDetails {
   description?: string | null;
   user_id?: string | null;
   isLoading: boolean;
-  error: string | null;
+  hasDateError: string | null;
 }
 
 const initialState: AppointmentSliceDetails = {
@@ -24,7 +24,7 @@ const initialState: AppointmentSliceDetails = {
   description: null,
   user_id: null,
   isLoading: false,
-  error: null,
+  hasDateError: null,
 };
 
 export const appointmentSlice = createSlice({
@@ -51,6 +51,8 @@ export const appointmentSlice = createSlice({
       if (!alreadyExists) {
         state.possible_dates = [...state.possible_dates, payloadDate];
       } else {
+        // state.hasDateError = "Essa data e horário já existem";
+        throw new Error();
       }
     },
     deleteDate: (state, action) => {
