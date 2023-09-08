@@ -12,18 +12,19 @@ import {
 import React, { useEffect } from "react";
 import { ArrowRight, Plus, SignOut } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity } from "react-native";
-import { ScheduleCard } from "../components/ScheduleCard";
 import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import EmbeddedWebView from "../components/EmbeddedWebView";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { useAuth } from "../contexts/authContext";
 import { loadUser } from "../reducers/loggedUserSlice";
+import moment from "moment";
+import { format } from "date-fns";
+import ptBR from "date-fns/locale/pt-BR";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -31,6 +32,14 @@ export const Home = () => {
   const { user } = useAppSelector((state) => state.user);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const { signOut } = useAuth();
+
+  const todayDate = moment();
+  const todayformattedDate = todayDate.format("DD [de] MMMM, YYYY");
+
+  const dataAtual = new Date();
+  const dataFormatada = format(dataAtual, "dd 'de' MMMM, yyyy", {
+    locale: ptBR,
+  });
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -47,10 +56,9 @@ export const Home = () => {
   useEffect(() => {
     dispatch(loadDetails());
     dispatch(loadUser());
-  }, [dispatch]);
+  }, []);
 
   console.log("renderizou");
-  console.log(user);
 
   return (
     <ScrollView
@@ -76,10 +84,10 @@ export const Home = () => {
           <VStack className="space-y-5 px-4 py-6">
             <VStack className="space-y-2">
               <Text className="font-raleway700 text-2xl text-zinc-800">
-                Olá, Pedro
+                Olá, {user ? user?.name : ""}
               </Text>
               <Text className="font-raleway700 text-xl text-zinc-800">
-                25 de julho, 2023
+                {dataFormatada}
               </Text>
               <TouchableOpacity
                 onPress={() => handleSchedules()}

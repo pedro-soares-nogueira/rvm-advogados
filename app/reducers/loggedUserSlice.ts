@@ -27,13 +27,14 @@ const initialState: LoggedUser = {
 
 export const loadUser = createAsyncThunk("User/fetchUser", async () => {
   try {
-    const { data } = await api.post("/user");
-    console.log("passou");
-    if (data.success) {
-      return data.user;
+    // console.log("try");
+    const { data } = await api.get("/user");
+    if (data) {
+      // console.log(data);
+      return data;
     }
   } catch (error) {
-    throw error;
+    console.log(error);
   } finally {
   }
 });
