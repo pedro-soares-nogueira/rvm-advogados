@@ -6,21 +6,23 @@ import { TouchableOpacity } from "react-native";
 import { deleteDate } from "../reducers/appointmentSlice";
 import { useAppDispatch } from "../reducers/store";
 
+interface DateCardProps {
+  completeDate: string;
+  color?: string;
+  hasDelete?: boolean;
+}
+
 export const DateCard = ({
   completeDate,
   color = "#FFF0B6",
   hasDelete = true,
-}: {
-  completeDate: string;
-  color?: string;
-  hasDelete?: boolean;
-}) => {
+}: DateCardProps) => {
   const dispatch = useAppDispatch();
 
   const handleDelete = (completeDate: string) => {
     dispatch(deleteDate(completeDate));
   };
-
+  console.log(color);
   const regex = /(\d{4}-\d{2}-\d{2}) \[([^\]]+)\]/;
   const matches = completeDate.match(regex);
   let date: string;
@@ -37,8 +39,18 @@ export const DateCard = ({
     <VStack space={4} key={completeDate}>
       <Stack
         w={"80%"}
-        className={`flex w-[94%] flex-row items-center justify-between space-x-3 
-        rounded-md bg-[${color}] bg-opacity-40 p-4`}
+        style={{
+          flex: 1,
+          flexDirection: "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          paddingHorizontal: 12,
+          backgroundColor: color, // Use a propriedade backgroundColor para definir a cor de fundo
+          borderRadius: 8,
+          paddingVertical: 12,
+        }}
+        /* className={`flex w-[94%] flex-row items-center justify-between space-x-3 
+        rounded-md bg-[${color}] bg-opacity-40 p-4`} */
       >
         <HStack space={3} alignItems={"center"}>
           <Text className="mb-1 text-xl font-semibold capitalize tracking-tight text-zinc-800">

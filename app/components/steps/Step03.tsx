@@ -5,6 +5,9 @@ import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { DateCard } from "../DateCard";
 import { nextStep } from "../../reducers/appointmentSlice";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "../../routes/app.routes";
+import { TouchableOpacity } from "react-native";
 
 export const Step03 = () => {
   const { details } = useAppSelector((state) => state.fetcher);
@@ -15,8 +18,13 @@ export const Step03 = () => {
   );
   const area = details.areas_de_atuacao.find((item) => item.id === area_id);
 
+  const { user } = useAppSelector((state) => state.user);
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const handleHome = () => {
+    navigation.navigate("home");
+  };
   const handleBackToDates = () => {
-    dispatch(nextStep(2));
+    dispatch(nextStep(1));
   };
 
   return (
@@ -24,11 +32,13 @@ export const Step03 = () => {
       <VStack className="bg-white shadow-md shadow-gray-400">
         <VStack className="h-16"></VStack>
         <HStack className="flex w-full items-center justify-between p-4">
-          <Image
-            source={require("../../assets/horizontal_logo.png")}
-            style={{ width: 250, height: 40 }}
-            alt={"Logo RVM"}
-          />
+          <TouchableOpacity onPress={() => handleHome()}>
+            <Image
+              source={require("../../assets/horizontal_logo.png")}
+              style={{ width: 250, height: 40 }}
+              alt={"Logo RVM"}
+            />
+          </TouchableOpacity>
         </HStack>
 
         <Box className="mx-4 border-t border-gray-300"></Box>
@@ -52,7 +62,7 @@ export const Step03 = () => {
         borderRadius={4}
       >
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-          John Doe,
+          {user?.name}
         </Text>
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
           {area && area.name}
@@ -91,7 +101,7 @@ export const Step03 = () => {
               <Phone size={30} color="#2E2E2E" />
             </Box>
             <Text className="mb-2.5 text-xl font-semibold text-zinc-800">
-              (99) 9999-9999
+              {user.phone}
             </Text>
           </Stack>
         </VStack>

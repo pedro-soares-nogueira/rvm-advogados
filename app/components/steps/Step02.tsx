@@ -4,11 +4,14 @@ import { IdentificationCard, X } from "phosphor-react-native";
 import React from "react";
 import { Button } from "../Button";
 import DateTimePeriod from "../DateTimePeriod";
-import { useAppDispatch } from "../../reducers/store";
+import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { nextStep } from "../../reducers/appointmentSlice";
 import { z } from "zod";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useNavigation } from "@react-navigation/native";
+import { AppNavigatorRoutesProps } from "../../routes/app.routes";
+import { TouchableOpacity } from "react-native";
 
 const descriptionSchema = z.object({
   description: z.string().optional(),
@@ -21,7 +24,11 @@ export const Step02 = () => {
   const { handleSubmit, control, reset, watch } = useForm<DescriptionInput>({
     resolver: zodResolver(descriptionSchema),
   });
-
+  const { user } = useAppSelector((state) => state.user);
+  const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const handleHome = () => {
+    navigation.navigate("home");
+  };
   const handleBack = () => {
     dispatch(nextStep(0));
   };
@@ -36,11 +43,13 @@ export const Step02 = () => {
       <VStack className="bg-white shadow-md shadow-gray-400">
         <VStack className="h-16"></VStack>
         <HStack className="flex w-full items-center justify-between p-4">
-          <Image
-            source={require("../../assets/horizontal_logo.png")}
-            style={{ width: 250, height: 40 }}
-            alt={"Logo RVM"}
-          />
+          <TouchableOpacity onPress={() => handleHome()}>
+            <Image
+              source={require("../../assets/horizontal_logo.png")}
+              style={{ width: 250, height: 40 }}
+              alt={"Logo RVM"}
+            />
+          </TouchableOpacity>
         </HStack>
 
         <Box className="mx-4 border-t border-gray-300"></Box>
@@ -51,14 +60,14 @@ export const Step02 = () => {
               Novo pré-agendamento
             </Text>
             <Text className="font-raleway700 text-3xl text-zinc-800">
-              Jhon Doe
+              {user?.name}
             </Text>
             <Stack className="flex flex-row items-center">
               <Box className="mr-2">
                 <IdentificationCard size={30} color="#2E2E2E" />
               </Box>
               <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                999-999-999-99
+                {user?.document}
               </Text>
             </Stack>
           </VStack>

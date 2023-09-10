@@ -46,6 +46,7 @@ export const loggedUserSlice = createSlice({
   extraReducers(builder) {
     builder.addCase(loadUser.fulfilled, (state, action) => {
       state.user = action.payload;
+      // console.log(`payload ${action.payload}`);
     });
   },
 });

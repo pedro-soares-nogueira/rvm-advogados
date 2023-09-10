@@ -6,6 +6,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { useAppSelector } from "../../reducers/store";
 import { DateCard } from "../DateCard";
+import { TouchableOpacity } from "react-native";
 
 export const Step04 = () => {
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -21,11 +22,13 @@ export const Step04 = () => {
       <VStack className="bg-white shadow-md shadow-gray-400">
         <VStack className="h-16"></VStack>
         <HStack className="flex w-full items-center justify-between p-4">
-          <Image
-            source={require("../../assets/horizontal_logo.png")}
-            style={{ width: 250, height: 40 }}
-            alt={"Logo RVM"}
-          />
+          <TouchableOpacity onPress={() => handleHome()}>
+            <Image
+              source={require("../../assets/horizontal_logo.png")}
+              style={{ width: 250, height: 40 }}
+              alt={"Logo RVM"}
+            />
+          </TouchableOpacity>
         </HStack>
 
         <Box className="mx-4 border-t border-gray-300"></Box>
@@ -58,12 +61,7 @@ export const Step04 = () => {
         <VStack space={4} mt={6}>
           {possible_dates ? (
             possible_dates.map((item, index) => (
-              <DateCard
-                hasDelete={false}
-                color="#D3FFCF"
-                key={index}
-                completeDate={item}
-              />
+              <DateCard key={index} hasDelete={false} completeDate={item} />
             ))
           ) : (
             <Text className="mb-1 font-raleway800 text-xl tracking-tight text-zinc-800">

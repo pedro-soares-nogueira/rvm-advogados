@@ -3,7 +3,7 @@ import { VStack, HStack, Box, Stack, Image, Text } from "native-base";
 import { IdentificationCard } from "phosphor-react-native";
 import React, { useState } from "react";
 import { Controller, useForm } from "react-hook-form";
-import { View, TextInput, StyleSheet } from "react-native";
+import { View, TextInput, StyleSheet, TouchableOpacity } from "react-native";
 import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { z } from "zod";
@@ -36,6 +36,7 @@ type AppointmentInput = z.infer<typeof appointmentSchema>;
 export const Step01 = () => {
   const [isLoading, setIsLoading] = useState(false);
   const { details } = useAppSelector((state) => state.fetcher);
+  const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -64,11 +65,13 @@ export const Step01 = () => {
       <VStack className="bg-white shadow-md shadow-gray-400">
         <VStack className="h-16"></VStack>
         <HStack className="flex w-full items-center justify-between p-4">
-          <Image
-            source={require("../../assets/horizontal_logo.png")}
-            style={{ width: 250, height: 40 }}
-            alt={"Logo RVM"}
-          />
+          <TouchableOpacity onPress={() => handleHome()}>
+            <Image
+              source={require("../../assets/horizontal_logo.png")}
+              style={{ width: 250, height: 40 }}
+              alt={"Logo RVM"}
+            />
+          </TouchableOpacity>
         </HStack>
 
         <Box className="mx-4 border-t border-gray-300"></Box>
@@ -79,14 +82,14 @@ export const Step01 = () => {
               Novo pré-agendamento
             </Text>
             <Text className="font-raleway700 text-3xl text-zinc-800">
-              Jhon Doe
+              {user && user?.name}
             </Text>
             <Stack className="flex flex-row items-center">
               <Box className="mr-2">
                 <IdentificationCard size={30} color="#2E2E2E" />
               </Box>
               <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                999-999-999-99
+                {user && user.document}
               </Text>
             </Stack>
           </VStack>
@@ -113,8 +116,7 @@ export const Step01 = () => {
           Escolha a área que deseja
         </Text>
         <View style={styles.pickerContainer}>
-          {!areas && <Loading />}
-          {areas && (
+          {areas ? (
             <Controller
               control={control}
               name="area_id"
@@ -136,6 +138,8 @@ export const Step01 = () => {
                 </Picker>
               )}
             />
+          ) : (
+            <Loading />
           )}
         </View>
 

@@ -138,8 +138,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     try {
       // const { data } = await api.post("/register", user);
-
-      console.log(user);
+      // console.log(user);
     } catch (error) {
       throw error;
     } finally {

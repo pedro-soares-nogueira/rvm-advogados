@@ -18,7 +18,7 @@ export interface AppointmentSliceDetails {
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 0,
+  currentStep: 1,
   possible_dates: [],
   area_id: null,
   description: null,
@@ -39,7 +39,7 @@ export const appointmentSlice = createSlice({
       state.description = action.payload.description;
       state.user_id = action.payload.user_id;
 
-      console.log(state.area_id, typeof state.description, state.user_id);
+      // console.log(state.area_id, typeof state.description, state.user_id);
     },
     addDate: (state, action) => {
       const payloadDate = action.payload;

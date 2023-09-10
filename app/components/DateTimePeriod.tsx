@@ -179,12 +179,12 @@ const DateTimePeriod = () => {
             </Checkbox.Group>
           )}
         />
-
         <Button
           title="Adicionar horário à lista"
           textSize={20}
           mb={1}
           w={"60%"}
+          disabled={selectedDate ? false : true}
           variant={"outline"}
           onPress={handleSubmit(onSubmit)}
         />
