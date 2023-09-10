@@ -60,7 +60,7 @@ export const Home = () => {
     navigation.navigate("home");
   };
 
-  if (isLoading && user?.name) {
+  if (!isLoading && user?.name) {
     return (
       <ScrollView
         contentContainerStyle={{ flexGrow: 1 }}
