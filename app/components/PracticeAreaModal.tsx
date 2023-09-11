@@ -15,12 +15,24 @@ import { TouchableOpacity } from "react-native";
 import DireitoAdministrativo from "../assets/areas_de_atuacao_icons/Direito Administrativo.svg";
 import DireitoCivil from "../assets/areas_de_atuacao_icons/Direito Civil.svg";
 import DireitoDigital from "../assets/areas_de_atuacao_icons/Direito Digital.svg";
-import DireitoPrevidenciário from "../assets/areas_de_atuacao_icons/Direito Previdenciário.svg";
 import DireitoTributário from "../assets/areas_de_atuacao_icons/Direito Tributário.svg";
 import DireitoFamília from "../assets/areas_de_atuacao_icons/Direito de Família.svg";
-import DireitoTrabalho from "../assets/areas_de_atuacao_icons/Direito do Trabalho.svg";
 import Trânsito from "../assets/areas_de_atuacao_icons/Trânsito.svg";
 import { IAreasDeAtuação } from "../reducers/fetchSlice";
+
+import DireitoTrabalho from "../assets/areas_de_atuacao_icons/Direito do Trabalho.svg";
+import DireitoPrevidenciario from "../assets/areas_de_atuacao_icons/Direito Previdenciário.svg";
+
+const iconsMap = {
+  "Direito Previdenciário": DireitoPrevidenciario,
+  "Direito do Trabalho": DireitoTrabalho,
+  "Direito Administrativo": DireitoAdministrativo,
+  "Direito Civil": DireitoCivil,
+  "Direito Digital": DireitoDigital,
+  "Direito Tributário": DireitoTributário,
+  "Direito de Família": DireitoFamília,
+  Trânsito: Trânsito,
+};
 
 const PracticeAreaModal = (props: IAreasDeAtuação) => {
   const {
@@ -46,6 +58,8 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
   } = props;
   const [showModal, setShowModal] = useState(false);
 
+  const IconComponent = iconsMap[name];
+
   const htmlContent = destaque_items;
 
   const extractTextFromHtml = (html) => {
@@ -58,14 +72,15 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
   const extractedText = extractTextFromHtml(htmlContent);
   const lines = extractedText.split("\n");
 
-  // const iconUrl = `../assets/areas_de_atuacao_icons/${name}.svg`;
-
   return (
     <>
       <TouchableOpacity
         onPress={() => setShowModal(true)}
         className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pl-2 pr-6 shadow shadow-gray-600"
       >
+        {IconComponent && (
+          <IconComponent width={32} height={32} /> // Renderize o ícone se estiver no mapa
+        )}
         <Text className="line-clamp-2 font-raleway700 text-xl text-neutral-900">
           {name}
         </Text>
@@ -104,14 +119,6 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
             {destaque_items && (
               <Stack space={4}>
                 <Divider mt={10} />
-                {/*  <HTML
-                  source={{ html: destaque_items }}
-                  tagsStyles={htmlStyles}
-                  contentWidth={100}
-                /> */}
-                {/* <Text className="font-raleway500 text-xl text-zinc-800">
-                  {extractedText}
-                </Text> */}
                 {lines.map((line, index) => (
                   <Text
                     className="font-raleway700 text-xl text-zinc-800"
@@ -120,17 +127,6 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
                     {line}
                   </Text>
                 ))}
-
-                {/* <List.Section>
-                  {lines.map((item, index) => (
-                    <List.Item
-                      className="font-raleway500 text-xl text-zinc-800"
-                      key={index}
-                      title={item}
-                      left={(props) => <List.Icon {...props} icon="" />}
-                    />
-                  ))}
-                </List.Section> */}
               </Stack>
             )}
             {texto_1 || texto_2 || texto_3 ? (
@@ -152,149 +148,6 @@ const PracticeAreaModal = (props: IAreasDeAtuação) => {
             ) : (
               <></>
             )}
-
-            {/* <Stack>
-              <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
-                <VStack className="inline-flex items-start justify-start gap-24">
-                  <Text className="font-raleway800 text-2xl text-black">
-                    INSS
-                  </Text>
-                </VStack>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  ATIVIDADES DA FASE ADMINISTRATIVA
-                </Text>
-              </VStack>
-              <VStack space={4} mt={4}>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Planejamento previdenciário para obtenção do melhor
-                  benefício possível;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para concessão e revisão de benefícios
-                  previdenciários (especial/tempo de serviço/contribuição,
-                  rural/urbano, invalidez, idade, pensões por morte, etc);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos de benefícios assistenciais (LOAS);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para expedição de Certidão de Tempo de
-                  Contribuição (CTC);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Justificações Administrativas para averbação de tempo de
-                  serviço;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Recursos administrativos; Sustentações orais perante o
-                  Conselho de Recursos da Previdência Social (CRPS).
-                </Text>
-              </VStack>
-
-              <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  ATIVIDADES DA FASE JUDICIAL
-                </Text>
-              </VStack>
-              <VStack space={4} mt={4}>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Planejamento previdenciário para obtenção do melhor
-                  benefício possível;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para concessão e revisão de benefícios
-                  previdenciários (especial/tempo de serviço/contribuição,
-                  rural/urbano, invalidez, idade, pensões por morte, etc);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos de benefícios assistenciais (LOAS);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para expedição de Certidão de Tempo de
-                  Contribuição (CTC);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Justificações Administrativas para averbação de tempo de
-                  serviço;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Recursos administrativos; Sustentações orais perante o
-                  Conselho de Recursos da Previdência Social (CRPS).
-                </Text>
-              </VStack>
-            </Stack> 
-            
-            <Divider mt={10} />
-
-            <Stack>
-              <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
-                <VStack className="inline-flex items-start justify-start gap-24">
-                  <Text className="font-raleway800 text-2xl text-black">
-                    REGIMES PRÓPRIOS
-                  </Text>
-                </VStack>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  ATIVIDADES DA FASE ADMINISTRATIVA
-                </Text>
-              </VStack>
-              <VStack space={4} mt={4}>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Planejamento previdenciário para obtenção do melhor
-                  benefício possível;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para concessão e revisão de benefícios
-                  previdenciários (especial/tempo de serviço/contribuição,
-                  rural/urbano, invalidez, idade, pensões por morte, etc);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos de benefícios assistenciais (LOAS);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para expedição de Certidão de Tempo de
-                  Contribuição (CTC);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Justificações Administrativas para averbação de tempo de
-                  serviço;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Recursos administrativos; Sustentações orais perante o
-                  Conselho de Recursos da Previdência Social (CRPS).
-                </Text>
-              </VStack>
-              <VStack className="mt-10 space-y-3 border-b-2 border-amber-300 pb-4">
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  ATIVIDADES DA FASE JUDICIAL
-                </Text>
-              </VStack>
-              <VStack space={4} mt={4}>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Planejamento previdenciário para obtenção do melhor
-                  benefício possível;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para concessão e revisão de benefícios
-                  previdenciários (especial/tempo de serviço/contribuição,
-                  rural/urbano, invalidez, idade, pensões por morte, etc);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos de benefícios assistenciais (LOAS);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Requerimentos para expedição de Certidão de Tempo de
-                  Contribuição (CTC);
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Justificações Administrativas para averbação de tempo de
-                  serviço;
-                </Text>
-                <Text className="font-raleway500 text-lg text-zinc-800">
-                  º Recursos administrativos; Sustentações orais perante o
-                  Conselho de Recursos da Previdência Social (CRPS).
-                </Text>
-              </VStack>
-            </Stack> */}
           </Modal.Body>
         </Modal.Content>
       </Modal>

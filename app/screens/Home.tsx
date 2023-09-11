@@ -37,6 +37,8 @@ export const Home = () => {
     locale: ptBR,
   });
 
+  console.log(details?.areas_de_atuacao);
+
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
   };
@@ -147,9 +149,9 @@ export const Home = () => {
             <View className="mt-6 p-4">
               {isLoading ? (
                 <>
-                  {/* <Center w={"100%"}>
-                      <Loading />
-                    </Center> */}
+                  <Center w={"100%"}>
+                    <Loading />
+                  </Center>
                 </>
               ) : (
                 <Box
