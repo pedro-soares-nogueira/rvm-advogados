@@ -22,7 +22,7 @@ export const DateCard = ({
   const handleDelete = (completeDate: string) => {
     dispatch(deleteDate(completeDate));
   };
-  console.log(color);
+  // console.log(color);
   const regex = /(\d{4}-\d{2}-\d{2}) \[([^\]]+)\]/;
   const matches = completeDate.match(regex);
   let date: string;
