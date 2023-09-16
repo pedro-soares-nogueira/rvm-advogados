@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { api } from "../lib/axios";
+import { storageAuthTokenRemove } from "../storage/storageAuthToken";
 
 export interface User {
   id?: number;
@@ -27,14 +28,16 @@ const initialState: LoggedUser = {
 
 export const loadUser = createAsyncThunk("User/fetchUser", async () => {
   try {
-    // console.log("try");
+    console.log("try");
     const { data } = await api.get("/user");
+
     if (data) {
-      // console.log(data);
+      console.log("data" + data);
       return data;
     }
   } catch (error) {
-    console.log(error);
+    console.log("error: " + error);
+    // storageAuthTokenRemove();
   } finally {
   }
 });

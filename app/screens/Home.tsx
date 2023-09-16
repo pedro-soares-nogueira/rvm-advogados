@@ -37,7 +37,7 @@ export const Home = () => {
     locale: ptBR,
   });
 
-  console.log(details?.areas_de_atuacao);
+  // console.log(details?.areas_de_atuacao);
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
