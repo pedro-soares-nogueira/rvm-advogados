@@ -18,7 +18,7 @@ export interface AppointmentSliceDetails {
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 0,
+  currentStep: 1,
   possible_dates: [],
   area_id: null,
   description: null,
@@ -43,6 +43,7 @@ export const appointmentSlice = createSlice({
     },
     addDate: (state, action) => {
       const payloadDate = action.payload;
+      // console.log(payloadDate);
 
       const alreadyExists = state.possible_dates.some(
         (hasDate) => hasDate === payloadDate
@@ -53,6 +54,8 @@ export const appointmentSlice = createSlice({
       } else {
         throw new Error();
       }
+
+      // console.log(state.possible_dates);
     },
     deleteDate: (state, action) => {
       const dataToDelete = state.possible_dates.filter(

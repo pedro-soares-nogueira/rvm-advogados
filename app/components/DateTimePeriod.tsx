@@ -1,5 +1,14 @@
 import moment from "moment";
-import { VStack, Box, Checkbox, Text, View, useToast } from "native-base";
+import {
+  VStack,
+  Box,
+  Button as NativeBaseButton,
+  Text,
+  View,
+  useToast,
+  HStack,
+} from "native-base";
+import Icon from "react-native-vector-icons/AntDesign";
 import React, { useState } from "react";
 import DateTimePickerModal from "react-native-modal-datetime-picker";
 import { Button } from "./Button";
@@ -9,6 +18,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { addDate } from "../reducers/appointmentSlice";
 import { DateCard } from "./DateCard";
+import { CheckCircle } from "phosphor-react-native";
 
 const periodToSelect = [
   {
@@ -25,7 +35,7 @@ const periodToSelect = [
 
 const appointmentSchema = z.object({
   selectedDate: z.date(),
-  selectedShifts: z.array(z.string()),
+  // selectedShifts: z.array(z.string()),
 });
 
 type AppointmentInput = z.infer<typeof appointmentSchema>;
@@ -33,6 +43,8 @@ type AppointmentInput = z.infer<typeof appointmentSchema>;
 const DateTimePeriod = () => {
   const [isDatePickerVisible, setDatePickerVisibility] = useState(false);
   const [periods, setPeriods] = useState<string[] | []>([]);
+  const [manha, setManha] = useState<boolean>(false);
+  const [tarde, setTarde] = useState<boolean>(false);
   const dispatch = useAppDispatch();
   const toast = useToast();
   const { possible_dates } = useAppSelector((store) => store.Appointment);
@@ -65,29 +77,16 @@ const DateTimePeriod = () => {
   };
 
   const onSubmit = async (data: AppointmentInput) => {
-    const possible_dates =
-      moment(data.selectedDate).subtract(1, "month").format("YYYY-MM-DD") +
-      " " +
-      data.selectedShifts;
+    const periodToDispatch = `${moment(data.selectedDate).format(
+      "YYYY-MM-DD"
+    )} [${manha ? "manha" : ""}${manha && tarde ? " - " : ""}${
+      tarde ? "tarde" : ""
+    }]`;
 
-    const hasTwoPeriods = possible_dates?.includes(",");
-    let periodToDispatch;
-
-    if (hasTwoPeriods) {
-      const [date, times] = possible_dates?.split(" ");
-      const [periodOne, periodTwo] = times?.split(",");
-
-      periodToDispatch = `${date} ["${periodOne}", "${periodTwo}"]`;
-    } else {
-      const [date, time] = possible_dates?.split(" ");
-      periodToDispatch = `${date} ["${time}"]`;
-    }
-
-    try {
-      await dispatch(addDate(periodToDispatch));
-    } catch (error) {
+    // console.log(periodToDispatch);
+    if (!manha && !tarde) {
       toast.show({
-        title: "A data informada já foi adicionada! Tente outra data.",
+        title: "Selecione pelo menos um turno para confirmar o horário",
         placement: "top",
         bgColor: "red.500",
         size: "20",
@@ -95,10 +94,29 @@ const DateTimePeriod = () => {
           marginTop: 30,
         },
       });
+    } else {
+      try {
+        await dispatch(addDate(periodToDispatch));
+
+        setManha(false);
+        setTarde(false);
+        setValue("selectedDate", new Date());
+      } catch (error) {
+        toast.show({
+          title: "A data informada já foi adicionada! Tente outra data.",
+          placement: "top",
+          bgColor: "red.500",
+          size: "20",
+          style: {
+            marginTop: 30,
+          },
+        });
+      }
     }
   };
 
   const selectedDate = watch("selectedDate");
+  console.log(typeof selectedDate);
 
   return (
     <Box>
@@ -125,7 +143,9 @@ const DateTimePeriod = () => {
       <View className="mx-4 mt-4">
         <Button
           title={
-            selectedDate
+            selectedDate &&
+            moment(selectedDate).subtract(1, "month").format("DD/MM/YYYY") !==
+              moment(new Date()).subtract(1, "month").format("DD/MM/YYYY")
               ? `Data selecionada ${moment(selectedDate)
                   .subtract(1, "month")
                   .format("DD/MM/YYYY")}`
@@ -158,7 +178,7 @@ const DateTimePeriod = () => {
       </VStack>
 
       <Box mx={4} w={"100%"}>
-        <Controller
+        {/* <Controller
           control={control}
           name="selectedShifts"
           defaultValue={undefined}
@@ -178,7 +198,72 @@ const DateTimePeriod = () => {
               ))}
             </Checkbox.Group>
           )}
-        />
+        /> */}
+        <HStack space={3} my={10}>
+          <NativeBaseButton
+            onPress={() => setManha(!manha)}
+            borderWidth={2}
+            backgroundColor={"transparent"}
+            borderColor={manha ? "gray.700" : "gray.400"}
+            py={4}
+            rightIcon={
+              manha ? (
+                <Icon
+                  name="checkcircleo"
+                  size={18}
+                  color={manha ? "#3f3f46" : "#a1a1aa"}
+                  style={{ alignSelf: "center" }}
+                />
+              ) : (
+                <Icon
+                  name="closecircleo"
+                  size={18}
+                  color={manha ? "#3f3f46" : "#a1a1aa"}
+                  style={{ alignSelf: "center" }}
+                />
+              )
+            }
+            w={"45%"}
+          >
+            <Text
+              color={manha ? "gray.700" : "gray.400"}
+              className="-mt-1 font-raleway700 text-xl"
+            >
+              Manhã
+            </Text>
+          </NativeBaseButton>
+          <NativeBaseButton
+            onPress={() => setTarde(!tarde)}
+            borderWidth={2}
+            backgroundColor={"transparent"}
+            borderColor={tarde ? "gray.700" : "gray.400"}
+            rightIcon={
+              tarde ? (
+                <Icon
+                  name="checkcircleo"
+                  size={18}
+                  color={tarde ? "#3f3f46" : "#a1a1aa"}
+                  style={{ alignSelf: "center" }}
+                />
+              ) : (
+                <Icon
+                  name="closecircleo"
+                  size={18}
+                  color={tarde ? "#3f3f46" : "#a1a1aa"}
+                  style={{ alignSelf: "center" }}
+                />
+              )
+            }
+            w={"45%"}
+          >
+            <Text
+              color={tarde ? "gray.700" : "gray.400"}
+              className="-mt-1 font-raleway700 text-xl"
+            >
+              Tarde
+            </Text>
+          </NativeBaseButton>
+        </HStack>
         <Button
           title="Adicionar horário à lista"
           textSize={20}
