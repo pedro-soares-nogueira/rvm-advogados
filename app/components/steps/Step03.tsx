@@ -4,7 +4,7 @@ import React from "react";
 import { Button } from "../Button";
 import { useAppDispatch, useAppSelector } from "../../reducers/store";
 import { DateCard } from "../DateCard";
-import { nextStep } from "../../reducers/appointmentSlice";
+import { confirmAppointment, nextStep } from "../../reducers/appointmentSlice";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { TouchableOpacity } from "react-native";
@@ -13,7 +13,7 @@ export const Step03 = () => {
   const { details } = useAppSelector((state) => state.fetcher);
   const dispatch = useAppDispatch();
 
-  const { possible_dates, area_id, description } = useAppSelector(
+  const { possible_dates, area_id, description, user_id } = useAppSelector(
     (store) => store.Appointment
   );
   const area = details.areas_de_atuacao.find((item) => item.id === area_id);
@@ -25,6 +25,27 @@ export const Step03 = () => {
   };
   const handleBackToDates = () => {
     dispatch(nextStep(1));
+  };
+
+  const handleConfirmAppointment = async () => {
+    /* 
+    {
+    "area_id": "1", 
+    "possible_dates": ["2023-08-30 14:00:00", "2023-08-31 14:00:00"],
+    "description": "abc",
+    "user_id": ""
+    }
+    */
+    const newAppointment = {
+      area_id: area_id,
+      possible_dates: possible_dates,
+      description: description,
+      user_id: user_id,
+    };
+
+    dispatch(confirmAppointment(newAppointment));
+
+    // dispatch(nextStep(3));
   };
 
   return (
@@ -123,7 +144,7 @@ export const Step03 = () => {
           _pressed={{
             bg: "green.200",
           }}
-          onPress={() => dispatch(nextStep(3))}
+          onPress={handleConfirmAppointment}
         />
       </HStack>
     </>

@@ -27,19 +27,9 @@ const initialState: LoggedUser = {
 };
 
 export const loadUser = createAsyncThunk("User/fetchUser", async () => {
-  try {
-    console.log("try");
-    const { data } = await api.get("/user");
-
-    if (data) {
-      console.log("data" + data);
-      return data;
-    }
-  } catch (error) {
-    console.log("error: " + error);
-    // storageAuthTokenRemove();
-  } finally {
-  }
+  // console.log("try");
+  const { data } = await api.get("/user");
+  return data;
 });
 
 export const loggedUserSlice = createSlice({

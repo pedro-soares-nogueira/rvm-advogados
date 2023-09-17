@@ -1,10 +1,11 @@
-import { createSlice } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { api } from "../lib/axios";
 
 export interface IAppointmentType {
-  // area_id?: string | null;
-  // description?: string | null;
-  // user_id?: string | null;
-  // possible_dates?: string | null;
+  area_id?: string | null;
+  description?: string | null;
+  user_id?: string | null;
+  possible_dates?: string[] | null;
 }
 
 export interface AppointmentSliceDetails {
@@ -15,17 +16,27 @@ export interface AppointmentSliceDetails {
   user_id?: string | null;
   isLoading: boolean;
   hasDateError: string | null;
+  message: string;
 }
 
 const initialState: AppointmentSliceDetails = {
-  currentStep: 1,
+  currentStep: 0,
   possible_dates: [],
   area_id: null,
   description: null,
   user_id: null,
   isLoading: false,
   hasDateError: null,
+  message: "",
 };
+
+export const confirmAppointment = createAsyncThunk(
+  "Appointment/confirmaAppointment",
+  async (appointmentData: IAppointmentType, thunkAPI) => {
+    const response = await api.post("/appointments", appointmentData);
+    return response.data;
+  }
+);
 
 export const appointmentSlice = createSlice({
   name: "Appointment",
@@ -66,6 +77,19 @@ export const appointmentSlice = createSlice({
         possible_dates: dataToDelete,
       };
     },
+  },
+  extraReducers(builder) {
+    builder.addCase(confirmAppointment.fulfilled, (state, action) => {
+      // state.user = action.payload;
+      state.message =
+        "Pré-agendamento realizado com sucesso! Entraremos em contato";
+      console.log(state.message);
+    });
+    builder.addCase(confirmAppointment.rejected, (state, action) => {
+      // state.user = action.payload;
+      state.message = "Erro - Tente novamente mais tarde";
+      console.log(state.message);
+    });
   },
 });
 
