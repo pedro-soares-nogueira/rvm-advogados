@@ -17,14 +17,19 @@ import {
   Plus,
   ArrowRight,
 } from "phosphor-react-native";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Linking, TouchableOpacity } from "react-native";
 import { ScheduleCard } from "../components/ScheduleCard";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import { useAppSelector } from "../reducers/store";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
+import {
+  confirmAppointment,
+  gettingAppointment,
+} from "../reducers/appointmentSlice";
 
 export const Schedules = () => {
+  const dispatch = useAppDispatch();
   const [ableTo, setAbleTo] = useState(false);
   const { user } = useAppSelector((state) => state.user);
 
@@ -48,6 +53,10 @@ export const Schedules = () => {
 
     Linking.openURL(url);
   };
+
+  useEffect(() => {
+    dispatch(gettingAppointment());
+  }, []);
 
   return (
     <ScrollView

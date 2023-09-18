@@ -13,7 +13,7 @@ import {
   Plus,
   WhatsappLogo,
 } from "phosphor-react-native";
-import React from "react";
+import React, { useEffect } from "react";
 import { TouchableOpacity } from "react-native";
 import { Input } from "../components/Input";
 import { useAppSelector } from "../reducers/store";

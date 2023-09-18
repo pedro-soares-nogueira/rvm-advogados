@@ -10,6 +10,7 @@ export interface IAppointmentType {
 
 export interface AppointmentSliceDetails {
   currentStep: number;
+  appointments: IAppointmentType[];
   possible_dates?: string[] | null;
   area_id?: string | null;
   description?: string | null;
@@ -21,6 +22,7 @@ export interface AppointmentSliceDetails {
 
 const initialState: AppointmentSliceDetails = {
   currentStep: 0,
+  appointments: [],
   possible_dates: [],
   area_id: null,
   description: null,
@@ -35,6 +37,15 @@ export const confirmAppointment = createAsyncThunk(
   async (appointmentData: IAppointmentType, thunkAPI) => {
     console.log(appointmentData);
     const response = await api.post("/appointments", appointmentData);
+    return response.data;
+  }
+);
+
+export const gettingAppointment = createAsyncThunk(
+  "Appointment/gettingAppointment",
+  async () => {
+    const response = await api.post("/appointments");
+    console.log(response);
     return response.data;
   }
 );
@@ -90,6 +101,13 @@ export const appointmentSlice = createSlice({
       // state.user = action.payload;
       state.message = "Erro - Tente novamente mais tarde";
       console.log(state.message);
+    });
+    builder.addCase(gettingAppointment.fulfilled, (state, action) => {
+      state.appointments = action.payload;
+      console.log("appointments " + state.appointments);
+    });
+    builder.addCase(gettingAppointment.rejected, (state, action) => {
+      console.error("Error appointments:", action.error);
     });
   },
 });
