@@ -63,6 +63,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
+  // console.log(loadUserToken);
+
   async function storageAndSaveToken(token: string) {
     try {
       setIsLoadingTokenStorageData(true);

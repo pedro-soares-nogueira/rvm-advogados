@@ -28,7 +28,9 @@ const initialState: LoggedUser = {
 
 export const loadUser = createAsyncThunk("User/fetchUser", async () => {
   // console.log("try");
+  // console.log(api.defaults.headers.common["Authorization"]);
   const { data } = await api.get("/user");
+  console.log(data);
   return data;
 });
 
@@ -40,6 +42,9 @@ export const loggedUserSlice = createSlice({
     builder.addCase(loadUser.fulfilled, (state, action) => {
       state.user = action.payload;
       // console.log(`payload ${action.payload}`);
+    });
+    builder.addCase(loadUser.rejected, (state, action) => {
+      console.error("Rejected with error:", action.error);
     });
   },
 });

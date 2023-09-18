@@ -33,6 +33,7 @@ const initialState: AppointmentSliceDetails = {
 export const confirmAppointment = createAsyncThunk(
   "Appointment/confirmaAppointment",
   async (appointmentData: IAppointmentType, thunkAPI) => {
+    console.log(appointmentData);
     const response = await api.post("/appointments", appointmentData);
     return response.data;
   }

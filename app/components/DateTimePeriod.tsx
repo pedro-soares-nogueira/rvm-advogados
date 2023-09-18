@@ -116,7 +116,7 @@ const DateTimePeriod = () => {
   };
 
   const selectedDate = watch("selectedDate");
-  console.log(typeof selectedDate);
+  // console.log(typeof selectedDate);
 
   return (
     <Box>

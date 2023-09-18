@@ -22,7 +22,6 @@ import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { useAuth } from "../contexts/authContext";
 import { loadUser } from "../reducers/loggedUserSlice";
-import moment from "moment";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 

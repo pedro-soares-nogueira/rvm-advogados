@@ -38,14 +38,13 @@ export const Step03 = () => {
     */
     const newAppointment = {
       area_id: area_id,
-      possible_dates: possible_dates,
+      possible_dates: ["2023-08-30 14:00:00"], // possible_dates,
       description: description,
-      user_id: user_id,
+      // user_id: user_id,
     };
 
     dispatch(confirmAppointment(newAppointment));
-
-    // dispatch(nextStep(3));
+    dispatch(nextStep(3));
   };
 
   return (
