@@ -28,7 +28,7 @@ const initialState: LoggedUser = {
 
 export const loadUser = createAsyncThunk("User/fetchUser", async () => {
   // console.log("try");
-  // console.log(api.defaults.headers.common["Authorization"]);
+  console.log(api.defaults.headers.common["Authorization"]);
   const { data } = await api.get("/user");
   console.log(data);
   return data;

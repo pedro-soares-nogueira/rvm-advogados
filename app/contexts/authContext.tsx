@@ -37,7 +37,7 @@ type AuthContextProps = {
     phone,
   }: IRegister) => Promise<void>;
   signOut: () => Promise<void>;
-  loadUserToken: string;
+  userToken: string;
 };
 
 export const AuthContext = createContext<AuthContextProps>(
@@ -55,7 +55,7 @@ type AuthContextProviderProps = {
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [isUserLogged, setIsUserLogged] = useState(false);
-  const [loadUserToken, setLoadUserToken] = useState("");
+  const [userToken, setUserToken] = useState("");
   const [isLoadingTokenStorageData, setIsLoadingTokenStorageData] =
     useState(true);
 
@@ -63,7 +63,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
-  // console.log(loadUserToken);
+  // console.log(userToken);
 
   async function storageAndSaveToken(token: string) {
     try {
@@ -81,9 +81,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const signIn = async ({ document, password }: ISignIn) => {
     try {
       const { data } = await api.post("/login", { document, password });
-
+      console.log(data);
       if (data.success) {
-        setLoadUserToken(data.success.token);
+        // setUserToken(data.success.token);
         storageAndSaveToken(data.success.token);
       }
     } catch (error) {
@@ -96,7 +96,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       setIsLoadingTokenStorageData(true);
       await storageAuthTokenRemove();
-      setLoadUserToken("");
+      setUserToken("");
     } catch (error) {
       throw error;
     } finally {
@@ -112,7 +112,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
       if (token) {
         storageAndSaveToken(token);
-        setLoadUserToken(token);
+        setUserToken(token);
       }
     } catch (error) {
       throw error;
@@ -157,7 +157,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         signIn,
         signOut,
         register,
-        loadUserToken,
+        userToken,
       }}
     >
       {children}

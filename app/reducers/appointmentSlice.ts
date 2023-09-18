@@ -100,7 +100,8 @@ export const appointmentSlice = createSlice({
     builder.addCase(confirmAppointment.rejected, (state, action) => {
       // state.user = action.payload;
       state.message = "Erro - Tente novamente mais tarde";
-      console.log(state.message);
+      // console.log(state.message);
+      console.error(action.error);
     });
     builder.addCase(gettingAppointment.fulfilled, (state, action) => {
       state.appointments = action.payload;

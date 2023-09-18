@@ -270,6 +270,7 @@ const DateTimePeriod = () => {
           mb={1}
           w={"60%"}
           disabled={selectedDate ? false : true}
+          _disabled={{ backgroundColor: "red", opacity: 0.5 }}
           variant={"outline"}
           onPress={handleSubmit(onSubmit)}
         />
