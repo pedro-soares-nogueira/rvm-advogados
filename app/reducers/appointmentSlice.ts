@@ -41,12 +41,13 @@ export const confirmAppointment = createAsyncThunk(
   }
 );
 
-export const gettingAppointment = createAsyncThunk(
+export const gettingAppointments = createAsyncThunk(
   "Appointment/gettingAppointment",
   async () => {
     const response = await api.post("/appointments");
     console.log(response);
-    return response.data;
+    // console.log(api.defaults.headers.common["Authorization"]);
+    // return response.data;
   }
 );
 
@@ -61,12 +62,9 @@ export const appointmentSlice = createSlice({
       state.area_id = action.payload.area_id;
       state.description = action.payload.description;
       state.user_id = action.payload.user_id;
-
-      // console.log(state.area_id, typeof state.description, state.user_id);
     },
     addDate: (state, action) => {
       const payloadDate = action.payload;
-      // console.log(payloadDate);
 
       const alreadyExists = state.possible_dates.some(
         (hasDate) => hasDate === payloadDate
@@ -77,8 +75,6 @@ export const appointmentSlice = createSlice({
       } else {
         throw new Error();
       }
-
-      // console.log(state.possible_dates);
     },
     deleteDate: (state, action) => {
       const dataToDelete = state.possible_dates.filter(
@@ -92,22 +88,19 @@ export const appointmentSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(confirmAppointment.fulfilled, (state, action) => {
-      // state.user = action.payload;
       state.message =
         "Pré-agendamento realizado com sucesso! Entraremos em contato";
       console.log(state.message);
     });
     builder.addCase(confirmAppointment.rejected, (state, action) => {
-      // state.user = action.payload;
       state.message = "Erro - Tente novamente mais tarde";
-      // console.log(state.message);
       console.error(action.error);
     });
-    builder.addCase(gettingAppointment.fulfilled, (state, action) => {
-      state.appointments = action.payload;
+    builder.addCase(gettingAppointments.fulfilled, (state, action) => {
+      // state.appointments = action.payload;
       console.log("appointments " + state.appointments);
     });
-    builder.addCase(gettingAppointment.rejected, (state, action) => {
+    builder.addCase(gettingAppointments.rejected, (state, action) => {
       console.error("Error appointments:", action.error);
     });
   },

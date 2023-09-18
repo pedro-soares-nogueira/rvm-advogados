@@ -24,19 +24,19 @@ import { useAuth } from "../contexts/authContext";
 import { loadUser } from "../reducers/loggedUserSlice";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
+import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
   const { details, isLoading } = useAppSelector((state) => state.fetcher);
   const { user } = useAppSelector((state) => state.user);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  // const authNavigation = useNavigation<AuthNavigatorRoutesProps>();
   const { signOut } = useAuth();
   const dataAtual = new Date();
   const dataFormatada = format(dataAtual, "dd 'de' MMMM, yyyy", {
     locale: ptBR,
   });
-
-  // console.log(details?.areas_de_atuacao);
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -61,6 +61,11 @@ export const Home = () => {
     navigation.navigate("home");
   };
 
+  const handleSignOut = () => {
+    signOut();
+    // navigation.navigate("signIn");
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -77,7 +82,7 @@ export const Home = () => {
                 alt={"Logo RVM"}
               />
             </TouchableOpacity>
-            <TouchableOpacity className="mr-2 p-3" onPress={() => signOut()}>
+            <TouchableOpacity className="mr-2 p-3" onPress={handleSignOut}>
               <SignOut size={32} color="#858383" />
             </TouchableOpacity>
           </HStack>

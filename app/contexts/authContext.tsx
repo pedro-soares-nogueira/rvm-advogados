@@ -63,8 +63,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   }
 
-  // console.log(userToken);
-
   async function storageAndSaveToken(token: string) {
     try {
       setIsLoadingTokenStorageData(true);
@@ -81,9 +79,8 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const signIn = async ({ document, password }: ISignIn) => {
     try {
       const { data } = await api.post("/login", { document, password });
-      console.log(data);
+
       if (data.success) {
-        // setUserToken(data.success.token);
         storageAndSaveToken(data.success.token);
       }
     } catch (error) {
@@ -96,7 +93,6 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       setIsLoadingTokenStorageData(true);
       await storageAuthTokenRemove();
-      setUserToken("");
     } catch (error) {
       throw error;
     } finally {

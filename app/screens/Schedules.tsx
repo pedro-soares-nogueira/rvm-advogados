@@ -25,7 +25,7 @@ import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import {
   confirmAppointment,
-  gettingAppointment,
+  gettingAppointments,
 } from "../reducers/appointmentSlice";
 
 export const Schedules = () => {
@@ -55,7 +55,7 @@ export const Schedules = () => {
   };
 
   useEffect(() => {
-    dispatch(gettingAppointment());
+    dispatch(gettingAppointments());
   }, []);
 
   return (
