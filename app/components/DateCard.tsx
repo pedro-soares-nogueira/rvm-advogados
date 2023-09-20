@@ -40,7 +40,7 @@ export const DateCard = ({
   const matches = completeDate.match(regex);
   let date: string;
   date = matches[1];
-  console.log(date);
+  // console.log(date);
 
   const formattedPeriod = formatPeriod(matches[2]);
 

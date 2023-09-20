@@ -35,7 +35,7 @@ const initialState: AppointmentSliceDetails = {
 export const confirmAppointment = createAsyncThunk(
   "Appointment/confirmaAppointment",
   async (appointmentData: IAppointmentType, thunkAPI) => {
-    console.log(appointmentData);
+    // console.log(appointmentData);
     const response = await api.post("/appointments", appointmentData);
     return response.data;
   }
@@ -45,7 +45,7 @@ export const gettingAppointments = createAsyncThunk(
   "Appointment/gettingAppointment",
   async () => {
     const response = await api.post("/appointments");
-    console.log(response);
+    // console.log(response);
     // console.log(api.defaults.headers.common["Authorization"]);
     // return response.data;
   }
@@ -90,7 +90,7 @@ export const appointmentSlice = createSlice({
     builder.addCase(confirmAppointment.fulfilled, (state, action) => {
       state.message =
         "Pré-agendamento realizado com sucesso! Entraremos em contato";
-      console.log(state.message);
+      // console.log(state.message);
     });
     builder.addCase(confirmAppointment.rejected, (state, action) => {
       state.message = "Erro - Tente novamente mais tarde";
@@ -98,7 +98,7 @@ export const appointmentSlice = createSlice({
     });
     builder.addCase(gettingAppointments.fulfilled, (state, action) => {
       // state.appointments = action.payload;
-      console.log("appointments " + state.appointments);
+      // console.log("appointments " + state.appointments);
     });
     builder.addCase(gettingAppointments.rejected, (state, action) => {
       console.error("Error appointments:", action.error);

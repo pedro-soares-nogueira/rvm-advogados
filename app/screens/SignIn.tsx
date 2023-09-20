@@ -29,7 +29,7 @@ export const SignIn = () => {
 
       await signIn(data);
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       toast.show({
         title: "Verifique as credenciais ou entre em contato!",

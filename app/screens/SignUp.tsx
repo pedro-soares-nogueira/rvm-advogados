@@ -41,11 +41,12 @@ export const SignUp = () => {
         document: data.document,
         password: data.password,
       };
+
       await signIn(userToSigin);
 
       setIsLoading(false);
     } catch (error) {
-      console.log(error);
+      console.error(error);
 
       toast.show({
         title: "Verifique as credenciais ou entre em contato!",
