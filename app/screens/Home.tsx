@@ -4,13 +4,14 @@ import {
   Divider,
   HStack,
   Image,
+  Modal,
   Stack,
   Text,
   VStack,
   View,
 } from "native-base";
-import React, { useEffect } from "react";
-import { ArrowRight, Plus, SignOut } from "phosphor-react-native";
+import React, { useEffect, useState } from "react";
+import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity } from "react-native";
 import SiteBanner from "../components/SiteBanner";
 import PracticeAreaModal from "../components/PracticeAreaModal";
@@ -20,12 +21,11 @@ import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
-import { useAuth } from "../contexts/authContext";
 import { loadUser } from "../reducers/loggedUserSlice";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
-import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { SignOutButton } from "../components/SignOutButton";
+import { Button } from "../components/Button";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
@@ -36,6 +36,11 @@ export const Home = () => {
   const dataFormatada = format(dataAtual, "dd 'de' MMMM, yyyy", {
     locale: ptBR,
   });
+
+  const [modalVisible, setModalVisible] = useState(false);
+  const handleSizeClick = (newSize) => {
+    setModalVisible(!modalVisible);
+  };
 
   const handleNewSchedule = () => {
     navigation.navigate("newSchedule");
@@ -51,10 +56,11 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(loadDetails());
-    dispatch(loadUser());
+    /* dispatch(loadUser()); */
   }, []);
 
   console.log("renderizou");
+  console.log(user);
 
   const handleHome = () => {
     navigation.navigate("home");
@@ -76,7 +82,7 @@ export const Home = () => {
                 alt={"Logo RVM"}
               />
             </TouchableOpacity>
-            <SignOutButton />
+            {user && <SignOutButton />}
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
@@ -84,7 +90,7 @@ export const Home = () => {
           <VStack className="space-y-5 px-4 py-6">
             <VStack className="space-y-2">
               <Text className="font-raleway700 text-2xl text-zinc-800">
-                Olá, {user ? user?.name : ""}
+                Seja bem vindo{/* , {user ? user?.name : ""} */}
               </Text>
               <Text className="font-raleway700 text-xl text-zinc-800">
                 {dataFormatada}
@@ -103,7 +109,9 @@ export const Home = () => {
             </VStack>
 
             <TouchableOpacity
-              onPress={() => handleNewSchedule()}
+              onPress={() =>
+                user !== null ? handleNewSchedule() : setModalVisible(true)
+              }
               className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
             >
               <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
@@ -111,6 +119,44 @@ export const Home = () => {
               </Text>
               <Plus size={20} color="#2E2E2E" />
             </TouchableOpacity>
+
+            {/* LOGIN MODAL */}
+            <Modal isOpen={modalVisible} onClose={setModalVisible} size={"lg"}>
+              <Modal.Content>
+                <Modal.CloseButton />
+                <Modal.Header>
+                  <Text fontSize={"xl"} fontWeight={"bold"}>
+                    Você parece não estar logado
+                  </Text>
+                </Modal.Header>
+                <Modal.Body>
+                  <Text fontSize={"lg"}>
+                    Para realizar um pré-agendamento você precisa estar logado.
+                    Entre ou faça agora seu cadastro
+                  </Text>
+                </Modal.Body>
+                <Modal.Footer>
+                  <HStack justifyContent={"space-between"} w={"full"}>
+                    <Button
+                      w={"47%"}
+                      fontSize={"md"}
+                      title="Entrar"
+                      onPress={() => {
+                        setModalVisible(false);
+                      }}
+                    />
+                    <Button
+                      w={"47%"}
+                      fontSize={"md"}
+                      title="Cadastrar"
+                      onPress={() => {
+                        setModalVisible(false);
+                      }}
+                    />
+                  </HStack>
+                </Modal.Footer>
+              </Modal.Content>
+            </Modal>
           </VStack>
         </VStack>
 

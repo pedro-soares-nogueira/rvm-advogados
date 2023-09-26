@@ -20,7 +20,8 @@ export const Routes = () => {
 
   return (
     <NavigationContainer>
-      {userToken.trim() === "" ? <AuthRoutes /> : <AppRoutes />}
+      {/* {userToken.trim() === "" ? <AuthRoutes /> : <AppRoutes />} */}
+      <AppRoutes />
     </NavigationContainer>
   );
 };
