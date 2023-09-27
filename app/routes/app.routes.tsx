@@ -17,6 +17,8 @@ import {
 import { Adreess } from "../screens/Adreess";
 import Whatsapp from "../screens/Whatsapp";
 import AllNews from "../screens/AllNews";
+import { SignUp } from "../screens/SignUp";
+import { SignIn } from "../screens/SignIn";
 
 type AppRoutes = {
   home: undefined;
@@ -27,6 +29,8 @@ type AppRoutes = {
   adreess: undefined;
   newSchedule: undefined;
   allNews: undefined;
+  signUp: undefined;
+  signIn: undefined;
 };
 
 export type AppNavigatorRoutesProps = BottomTabNavigationProp<AppRoutes>;
@@ -56,6 +60,17 @@ export const AppRoutes = () => {
           },
         }}
       ></Screen>
+
+      <Screen
+        name="signIn"
+        component={SignIn}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
+      <Screen
+        name="signUp"
+        component={SignUp}
+        options={{ tabBarButton: () => null, tabBarStyle: { display: "none" } }}
+      />
 
       <Screen
         name="aboutUs"

@@ -32,8 +32,8 @@ export default function App() {
     Raleway_900Black,
   });
   return (
-    <AuthContextProvider>
-      <Provider store={store}>
+    <Provider store={store}>
+      <AuthContextProvider>
         <NativeBaseProvider>
           {hasLoadedFonts ? (
             <Routes />
@@ -44,7 +44,7 @@ export default function App() {
           )}
           <StatusBar style="light" backgroundColor="black" translucent />
         </NativeBaseProvider>
-      </Provider>
-    </AuthContextProvider>
+      </AuthContextProvider>
+    </Provider>
   );
 }

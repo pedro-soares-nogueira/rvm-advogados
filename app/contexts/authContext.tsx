@@ -13,6 +13,8 @@ import {
 } from "../storage/storageAuthToken";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { useNavigation } from "@react-navigation/native";
+import { useAppDispatch } from "../reducers/store";
+import { loadUser } from "../reducers/loggedUserSlice";
 
 export interface ISignIn {
   document: string;
@@ -57,8 +59,11 @@ type AuthContextProviderProps = {
 };
 
 export function AuthContextProvider({ children }: AuthContextProviderProps) {
+  const dispatch = useAppDispatch();
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [userToken, setUserToken] = useState("");
+
+  console.log(typeof userToken);
 
   const [isLoadingTokenStorageData, setIsLoadingTokenStorageData] =
     useState(true);
@@ -89,6 +94,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       if (data.success) {
         storageAndSaveToken(data.success.token);
         setUserToken(data.success.token);
+        dispatch(loadUser());
       }
     } catch (error) {
       throw error;

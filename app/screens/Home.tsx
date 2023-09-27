@@ -138,19 +138,10 @@ export const Home = () => {
                 <Modal.Footer>
                   <HStack justifyContent={"space-between"} w={"full"}>
                     <Button
-                      w={"47%"}
                       fontSize={"md"}
                       title="Entrar"
                       onPress={() => {
-                        setModalVisible(false);
-                      }}
-                    />
-                    <Button
-                      w={"47%"}
-                      fontSize={"md"}
-                      title="Cadastrar"
-                      onPress={() => {
-                        setModalVisible(false);
+                        navigation.navigate("signIn");
                       }}
                     />
                   </HStack>

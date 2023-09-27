@@ -2,9 +2,7 @@ import { SignOut } from "phosphor-react-native";
 import React from "react";
 import { TouchableOpacity } from "react-native";
 import { useAuth } from "../contexts/authContext";
-import { useNavigation } from "@react-navigation/native";
-import { AppNavigatorRoutesProps } from "../routes/app.routes";
-import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
+import RNRestart from "react-native-restart";
 
 export const SignOutButton = () => {
   const { signOut } = useAuth();
@@ -12,6 +10,7 @@ export const SignOutButton = () => {
 
   const handleSignOut = () => {
     signOut();
+    // RNRestart.Restart();
     // navigate.navigate("signIn");
   };
 
