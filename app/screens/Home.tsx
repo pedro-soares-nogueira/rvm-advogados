@@ -21,7 +21,6 @@ import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
-import { loadUser } from "../reducers/loggedUserSlice";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { SignOutButton } from "../components/SignOutButton";
@@ -56,7 +55,6 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(loadDetails());
-    /* dispatch(loadUser()); */
   }, []);
 
   console.log("renderizou");
