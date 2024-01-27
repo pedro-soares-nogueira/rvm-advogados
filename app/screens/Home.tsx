@@ -58,7 +58,7 @@ export const Home = () => {
   }, []);
 
   console.log("renderizou");
-  console.log(user);
+  // console.log(user);
 
   const handleHome = () => {
     navigation.navigate("home");

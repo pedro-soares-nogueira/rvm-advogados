@@ -63,7 +63,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const [isUserLogged, setIsUserLogged] = useState(false);
   const [userToken, setUserToken] = useState("");
 
-  console.log(typeof userToken);
+  // console.log(typeof userToken);
 
   const [isLoadingTokenStorageData, setIsLoadingTokenStorageData] =
     useState(true);
@@ -89,7 +89,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     try {
       // console.log("Loging");
       const { data } = await api.post("/login", { document, password });
-      console.log(data);
+      // console.log(data);
 
       if (data.success) {
         storageAndSaveToken(data.success.token);
@@ -107,7 +107,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       setIsLoadingTokenStorageData(true);
       await storageAuthTokenRemove();
       setUserToken("");
-      console.log("removed");
+      // console.log("removed");
     } catch (error) {
       throw error;
     } finally {
@@ -151,7 +151,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
 
     try {
       const { data } = await api.post("/register", user);
-      console.log(user);
+      // console.log(user);
     } catch (error) {
       throw error;
     } finally {
