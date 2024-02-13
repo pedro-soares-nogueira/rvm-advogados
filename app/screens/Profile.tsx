@@ -21,9 +21,12 @@ import { useAppSelector } from "../reducers/store";
 import { Button } from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { useAuth } from "../contexts/authContext";
 
 export const Profile = () => {
-  const { user } = useAppSelector((state) => state.user);
+  // const { user } = useAppSelector((state) => state.user);
+  const { userToken } = useAuth();
+
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
   const handleHome = () => {
@@ -35,7 +38,7 @@ export const Profile = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      {user !== null ? (
+      {userToken !== null ? (
         <VStack flex={1} background={"white"}>
           <VStack className="bg-white shadow-md shadow-gray-400">
             <VStack className="h-16"></VStack>
@@ -53,7 +56,7 @@ export const Profile = () => {
             <Box className="mx-4 border-t border-gray-300"></Box>
 
             <VStack className="space-y-5 px-4 py-6">
-              <VStack className="space-y-2">
+              {/* <VStack className="space-y-2">
                 <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
                   Seus dados
                 </Text>
@@ -99,7 +102,7 @@ export const Profile = () => {
                   </Text>
                   <Plus size={20} color="#2E2E2E" />
                 </TouchableOpacity>
-              </VStack>
+              </VStack> */}
             </VStack>
           </VStack>
           <VStack space={4} mx={4} py={16}>

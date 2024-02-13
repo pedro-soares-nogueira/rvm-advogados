@@ -12,6 +12,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { TouchableOpacity } from "react-native";
+import { useAuth } from "../../contexts/authContext";
 
 const descriptionSchema = z.object({
   description: z.string().optional(),
@@ -24,7 +25,8 @@ export const Step02 = () => {
   const { handleSubmit, control, reset, watch } = useForm<DescriptionInput>({
     resolver: zodResolver(descriptionSchema),
   });
-  const { user } = useAppSelector((state) => state.user);
+  const { userToken } = useAuth();
+  // const { user } = useAppSelector((state) => state.user);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const handleHome = () => {
     navigation.navigate("home");
@@ -59,15 +61,15 @@ export const Step02 = () => {
             <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
               Novo pré-agendamento
             </Text>
-            <Text className="font-raleway700 text-3xl text-zinc-800">
-              {user?.name}
-            </Text>
+            {/* <Text className="font-raleway700 text-3xl text-zinc-800">
+              {user && user?.name}
+            </Text> */}
             <Stack className="flex flex-row items-center">
               <Box className="mr-2">
                 <IdentificationCard size={30} color="#2E2E2E" />
               </Box>
-              <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                {user?.document}
+              <Text className="mb-2.5 mt-[10px] text-xl font-bold text-zinc-800">
+                {userToken}
               </Text>
             </Stack>
           </VStack>

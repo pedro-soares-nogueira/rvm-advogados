@@ -1,8 +1,9 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { apiUranus } from "../lib/axios";
 
 export interface IAreasDeAtuação {
   id?: string;
-  name?: string;
+  Nome?: string;
   resume?: string;
   thumb?: string;
   order?: string;
@@ -60,12 +61,14 @@ interface GeneralDetailsAPIType {
 
 interface GeneralDetailsAPI {
   details: GeneralDetailsAPIType | null;
+  areas: Array<IAreasDeAtuação>;
   advogados: IAdvogados[];
   isLoading: boolean;
 }
 
 const initialState: GeneralDetailsAPI = {
   details: null,
+  areas: null,
   advogados: null,
   isLoading: true,
 };
@@ -78,6 +81,30 @@ export const loadDetails = createAsyncThunk(
     return jsonData;
   }
 );
+
+export const loadAreas = createAsyncThunk(
+  "FetchDetails/loadAreas",
+  async () => {
+    const response = await fetch(
+      "http://uranusapi.rvmadvogados.com.br/api/consultaareas?token=7bd15381-52b3-47b0-bdce-7ead4be7654a"
+    );
+    const jsonData = await response.json();
+    return jsonData;
+  }
+);
+
+// export const loadLawyers = createAsyncThunk(
+//   "FetchDetails/loadLawyers",
+//   async () => {
+//     const response = await apiUranus.post(
+//       "consultaprofissionaisarea?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+//       {
+//         IdArea: 2,
+//       }
+//     );
+//     return response.data;
+//   }
+// );
 
 export const fetchDetailsSlice = createSlice({
   name: "FetchDetails",
@@ -95,5 +122,26 @@ export const fetchDetailsSlice = createSlice({
     builder.addCase(loadDetails.rejected, (state, action) => {
       state.isLoading = false;
     });
+    builder.addCase(loadAreas.pending, (state, action) => {
+      state.isLoading = true;
+    });
+    builder.addCase(loadAreas.fulfilled, (state, action) => {
+      state.areas = action.payload.Areas;
+      state.isLoading = false;
+    });
+    builder.addCase(loadAreas.rejected, (state, action) => {
+      state.isLoading = false;
+    });
+    // ----
+    // builder.addCase(loadLawyers.pending, (state, action) => {
+    //   state.isLoading = true;
+    // });
+    // builder.addCase(loadLawyers.fulfilled, (state, action) => {
+    //   // state.areas = action.payload.Areas;
+    //   state.isLoading = false;
+    // });
+    // builder.addCase(loadLawyers.rejected, (state, action) => {
+    //   state.isLoading = false;
+    // });
   },
 });

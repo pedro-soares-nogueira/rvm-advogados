@@ -9,6 +9,7 @@ import { storageAuthTokenGet } from "../storage/storageAuthToken";
 
 export const Routes = () => {
   const { isLoadingTokenStorageData, userToken } = useAuth();
+  console.log("Logged user - " + userToken);
 
   if (isLoadingTokenStorageData) {
     return (

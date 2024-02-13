@@ -28,11 +28,14 @@ import {
   gettingAppointments,
 } from "../reducers/appointmentSlice";
 import { Button } from "../components/Button";
+import { useAuth } from "../contexts/authContext";
 
 export const Schedules = () => {
   const dispatch = useAppDispatch();
   const [ableTo, setAbleTo] = useState(false);
-  const { user } = useAppSelector((state) => state.user);
+  // const { user } = useAppSelector((state) => state.user);
+
+  const { userToken } = useAuth();
 
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -64,7 +67,7 @@ export const Schedules = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      {user !== null ? (
+      {userToken !== null ? (
         <VStack flex={1} background={"white"}>
           <VStack className="bg-white shadow-md shadow-gray-400">
             <VStack className="h-16"></VStack>
@@ -83,26 +86,26 @@ export const Schedules = () => {
                 <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
                   Agendamentos
                 </Text>
-                <Text className="font-raleway700 text-3xl text-zinc-800">
+                {/*  <Text className="font-raleway700 text-3xl text-zinc-800">
                   {user?.name}
-                </Text>
+                </Text> */}
                 <Stack className="flex flex-row items-center">
                   <Box className="mr-2">
                     <IdentificationCard size={30} color="#2E2E2E" />
                   </Box>
                   <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                    {user?.document}
+                    {userToken}
                   </Text>
                 </Stack>
 
-                <Stack className="flex flex-row items-center">
+                {/*  <Stack className="flex flex-row items-center">
                   <Box className="mr-2">
                     <Phone size={30} color="#2E2E2E" />
                   </Box>
                   <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
                     {user?.phone}
                   </Text>
-                </Stack>
+                </Stack> */}
 
                 <Text className="mb-4 mr-2 font-raleway500 text-lg text-zinc-800">
                   Aqui estão seus agendamentos mais recentes{" "}

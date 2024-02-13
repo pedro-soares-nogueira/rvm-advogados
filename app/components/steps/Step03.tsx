@@ -8,6 +8,7 @@ import { confirmAppointment, nextStep } from "../../reducers/appointmentSlice";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { TouchableOpacity } from "react-native";
+import { useAuth } from "../../contexts/authContext";
 
 export const Step03 = () => {
   const { details } = useAppSelector((state) => state.fetcher);
@@ -18,7 +19,8 @@ export const Step03 = () => {
   );
   const area = details.areas_de_atuacao.find((item) => item.id === area_id);
 
-  const { user } = useAppSelector((state) => state.user);
+  const { userToken } = useAuth();
+  // const { user } = useAppSelector((state) => state.user);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const handleHome = () => {
     navigation.navigate("home");
@@ -82,10 +84,10 @@ export const Step03 = () => {
         borderRadius={4}
       >
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-          {user?.name}
+          {userToken}
         </Text>
         <Text className="max-w-xs font-raleway700 text-2xl text-zinc-800">
-          {area && area.name}
+          {area && area.Nome}
           {!area && "Você não informou uma área de atuação"}
         </Text>
         <Text className="mt-2 text-start font-raleway500 text-lg">
@@ -111,7 +113,7 @@ export const Step03 = () => {
           variant={"outline"}
           onPress={() => handleBackToDates()}
         />
-        <VStack mt={6} space={4}>
+        {/*  <VStack mt={6} space={4}>
           <Text className="text-start font-raleway500 text-lg">
             Confirme seu telefone, entraremos em contato para confirmação do
             atendimento e data.
@@ -124,7 +126,7 @@ export const Step03 = () => {
               {user.phone}
             </Text>
           </Stack>
-        </VStack>
+        </VStack> */}
       </VStack>
 
       <HStack space={4} margin={"auto"} my={10}>

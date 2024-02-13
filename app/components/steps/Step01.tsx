@@ -12,6 +12,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../../routes/app.routes";
 import { addDetails, nextStep } from "../../reducers/appointmentSlice";
 import { Loading } from "../Loading";
+import { useAuth } from "../../contexts/authContext";
 
 const styles = StyleSheet.create({
   pickerContainer: {
@@ -35,12 +36,13 @@ type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const Step01 = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { details } = useAppSelector((state) => state.fetcher);
-  const { user } = useAppSelector((state) => state.user);
+  const { details, areas } = useAppSelector((state) => state.fetcher);
+  // const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
+  const { userToken } = useAuth();
 
-  const [areas, setAreas] = useState(details.areas_de_atuacao);
+  // const [areas, setAreas] = useState(details.areas_de_atuacao);
   const [lawyer, setLawyer] = useState(details.profissionais.advogados);
 
   const { handleSubmit, control, reset } = useForm<AppointmentInput>({
@@ -59,6 +61,8 @@ export const Step01 = () => {
     dispatch(addDetails(data));
     dispatch(nextStep(1));
   };
+
+  console.log(areas);
 
   return (
     <>
@@ -81,15 +85,15 @@ export const Step01 = () => {
             <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
               Novo pré-agendamento
             </Text>
-            <Text className="font-raleway700 text-3xl text-zinc-800">
+            {/* <Text className="font-raleway700 text-3xl text-zinc-800">
               {user && user?.name}
-            </Text>
+            </Text> */}
             <Stack className="flex flex-row items-center">
               <Box className="mr-2">
                 <IdentificationCard size={30} color="#2E2E2E" />
               </Box>
-              <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                {user && user.document}
+              <Text className="mb-2.5 mt-[10px] text-xl font-bold text-zinc-800">
+                {userToken}
               </Text>
             </Stack>
           </VStack>
@@ -128,12 +132,8 @@ export const Step01 = () => {
                   }}
                 >
                   <Picker.Item label="Selecione" value="" />
-                  {areas.map((item) => (
-                    <Picker.Item
-                      key={item.id}
-                      label={item.name}
-                      value={item.id}
-                    />
+                  {areas.map((item, index) => (
+                    <Picker.Item key={index} label={item.Nome} value={index} />
                   ))}
                 </Picker>
               )}
@@ -142,7 +142,7 @@ export const Step01 = () => {
             <Loading />
           )}
         </View>
-
+        {/* 
         <Text className="max-w-xs text-start font-raleway500 text-lg">
           Como podemos te ajudar?
         </Text>
@@ -158,10 +158,10 @@ export const Step01 = () => {
               onChangeText={onChange}
             />
           )}
-        />
+        /> */}
         <Stack space={4}>
           <Text className="max-w-xs text-start font-raleway500 text-lg">
-            Tem preferencia por algum porfissional?
+            Qual porfissional?
           </Text>
 
           <View style={styles.pickerContainer}>

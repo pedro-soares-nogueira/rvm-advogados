@@ -8,9 +8,12 @@ import { Step04 } from "../components/steps/Step04";
 import { Button } from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
+import { useAuth } from "../contexts/authContext";
 
 export const NewSchedule = () => {
-  const { user } = useAppSelector((state) => state.user);
+  // const { user } = useAppSelector((state) => state.user);
+  const { userToken } = useAuth();
+
   const { currentStep } = useAppSelector((store) => store.Appointment);
   const navigation = useNavigation<AppNavigatorRoutesProps>();
 
@@ -19,7 +22,7 @@ export const NewSchedule = () => {
       contentContainerStyle={{ flexGrow: 1 }}
       showsVerticalScrollIndicator={false}
     >
-      {user !== null ? (
+      {userToken !== null ? (
         <VStack flex={1} background={"white"}>
           {currentStep === 0 && <Step01 />}
 

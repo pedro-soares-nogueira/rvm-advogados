@@ -19,17 +19,23 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
-import { loadDetails } from "../reducers/fetchSlice";
+import { loadAreas, loadDetails } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { SignOutButton } from "../components/SignOutButton";
 import { Button } from "../components/Button";
+import { useAuth } from "../contexts/authContext";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
-  const { details, isLoading } = useAppSelector((state) => state.fetcher);
-  const { user } = useAppSelector((state) => state.user);
+  const { details, areas, isLoading } = useAppSelector(
+    (state) => state.fetcher
+  );
+  // const { user } = useAppSelector((state) => state.user);
+
+  const { userToken } = useAuth();
+
   const navigation = useNavigation<AppNavigatorRoutesProps>();
   const dataAtual = new Date();
   const dataFormatada = format(dataAtual, "dd 'de' MMMM, yyyy", {
@@ -37,6 +43,7 @@ export const Home = () => {
   });
 
   const [modalVisible, setModalVisible] = useState(false);
+
   const handleSizeClick = (newSize) => {
     setModalVisible(!modalVisible);
   };
@@ -55,10 +62,11 @@ export const Home = () => {
 
   useEffect(() => {
     dispatch(loadDetails());
+    dispatch(loadAreas());
   }, []);
 
   console.log("renderizou");
-  // console.log(user);
+  console.log(areas);
 
   const handleHome = () => {
     navigation.navigate("home");
@@ -80,7 +88,7 @@ export const Home = () => {
                 alt={"Logo RVM"}
               />
             </TouchableOpacity>
-            {user && <SignOutButton />}
+            {userToken && <SignOutButton />}
           </HStack>
 
           <Box className="mx-4 border-t border-gray-300"></Box>
@@ -108,7 +116,7 @@ export const Home = () => {
 
             <TouchableOpacity
               onPress={() =>
-                user !== null ? handleNewSchedule() : setModalVisible(true)
+                userToken !== null ? handleNewSchedule() : setModalVisible(true)
               }
               className="flex w-64 flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
             >
@@ -190,8 +198,8 @@ export const Home = () => {
                   w={"100%"}
                   className="flex flex-row flex-wrap justify-between "
                 >
-                  {details.areas_de_atuacao.map((item) => (
-                    <PracticeAreaModal key={item.id} {...item} />
+                  {details.areas_de_atuacao.map((item, index) => (
+                    <PracticeAreaModal key={index} {...item} />
                   ))}
                 </Box>
               )}
