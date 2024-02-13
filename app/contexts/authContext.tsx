@@ -5,7 +5,7 @@ import {
   useEffect,
   useState,
 } from "react";
-import { api } from "../lib/axios";
+import { api, apiUranus } from "../lib/axios";
 import {
   storageAuthTokenGet,
   storageAuthTokenRemove,
@@ -22,23 +22,21 @@ export interface ISignIn {
 }
 
 export interface IRegister {
-  name: string;
-  email: string;
-  phone: string;
-  document: string;
-  password: string;
-  c_password: string;
+  CpfCnpj: string;
+  Email: string;
+  Nome: string;
+  Telefone: string;
+  Senha: string;
 }
 
 type AuthContextProps = {
   signIn: ({ document, password }: ISignIn) => Promise<void>;
   register: ({
-    c_password,
-    document,
-    email,
-    name,
-    password,
-    phone,
+    CpfCnpj,
+    Email,
+    Nome,
+    Telefone,
+    Senha,
   }: IRegister) => Promise<void>;
   signOut: () => Promise<void>;
   userToken: string;
@@ -88,13 +86,18 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   const signIn = async ({ document, password }: ISignIn) => {
     try {
       // console.log("Loging");
-      const { data } = await api.post("/login", { document, password });
-      // console.log(data);
+      // const { data } = await api.post("/login", { document, password });
 
-      if (data.success) {
-        storageAndSaveToken(data.success.token);
-        setUserToken(data.success.token);
-        dispatch(loadUser());
+      const { data } = await apiUranus.post(
+        "/usuario?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+        { Login: document, Senha: password }
+      );
+
+      if (data.Status === "Sucesso") {
+        console.log(data);
+        storageAndSaveToken(document);
+        setUserToken(document);
+        // dispatch(loadUser());
       }
     } catch (error) {
       throw error;
@@ -133,25 +136,37 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
   };
 
   const register = async ({
-    c_password,
-    document,
-    email,
-    name,
-    password,
-    phone,
+    CpfCnpj,
+    Email,
+    Nome,
+    Telefone,
+    Senha,
   }: IRegister) => {
-    const user = {
-      c_password,
-      document,
-      email,
-      name,
-      password,
-      phone,
+    const userToRegister = {
+      CpfCnpj,
+      Email,
+      Nome,
+      Telefone,
+      Senha,
+    };
+
+    const userToRegisterAsUser = {
+      Login: CpfCnpj,
+      Senha,
     };
 
     try {
-      const { data } = await api.post("/register", user);
-      // console.log(user);
+      await apiUranus.post(
+        "/precadastro?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+        userToRegister
+      );
+
+      const { data } = await apiUranus.post(
+        "/usuario?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+        userToRegisterAsUser
+      );
+
+      // console.log(data);
     } catch (error) {
       throw error;
     } finally {

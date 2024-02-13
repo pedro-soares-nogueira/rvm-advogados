@@ -1,4 +1,10 @@
-import { Box, Heading, Stack, Text, VStack, useToast } from "native-base";
+import {
+  Box,
+  Button as ReactNativeButton,
+  Text,
+  VStack,
+  useToast,
+} from "native-base";
 import React, { useState } from "react";
 import Logo from "../assets/rvm-logo.svg";
 import { Button } from "../components/Button";
@@ -7,8 +13,12 @@ import { useNavigation } from "@react-navigation/native";
 import { AuthNavigatorRoutesProps } from "../routes/auth.roures";
 import { ISignIn, useAuth } from "../contexts/authContext";
 import { Controller, useForm } from "react-hook-form";
+import { Eye, EyeSlash } from "phosphor-react-native";
+import md5 from "md5";
 
 export const SignIn = () => {
+  const [show_passwords, setShow_passwords] = useState(false);
+
   const navigation = useNavigation<AuthNavigatorRoutesProps>();
   const { signIn } = useAuth();
   const [isLoading, setIsLoading] = useState(false);
@@ -27,12 +37,20 @@ export const SignIn = () => {
     try {
       setIsLoading(true);
 
-      await signIn(data);
+      const hashedPassword = md5(data.password);
+
+      const userToLogin = { document: data.document, password: hashedPassword };
+
+      await signIn(userToLogin);
+
+      // console.log(hashedPassword);
+
+      setIsLoading(false);
     } catch (error) {
       console.error(error);
 
       toast.show({
-        title: "Verifique as credenciais ou entre em contato!",
+        title: "Verifique o documento ou entre em contato!",
         placement: "top",
         bgColor: "red.500",
         size: "20",
@@ -43,6 +61,10 @@ export const SignIn = () => {
 
       setIsLoading(false);
     }
+  };
+
+  const handleShowPassword = () => {
+    setShow_passwords(!show_passwords);
   };
 
   return (
@@ -66,7 +88,7 @@ export const SignIn = () => {
               render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Documento"
-                  keyboardType="numeric"
+                  keyboardType="default"
                   autoCapitalize="none"
                   onChangeText={onChange}
                   errorMessage={errors.document?.message}
@@ -82,10 +104,26 @@ export const SignIn = () => {
               render={({ field: { onChange } }) => (
                 <Input
                   placeholder="Senha"
-                  secureTextEntry
                   onChangeText={onChange}
                   autoCapitalize="none"
                   errorMessage={errors.password?.message}
+                  type={show_passwords ? "text" : "password"}
+                  InputRightElement={
+                    <ReactNativeButton
+                      backgroundColor={"yellow.100"}
+                      size="xs"
+                      rounded="none"
+                      w="1/6"
+                      h="full"
+                      onPress={handleShowPassword}
+                    >
+                      {show_passwords ? (
+                        <Eye size={26} />
+                      ) : (
+                        <EyeSlash size={26} />
+                      )}
+                    </ReactNativeButton>
+                  }
                 />
               )}
             />

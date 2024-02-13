@@ -1,6 +1,9 @@
 import {
   Box,
+  Button as ReactNativeButton,
   Heading,
+  Icon,
+  Pressable,
   ScrollView,
   Stack,
   Text,
@@ -13,9 +16,22 @@ import { Button } from "../components/Button";
 import { Input } from "../components/Input";
 import { useNavigation } from "@react-navigation/native";
 import { Controller, useForm } from "react-hook-form";
-import { IRegister, ISignIn, useAuth } from "../contexts/authContext";
+import { ISignIn, useAuth } from "../contexts/authContext";
+import { Eye, EyeSlash } from "phosphor-react-native";
+import md5 from "md5";
+
+export interface IRegister {
+  name: string;
+  email: string;
+  phone: string;
+  document: string;
+  password: string;
+  c_password: string;
+}
 
 export const SignUp = () => {
+  const [show_passwords, setShow_passwords] = useState(false);
+
   const navigation = useNavigation();
   const toast = useToast();
 
@@ -35,16 +51,35 @@ export const SignUp = () => {
     try {
       setIsLoading(true);
 
-      await register(data);
+      if (data.password === data.c_password) {
+        const hashedPassword = md5(data.password);
 
-      const userToSigin: ISignIn = {
-        document: data.document,
-        password: data.password,
-      };
+        const userToRegister = {
+          CpfCnpj: data.document,
+          Email: data.email,
+          Nome: data.name,
+          Telefone: data.phone,
+          Senha: hashedPassword,
+        };
 
-      await signIn(userToSigin);
+        await register(userToRegister);
 
-      setIsLoading(false);
+        setIsLoading(false);
+
+        navigation.goBack();
+      } else {
+        toast.show({
+          title: "As senhas precisam ser iguais!",
+          placement: "top",
+          bgColor: "red.500",
+          size: "20",
+          style: {
+            marginTop: 30,
+          },
+        });
+
+        setIsLoading(false);
+      }
     } catch (error) {
       console.error(error);
 
@@ -62,6 +97,10 @@ export const SignUp = () => {
     }
   };
 
+  const handleShowPassword = () => {
+    setShow_passwords(!show_passwords);
+  };
+
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -69,7 +108,7 @@ export const SignUp = () => {
     >
       <VStack
         className="flex-1 items-center justify-between bg-white p-6"
-        space={"12"}
+        space={"6"}
       >
         <Box className="w-full items-center space-y-10 pt-4">
           <Logo width={250} />
@@ -79,6 +118,26 @@ export const SignUp = () => {
 
           <Box className="w-full space-y-14">
             <VStack space={4}>
+              <Stack space={2}>
+                <Text className="max-w-xs text-start font-raleway500">
+                  CPF ou CNPJ{" "}
+                </Text>
+                <Text className="text-xs">Você usará para acessar a conta</Text>
+              </Stack>
+              <Controller
+                control={control}
+                name="document"
+                rules={{ required: "Informe o Documento" }}
+                render={({ field: { onChange } }) => (
+                  <Input
+                    placeholder="Documento"
+                    autoCapitalize="none"
+                    keyboardType="phone-pad"
+                    onChangeText={onChange}
+                    errorMessage={errors.document?.message}
+                  />
+                )}
+              />
               <Text className="max-w-xs text-start font-raleway500">Nome</Text>
               <Controller
                 control={control}
@@ -110,23 +169,6 @@ export const SignUp = () => {
                   />
                 )}
               />
-              <Text className="max-w-xs text-start font-raleway500">
-                Documento
-              </Text>
-              <Controller
-                control={control}
-                name="document"
-                rules={{ required: "Informe o Documento" }}
-                render={({ field: { onChange } }) => (
-                  <Input
-                    placeholder="Documento"
-                    autoCapitalize="none"
-                    keyboardType="phone-pad"
-                    onChangeText={onChange}
-                    errorMessage={errors.document?.message}
-                  />
-                )}
-              />
               <Text className="max-w-xs text-start font-raleway500">Email</Text>
               <Controller
                 control={control}
@@ -142,6 +184,8 @@ export const SignUp = () => {
                   />
                 )}
               />
+              <Stack className="my-6 border-t border-gray-300"></Stack>
+
               <Text className="max-w-xs text-start font-raleway500">Senha</Text>
               <Controller
                 control={control}
@@ -151,9 +195,25 @@ export const SignUp = () => {
                   <Input
                     placeholder="Senha"
                     autoCapitalize="none"
-                    secureTextEntry
                     onChangeText={onChange}
                     errorMessage={errors.password?.message}
+                    type={show_passwords ? "text" : "password"}
+                    InputRightElement={
+                      <ReactNativeButton
+                        backgroundColor={"yellow.100"}
+                        size="xs"
+                        rounded="none"
+                        w="1/6"
+                        h="full"
+                        onPress={handleShowPassword}
+                      >
+                        {show_passwords ? (
+                          <Eye size={26} />
+                        ) : (
+                          <EyeSlash size={26} />
+                        )}
+                      </ReactNativeButton>
+                    }
                   />
                 )}
               />
@@ -168,9 +228,25 @@ export const SignUp = () => {
                   <Input
                     placeholder="Confirme a senha"
                     autoCapitalize="none"
-                    secureTextEntry
                     onChangeText={onChange}
                     errorMessage={errors.c_password?.message}
+                    type={show_passwords ? "text" : "password"}
+                    InputRightElement={
+                      <ReactNativeButton
+                        backgroundColor={"yellow.100"}
+                        size="xs"
+                        rounded="none"
+                        w="1/6"
+                        h="full"
+                        onPress={handleShowPassword}
+                      >
+                        {show_passwords ? (
+                          <Eye size={26} />
+                        ) : (
+                          <EyeSlash size={26} />
+                        )}
+                      </ReactNativeButton>
+                    }
                   />
                 )}
               />
