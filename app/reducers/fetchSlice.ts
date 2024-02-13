@@ -26,11 +26,11 @@ export interface IAreasDeAtuação {
 export interface IAdvogados {
   id?: number;
   name?: string;
-  cargo?: string;
-  email?: string;
-  photo?: string;
-  areas_of_expertise?: string[];
-  languages?: string[];
+  // cargo?: string;
+  // email?: string;
+  // photo?: string;
+  // areas_of_expertise?: string[];
+  // languages?: string[];
 }
 
 export interface IAdreess {
@@ -93,18 +93,19 @@ export const loadAreas = createAsyncThunk(
   }
 );
 
-// export const loadLawyers = createAsyncThunk(
-//   "FetchDetails/loadLawyers",
-//   async () => {
-//     const response = await apiUranus.post(
-//       "consultaprofissionaisarea?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
-//       {
-//         IdArea: 2,
-//       }
-//     );
-//     return response.data;
-//   }
-// );
+export const loadLawyers = createAsyncThunk(
+  "FetchDetails/loadAllLawyers",
+  async () => {
+    const response = await apiUranus.post(
+      "/consultaprofissionaisarea?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+      {
+        IdArea: 2,
+      }
+    );
+
+    return response.data;
+  }
+);
 
 export const fetchDetailsSlice = createSlice({
   name: "FetchDetails",
@@ -132,12 +133,12 @@ export const fetchDetailsSlice = createSlice({
     builder.addCase(loadAreas.rejected, (state, action) => {
       state.isLoading = false;
     });
-    // ----
     // builder.addCase(loadLawyers.pending, (state, action) => {
     //   state.isLoading = true;
     // });
     // builder.addCase(loadLawyers.fulfilled, (state, action) => {
-    //   // state.areas = action.payload.Areas;
+    //   // console.log(action.payload.Profissionais);
+    //   console.log(action.payload);
     //   state.isLoading = false;
     // });
     // builder.addCase(loadLawyers.rejected, (state, action) => {

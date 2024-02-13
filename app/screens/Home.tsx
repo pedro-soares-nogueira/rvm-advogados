@@ -19,7 +19,7 @@ import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
-import { loadAreas, loadDetails } from "../reducers/fetchSlice";
+import { loadAreas, loadDetails, loadLawyers } from "../reducers/fetchSlice";
 import Team from "../components/Team";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
@@ -63,10 +63,11 @@ export const Home = () => {
   useEffect(() => {
     dispatch(loadDetails());
     dispatch(loadAreas());
+    dispatch(loadLawyers());
   }, []);
 
   console.log("renderizou");
-  console.log(areas);
+  // console.log(areas);
 
   const handleHome = () => {
     navigation.navigate("home");
@@ -240,7 +241,7 @@ export const Home = () => {
             </HStack>
           </Stack> */}
 
-          <Team />
+          {/*  <Team /> */}
         </VStack>
 
         <Stack mx={4}>
