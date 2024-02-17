@@ -62,8 +62,6 @@ export const Step01 = () => {
     dispatch(nextStep(1));
   };
 
-  console.log(areas);
-
   return (
     <>
       <VStack className="bg-white shadow-md shadow-gray-400">

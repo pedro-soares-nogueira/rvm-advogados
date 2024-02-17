@@ -94,7 +94,7 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
       );
 
       if (data.Status === "Sucesso") {
-        console.log(data);
+        // console.log(data);
         storageAndSaveToken(document);
         setUserToken(document);
         // dispatch(loadUser());

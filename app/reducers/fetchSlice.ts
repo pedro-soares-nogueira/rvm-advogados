@@ -33,6 +33,15 @@ export interface IAdvogados {
   // languages?: string[];
 }
 
+export interface ILawyers {
+  Profissionais: { Id: number; Nome: string }[];
+}
+
+export interface IAreas {
+  Id: number;
+  Nome: string;
+}
+
 export interface IAdreess {
   id?: string;
   title?: string;
@@ -61,8 +70,9 @@ interface GeneralDetailsAPIType {
 
 interface GeneralDetailsAPI {
   details: GeneralDetailsAPIType | null;
-  areas: Array<IAreasDeAtuação>;
+  areas: Array<IAreas>;
   advogados: IAdvogados[];
+  lawyers: ILawyers;
   isLoading: boolean;
 }
 
@@ -70,6 +80,7 @@ const initialState: GeneralDetailsAPI = {
   details: null,
   areas: null,
   advogados: null,
+  lawyers: null,
   isLoading: true,
 };
 
@@ -133,16 +144,10 @@ export const fetchDetailsSlice = createSlice({
     builder.addCase(loadAreas.rejected, (state, action) => {
       state.isLoading = false;
     });
-    // builder.addCase(loadLawyers.pending, (state, action) => {
-    //   state.isLoading = true;
-    // });
-    // builder.addCase(loadLawyers.fulfilled, (state, action) => {
-    //   // console.log(action.payload.Profissionais);
-    //   console.log(action.payload);
-    //   state.isLoading = false;
-    // });
-    // builder.addCase(loadLawyers.rejected, (state, action) => {
-    //   state.isLoading = false;
-    // });
+    builder.addCase(loadLawyers.pending, (state, action) => {});
+    builder.addCase(loadLawyers.fulfilled, (state, action) => {
+      state.lawyers = action.payload;
+    });
+    builder.addCase(loadLawyers.rejected, (state, action) => {});
   },
 });

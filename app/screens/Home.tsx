@@ -14,22 +14,21 @@ import React, { useEffect, useState } from "react";
 import { ArrowRight, Plus } from "phosphor-react-native";
 import { ScrollView, TouchableOpacity } from "react-native";
 import SiteBanner from "../components/SiteBanner";
-import PracticeAreaModal from "../components/PracticeAreaModal";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
 import { Loading } from "../components/Loading";
 import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { loadAreas, loadDetails, loadLawyers } from "../reducers/fetchSlice";
-import Team from "../components/Team";
 import { format } from "date-fns";
 import ptBR from "date-fns/locale/pt-BR";
 import { SignOutButton } from "../components/SignOutButton";
 import { Button } from "../components/Button";
 import { useAuth } from "../contexts/authContext";
+import NewAreas from "../components/NewAreas";
 
 export const Home = () => {
   const dispatch = useAppDispatch();
-  const { details, areas, isLoading } = useAppSelector(
+  const { lawyers, areas, isLoading } = useAppSelector(
     (state) => state.fetcher
   );
   // const { user } = useAppSelector((state) => state.user);
@@ -67,7 +66,7 @@ export const Home = () => {
   }, []);
 
   console.log("renderizou");
-  // console.log(areas);
+  // console.log(lawyers);
 
   const handleHome = () => {
     navigation.navigate("home");
@@ -199,8 +198,8 @@ export const Home = () => {
                   w={"100%"}
                   className="flex flex-row flex-wrap justify-between "
                 >
-                  {details.areas_de_atuacao.map((item, index) => (
-                    <PracticeAreaModal key={index} {...item} />
+                  {areas.map((item, index) => (
+                    <NewAreas key={index} {...item} />
                   ))}
                 </Box>
               )}
@@ -241,21 +240,57 @@ export const Home = () => {
             </HStack>
           </Stack> */}
 
-          {/*  <Team /> */}
+          <VStack>
+            <VStack className="space-y-3 border-b-2 border-amber-300 pb-4">
+              <VStack className="inline-flex items-start justify-start gap-24">
+                <Text className="font-raleway800 text-3xl text-black">
+                  Conheça nossa equipe
+                </Text>
+              </VStack>
+              <Text className="font-raleway500 text-lg capitalize text-zinc-800">
+                PROFISSIONAIS DO SETOR JURÍDICO
+              </Text>
+              <Text className="font-raleway500 text-lg text-zinc-800 ">
+                O profundo conhecimento técnico de nossos advogados, aliado ao
+                comprometimento com nossos clientes, permite oferecer resultados
+                altamente positivos e garante uma posição destacada do
+                escritório no mercado.
+              </Text>
+            </VStack>
+
+            <View className="mt-6 p-4">
+              {isLoading ? (
+                <>
+                  <Center w={"100%"}>
+                    <Loading />
+                  </Center>
+                </>
+              ) : (
+                <Box
+                  mb={-10}
+                  w={"100%"}
+                  className="flex flex-row flex-wrap justify-between "
+                >
+                  {lawyers.Profissionais.map((item, index) => (
+                    <Box
+                      key={index}
+                      className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pl-2 pr-6 shadow shadow-gray-600"
+                    >
+                      <Text className="line-clamp-2 font-raleway700 text-xl text-neutral-900">
+                        {item.Nome}
+                      </Text>
+                    </Box>
+                  ))}
+                </Box>
+              )}
+            </View>
+          </VStack>
         </VStack>
 
-        <Stack mx={4}>
+        <Stack mx={4} mt={10}>
           <SiteBanner />
         </Stack>
       </VStack>
     </ScrollView>
   );
-  /*  if (!isLoading && user?.name) { */
-  /*  } else {
-    return (
-      <Center flex={1}>
-        <Loading />
-      </Center>
-    );
-  } */
 };
