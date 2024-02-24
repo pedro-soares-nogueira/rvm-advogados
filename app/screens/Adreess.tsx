@@ -14,6 +14,7 @@ import {
 import {
   ArrowLeft,
   ArrowRight,
+  MapTrifold,
   PhoneCall,
   Plus,
   Share,
@@ -69,9 +70,9 @@ export const Adreess = () => {
             className="flex flex-row items-center justify-center gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
           >
             <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
-              Ligar
+              Maps
             </Text>
-            <PhoneCall size={20} color="#2E2E2E" />
+            <MapTrifold size={20} color="#2E2E2E" />
           </TouchableOpacity>
         </Box>
       </Stack>
