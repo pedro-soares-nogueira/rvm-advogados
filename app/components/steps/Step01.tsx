@@ -36,7 +36,7 @@ type AppointmentInput = z.infer<typeof appointmentSchema>;
 
 export const Step01 = () => {
   const [isLoading, setIsLoading] = useState(false);
-  const { details, areas } = useAppSelector((state) => state.fetcher);
+  const { details, areas, lawyers } = useAppSelector((state) => state.fetcher);
   // const { user } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
   const navigation = useNavigation<AppNavigatorRoutesProps>();
@@ -130,9 +130,14 @@ export const Step01 = () => {
                   }}
                 >
                   <Picker.Item label="Selecione" value="" />
-                  {areas.map((item, index) => (
-                    <Picker.Item key={index} label={item.Nome} value={index} />
-                  ))}
+                  {areas !== null &&
+                    areas.map((item, index) => (
+                      <Picker.Item
+                        key={index}
+                        label={item.Nome}
+                        value={item.Id}
+                      />
+                    ))}
                 </Picker>
               )}
             />
@@ -174,13 +179,14 @@ export const Step01 = () => {
                   }}
                 >
                   <Picker.Item label="Não" value="" />
-                  {Object.values(lawyer).map((item) => (
-                    <Picker.Item
-                      key={item.id}
-                      label={item.name}
-                      value={item.id}
-                    />
-                  ))}
+                  {lawyer !== null &&
+                    lawyers.Profissionais.map((item) => (
+                      <Picker.Item
+                        key={item.Id}
+                        label={item.Nome}
+                        value={item.Id}
+                      />
+                    ))}
                 </Picker>
               )}
             />

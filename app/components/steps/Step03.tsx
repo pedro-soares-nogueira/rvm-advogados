@@ -11,13 +11,13 @@ import { TouchableOpacity } from "react-native";
 import { useAuth } from "../../contexts/authContext";
 
 export const Step03 = () => {
-  const { details } = useAppSelector((state) => state.fetcher);
+  const { details, areas } = useAppSelector((state) => state.fetcher);
   const dispatch = useAppDispatch();
 
   const { possible_dates, area_id, description, user_id } = useAppSelector(
     (store) => store.Appointment
   );
-  const area = details.areas_de_atuacao.find((item) => item.id === area_id);
+  const area = areas.find((item) => item.Id === area_id);
 
   const { userToken } = useAuth();
   // const { user } = useAppSelector((state) => state.user);
@@ -32,21 +32,24 @@ export const Step03 = () => {
   const handleConfirmAppointment = async () => {
     /* 
     {
-    "area_id": "1", 
-    "possible_dates": ["2023-08-30 14:00:00", "2023-08-31 14:00:00"],
-    "description": "abc",
-    "user_id": ""
+      "CpfCnpj": "602.435.210-73",
+      "IdProfissional": 11,
+      "Turno": "Turno da manhã entre as 10 as 12 horas, menos nas quintas-feiras.",
+      "IdArea": 2
     }
     */
+
     const newAppointment = {
-      area_id: area_id,
-      possible_dates: ["2023-08-30 14:00:00"], // possible_dates,
-      description: description,
-      // user_id: user_id,
+      CpfCnpj: userToken,
+      IdProfissional: parseInt(user_id),
+      Turno: possible_dates.join(", "),
+      IdArea: area_id,
     };
 
+    // console.log(newAppointment);
+
     dispatch(confirmAppointment(newAppointment));
-    dispatch(nextStep(3));
+    // dispatch(nextStep(3));
   };
 
   return (
@@ -90,10 +93,10 @@ export const Step03 = () => {
           {area && area.Nome}
           {!area && "Você não informou uma área de atuação"}
         </Text>
-        <Text className="mt-2 text-start font-raleway500 text-lg">
+        {/*  <Text className="mt-2 text-start font-raleway500 text-lg">
           {description && description}
           {!description && "Você não informou detalhes do agendamento"}
-        </Text>
+        </Text> */}
         <VStack space={4} mt={6}>
           {possible_dates ? (
             possible_dates.map((item, index) => (

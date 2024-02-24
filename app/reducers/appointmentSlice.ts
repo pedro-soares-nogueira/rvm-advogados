@@ -1,18 +1,22 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { api } from "../lib/axios";
+import { api, apiUranus } from "../lib/axios";
 
 export interface IAppointmentType {
-  area_id?: string | null;
-  description?: string | null;
-  user_id?: string | null;
-  possible_dates?: string[] | null;
+  CpfCnpj: string | null;
+  IdProfissional: number | null;
+  Turno: string | null;
+  IdArea: number | null;
+  // area_id?: number | null;
+  // description?: string | null;
+  // user_id?: string | null;
+  // possible_dates?: string[] | null;
 }
 
 export interface AppointmentSliceDetails {
   currentStep: number;
   appointments: IAppointmentType[];
   possible_dates?: string[] | null;
-  area_id?: string | null;
+  area_id?: number | null;
   description?: string | null;
   user_id?: string | null;
   isLoading: boolean;
@@ -35,8 +39,17 @@ const initialState: AppointmentSliceDetails = {
 export const confirmAppointment = createAsyncThunk(
   "Appointment/confirmaAppointment",
   async (appointmentData: IAppointmentType, thunkAPI) => {
-    // console.log(appointmentData);
-    const response = await api.post("/appointments", appointmentData);
+    console.log(appointmentData);
+
+    const response = await apiUranus.post(
+      "/preagendamento?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
+      {
+        appointmentData,
+      }
+    );
+
+    console.log(response.data);
+
     return response.data;
   }
 );
@@ -59,6 +72,7 @@ export const appointmentSlice = createSlice({
       state.currentStep = action.payload;
     },
     addDetails: (state, action) => {
+      console.log(action);
       state.area_id = action.payload.area_id;
       state.description = action.payload.description;
       state.user_id = action.payload.user_id;
