@@ -198,9 +198,16 @@ export const Home = () => {
                   w={"100%"}
                   className="flex flex-row flex-wrap justify-between "
                 >
-                  {areas.map((item, index) => (
-                    <NewAreas key={index} {...item} />
-                  ))}
+                  {areas !== null &&
+                    areas.map((item, index) => (
+                      <NewAreas key={index} {...item} />
+                    ))}
+
+                  {/* 
+                    {areas.map((item, index) => (
+                      <NewAreas key={index} {...item} />
+                    ))}
+                    */}
                 </Box>
               )}
             </View>
@@ -271,16 +278,17 @@ export const Home = () => {
                   w={"100%"}
                   className="flex flex-row flex-wrap justify-between "
                 >
-                  {lawyers.Profissionais.map((item, index) => (
-                    <Box
-                      key={index}
-                      className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pl-2 pr-6 shadow shadow-gray-600"
-                    >
-                      <Text className="line-clamp-2 font-raleway700 text-xl text-neutral-900">
-                        {item.Nome}
-                      </Text>
-                    </Box>
-                  ))}
+                  {lawyers !== null &&
+                    lawyers.Profissionais.map((item, index) => (
+                      <Box
+                        key={index}
+                        className="mb-7 flex w-[49%] items-start justify-center gap-3 rounded bg-white pb-4 pl-2 pr-6 shadow shadow-gray-600"
+                      >
+                        <Text className="line-clamp-2 font-raleway700 text-xl text-neutral-900">
+                          {item.Nome}
+                        </Text>
+                      </Box>
+                    ))}
                 </Box>
               )}
             </View>
