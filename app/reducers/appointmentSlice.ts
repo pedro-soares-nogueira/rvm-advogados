@@ -21,7 +21,7 @@ export interface AppointmentSliceDetails {
   user_id?: string | null;
   isLoading: boolean;
   hasDateError: string | null;
-  message: string;
+  message: string[];
 }
 
 const initialState: AppointmentSliceDetails = {
@@ -33,18 +33,19 @@ const initialState: AppointmentSliceDetails = {
   user_id: null,
   isLoading: false,
   hasDateError: null,
-  message: "",
+  message: [],
 };
 
 export const confirmAppointment = createAsyncThunk(
   "Appointment/confirmaAppointment",
   async (appointmentData: IAppointmentType, thunkAPI) => {
-    console.log(appointmentData);
-
     const response = await apiUranus.post(
       "/preagendamento?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
       {
-        appointmentData,
+        CpfCnpj: appointmentData.CpfCnpj,
+        IdArea: appointmentData.IdArea,
+        IdProfissional: appointmentData.IdProfissional,
+        Turno: appointmentData.Turno,
       }
     );
 
@@ -102,12 +103,14 @@ export const appointmentSlice = createSlice({
   },
   extraReducers(builder) {
     builder.addCase(confirmAppointment.fulfilled, (state, action) => {
-      state.message =
-        "Pré-agendamento realizado com sucesso! Entraremos em contato";
+      state.message = [
+        "Pré-agendamento realizado com sucesso! Entraremos em contato",
+        "Sucesso",
+      ];
       // console.log(state.message);
     });
     builder.addCase(confirmAppointment.rejected, (state, action) => {
-      state.message = "Erro - Tente novamente mais tarde";
+      state.message = ["Erro - Tente novamente mais tarde", "Error"];
       console.error(action.error);
     });
     builder.addCase(gettingAppointments.fulfilled, (state, action) => {

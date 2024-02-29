@@ -13,8 +13,9 @@ import { useAuth } from "../../contexts/authContext";
 export const Step03 = () => {
   const { details, areas } = useAppSelector((state) => state.fetcher);
   const dispatch = useAppDispatch();
+  const {} = useAppSelector((store) => store.Appointment);
 
-  const { possible_dates, area_id, description, user_id } = useAppSelector(
+  const { possible_dates, area_id, message, user_id } = useAppSelector(
     (store) => store.Appointment
   );
   const area = areas.find((item) => item.Id === area_id);
@@ -49,7 +50,9 @@ export const Step03 = () => {
     // console.log(newAppointment);
 
     dispatch(confirmAppointment(newAppointment));
-    // dispatch(nextStep(3));
+    // console.log(message);
+    dispatch(nextStep(0));
+    navigation.navigate("home");
   };
 
   return (

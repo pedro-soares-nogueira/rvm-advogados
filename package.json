@@ -36,7 +36,7 @@
     "phosphor-react-native": "^1.1.2",
     "react": "18.2.0",
     "react-hook-form": "^7.45.4",
-    "react-native": "0.72.6",
+    "react-native": "0.72.10",
     "react-native-calendar-picker": "^7.1.4",
     "react-native-checkbox-group": "^1.0.3",
     "react-native-embed-instagram": "^0.1.1",
