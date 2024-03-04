@@ -58,9 +58,9 @@ export const Schedules = () => {
     Linking.openURL(url);
   };
 
-  useEffect(() => {
-    dispatch(gettingAppointments());
-  }, []);
+  // useEffect(() => {
+  //   dispatch(gettingAppointments());
+  // }, []);
 
   return (
     <ScrollView
@@ -86,9 +86,6 @@ export const Schedules = () => {
                 <Text className="mb-3 font-raleway700 text-2xl text-zinc-800">
                   Agendamentos
                 </Text>
-                {/*  <Text className="font-raleway700 text-3xl text-zinc-800">
-                  {user?.name}
-                </Text> */}
                 <Stack className="flex flex-row items-center">
                   <Box className="mr-2">
                     <IdentificationCard size={30} color="#2E2E2E" />
@@ -97,15 +94,6 @@ export const Schedules = () => {
                     {userToken}
                   </Text>
                 </Stack>
-
-                {/*  <Stack className="flex flex-row items-center">
-                  <Box className="mr-2">
-                    <Phone size={30} color="#2E2E2E" />
-                  </Box>
-                  <Text className="mb-2.5 font-raleway600 text-xl text-zinc-800">
-                    {user?.phone}
-                  </Text>
-                </Stack> */}
 
                 <Text className="mb-4 mr-2 font-raleway500 text-lg text-zinc-800">
                   Aqui estão seus agendamentos mais recentes{" "}

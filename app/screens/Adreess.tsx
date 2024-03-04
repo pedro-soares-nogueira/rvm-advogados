@@ -115,7 +115,9 @@ export const Adreess = () => {
         </Stack>
 
         {isLoading ? (
-          <Text>Espere</Text>
+          <Center className="h-[90vh]">
+            <Text>Só um instante</Text>
+          </Center>
         ) : (
           details.enderecos.map((item) => {
             return <AdreessCard key={item.id} {...item} />;
