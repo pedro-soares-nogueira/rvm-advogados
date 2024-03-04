@@ -41,7 +41,7 @@ export const SignUp = () => {
     control,
     formState: { errors },
   } = useForm<IRegister>();
-  const { register, signIn } = useAuth();
+  const { register } = useAuth();
 
   const handleGoBack = () => {
     navigation.goBack();
@@ -65,7 +65,6 @@ export const SignUp = () => {
         await register(userToRegister);
 
         setIsLoading(false);
-
         navigation.goBack();
       } else {
         toast.show({

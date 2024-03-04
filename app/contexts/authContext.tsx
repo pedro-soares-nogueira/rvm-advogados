@@ -1,5 +1,7 @@
 import {
+  Dispatch,
   ReactNode,
+  SetStateAction,
   createContext,
   useContext,
   useEffect,
@@ -93,8 +95,9 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
         { Login: document, Senha: password }
       );
 
+      console.log(data);
+
       if (data.Status === "Sucesso") {
-        // console.log(data);
         storageAndSaveToken(document);
         setUserToken(document);
         // dispatch(loadUser());
@@ -156,17 +159,21 @@ export function AuthContextProvider({ children }: AuthContextProviderProps) {
     };
 
     try {
-      await apiUranus.post(
+      const data = await apiUranus.post(
         "/precadastro?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
         userToRegister
       );
 
-      const { data } = await apiUranus.post(
+      /* const { data } = await apiUranus.post(
         "/usuario?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
         userToRegisterAsUser
-      );
+      ); */
 
-      // console.log(data);
+      console.log("authContext " + data.data.Status);
+
+      if (data.data.Status !== "Sucesso") {
+        throw new Error("Credenciais inválidas");
+      }
     } catch (error) {
       throw error;
     } finally {
