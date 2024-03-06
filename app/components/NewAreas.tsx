@@ -3,14 +3,14 @@ import React, { useState } from "react";
 import { Linking, TouchableOpacity } from "react-native";
 import { IAreas } from "../reducers/fetchSlice";
 
-import DireitoTrabalho from "../assets/areas_de_atuacao_icons/Direito do Trabalho.svg";
-import DireitoPrevidenciario from "../assets/areas_de_atuacao_icons/Direito Previdenciário.svg";
-import DireitoAdministrativo from "../assets/areas_de_atuacao_icons/Direito Administrativo.svg";
-import DireitoCivil from "../assets/areas_de_atuacao_icons/Direito Civil.svg";
-import DireitoDigital from "../assets/areas_de_atuacao_icons/Direito Digital.svg";
-import DireitoTributário from "../assets/areas_de_atuacao_icons/Direito Tributário.svg";
-import DireitoFamília from "../assets/areas_de_atuacao_icons/Direito de Família.svg";
-import Trânsito from "../assets/areas_de_atuacao_icons/Trânsito.svg";
+import DireitoTrabalho from "../assets/areas_de_atuacao_icons/direito-do-trabalho.svg";
+import DireitoPrevidenciario from "../assets/areas_de_atuacao_icons/direito-previdenciario.svg";
+import DireitoAdministrativo from "../assets/areas_de_atuacao_icons/direito-administrativo.svg";
+import DireitoCivil from "../assets/areas_de_atuacao_icons/direito-civil.svg";
+import DireitoDigital from "../assets/areas_de_atuacao_icons/direito-digital.svg";
+import DireitoTributário from "../assets/areas_de_atuacao_icons/direito-tributario.svg";
+import DireitoFamília from "../assets/areas_de_atuacao_icons/direito-de-familia.svg";
+import Trânsito from "../assets/areas_de_atuacao_icons/transito.svg";
 
 const iconsMap = {
   Administrativo: {
