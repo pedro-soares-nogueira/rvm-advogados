@@ -17,7 +17,10 @@ const iconsMap = {
     icon: DireitoAdministrativo,
     url: "O Direito Administrativo é uma área bastante ampla e atuamos nas suas mais variadas vertentes.",
   },
-  "Administrativo Previdenciário": { icon: DireitoPrevidenciario, url: "" },
+  "Administrativo Previdenciário": {
+    icon: DireitoPrevidenciario,
+    url: "Atuamos no ramo do Direito Previdenciário há mais de 33 anos e possuímos uma equipe altamente qualificada neste segmento, buscando sempre assegurar aos nossos clientes a percepção do melhor benefício previdenciário a que tem direito.",
+  },
   Cível: {
     icon: DireitoFamília,
     url: "O Direito Civil é a área mais abrangente do Direito Brasileiro e nosso escritório está preparado para atuar em suas mais variadas vertentes.",
@@ -84,7 +87,7 @@ const NewAreas = (props: IAreas) => {
                   </Text>
                 </TouchableOpacity> */}
 
-                <Text className="mt-10 text-lg font-normal">
+                <Text className="text-lg font-normal">
                   {iconsMap[props.Nome].url}
                 </Text>
               </Box>

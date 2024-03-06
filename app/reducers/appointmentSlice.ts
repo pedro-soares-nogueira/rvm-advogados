@@ -49,7 +49,7 @@ export const confirmAppointment = createAsyncThunk(
       }
     );
 
-    console.log(response.data);
+    console.log(response);
 
     return response.data;
   }
