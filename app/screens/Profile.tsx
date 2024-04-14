@@ -8,6 +8,7 @@ import {
   Stack,
   Text,
   VStack,
+  Flex,
 } from "native-base";
 import {
   Eye,
@@ -18,9 +19,9 @@ import {
   WhatsappLogo,
 } from "phosphor-react-native";
 import React, { useEffect, useState } from "react";
-import { TouchableOpacity } from "react-native";
+import { Linking, TouchableOpacity } from "react-native";
 import { Input } from "../components/Input";
-import { useAppSelector } from "../reducers/store";
+import { useAppDispatch, useAppSelector } from "../reducers/store";
 import { Button } from "../components/Button";
 import { useNavigation } from "@react-navigation/native";
 import { AppNavigatorRoutesProps } from "../routes/app.routes";
@@ -28,6 +29,9 @@ import { useAuth } from "../contexts/authContext";
 import { apiUranus } from "../lib/axios";
 import { Controller, useForm } from "react-hook-form";
 import md5 from "md5";
+import axios from "axios";
+import { loadAreas } from "../reducers/fetchSlice";
+import { format } from "date-fns";
 
 function aplicarMascaraCPFouCNPJ(numero) {
   const numeros = numero.replace(/\D/g, "");
@@ -46,6 +50,10 @@ function aplicarMascaraCPFouCNPJ(numero) {
 
 export const Profile = () => {
   const [show_passwords, setShow_passwords] = useState(false);
+  const [schedulings, setSchedulings] = useState([]);
+
+  const dispatch = useAppDispatch();
+  const { areas } = useAppSelector((state) => state.fetcher);
   // const { user } = useAppSelector((state) => state.user);
   const { userToken } = useAuth();
   const {
@@ -82,6 +90,42 @@ export const Profile = () => {
     setShow_passwords(!show_passwords);
   };
 
+  // API CALL
+  const appointmentList = async () => {
+    const url =
+      "http://uranusapi.rvmadvogados.com.br/api/listaragendamentos?token=7bd15381-52b3-47b0-bdce-7ead4be7654a&cpfcnpj=01290202303";
+
+    fetch(url)
+      .then((response) => {
+        if (!response.ok) {
+          throw new Error("Erro ao carregar os dados");
+        }
+        return response.json();
+      })
+      .then((data) => {
+        setSchedulings(data.Agendas);
+      })
+      .catch((error) => {
+        console.error("Houve um problema com a sua solicitação:", error);
+      });
+  };
+
+  // Chama função quando abre a tela
+  useEffect(() => {
+    dispatch(loadAreas());
+    appointmentList();
+  }, []);
+
+  const handleWhatsApp = () => {
+    const phoneNumber = "XXXXXXXXXXXX";
+    const message = "Olá, esta é a mensagem que você deseja enviar";
+
+    const url = `https://api.whatsapp.com/send?phone=${phoneNumber}&text=${encodeURIComponent(
+      message
+    )}`;
+
+    Linking.openURL(url);
+  };
   return (
     <ScrollView
       contentContainerStyle={{ flexGrow: 1 }}
@@ -116,86 +160,72 @@ export const Profile = () => {
               </Stack>
 
               <Text className="mb-4 mr-2 font-raleway500 text-lg text-zinc-800">
-                Aqui você pode alterar sua senha
+                Aqui você pode ver seus agendamentos.
               </Text>
             </VStack>
           </VStack>
+
           <VStack space={4} mx={4} py={8}>
             <Text className="max-w-xl text-start font-raleway500 text-xl">
-              Alterar senha
+              Seus pré-agendamentos:
             </Text>
-            <Controller
-              control={control}
-              name="password"
-              rules={{ required: "Informe a senha" }}
-              render={({ field: { onChange } }) => (
-                <Input
-                  placeholder="Senha"
-                  onChangeText={onChange}
-                  autoCapitalize="none"
-                  type={show_passwords ? "text" : "password"}
-                  InputRightElement={
-                    <ReactNativeButton
-                      backgroundColor={"yellow.100"}
-                      size="xs"
-                      rounded="none"
-                      w="1/6"
-                      h="full"
-                      onPress={handleShowPassword}
+
+            <VStack mt={4} space={4}>
+              {schedulings.map((scheduling) => {
+                const area = areas.find(
+                  (area) => area.Id === scheduling.IdArea
+                );
+                const turnosPorDia = [];
+
+                const regex = /(\d{4}-\d{2}-\d{2})\s+\[(.*?)\]/g;
+                let matches;
+
+                while ((matches = regex.exec(scheduling.Turno)) !== null) {
+                  const dia = matches[1];
+                  const turnosStr = matches[2];
+
+                  const turnosDoDia = turnosStr
+                    .split("-")
+                    .map((turno) => turno.trim());
+
+                  turnosPorDia.push({ dia, turnos: turnosDoDia });
+                }
+
+                return (
+                  <HStack
+                    justifyContent={"space-between"}
+                    alignItems={"center"}
+                    key={scheduling.Id}
+                    className="rounded-md border-y border-l-4 border-r border-y-gray-100 border-l-[#78620A] border-r-gray-100 p-4"
+                  >
+                    <Box>
+                      <Text className="mb-3 text-lg font-bold">
+                        {area.Nome}
+                      </Text>
+                      <Text className="mb-1">Possíveis datas</Text>
+                      {turnosPorDia.map(({ dia, turnosDoDia }, index) => (
+                        <Box key={index} className="">
+                          <Text className="text-base">
+                            {format(new Date(dia), "dd/MM/yyyy")}
+                          </Text>
+                          {turnosDoDia && turnosDoDia.length > 0 && (
+                            <Text className="">
+                              Turnos: {turnosDoDia.join(", ")}
+                            </Text>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                    <TouchableOpacity
+                      onPress={() => handleWhatsApp()}
+                      className="mr-10"
                     >
-                      {show_passwords ? (
-                        <Eye size={26} />
-                      ) : (
-                        <EyeSlash size={26} />
-                      )}
-                    </ReactNativeButton>
-                  }
-                />
-              )}
-            />
-            <Text className="max-w-xl text-start font-raleway500 text-xl">
-              Confirmar alteração de senha
-            </Text>
-            <Controller
-              control={control}
-              name="c_password"
-              rules={{ required: "Informe a senha" }}
-              render={({ field: { onChange } }) => (
-                <Input
-                  placeholder="Senha"
-                  onChangeText={onChange}
-                  autoCapitalize="none"
-                  type={show_passwords ? "text" : "password"}
-                  InputRightElement={
-                    <ReactNativeButton
-                      backgroundColor={"yellow.100"}
-                      size="xs"
-                      rounded="none"
-                      w="1/6"
-                      h="full"
-                      onPress={handleShowPassword}
-                    >
-                      {show_passwords ? (
-                        <Eye size={26} />
-                      ) : (
-                        <EyeSlash size={26} />
-                      )}
-                    </ReactNativeButton>
-                  }
-                />
-              )}
-            />
-            <Stack mx={2} mt={6} alignItems={"flex-end"}>
-              <TouchableOpacity
-                onPress={handleSubmit(handleChangePassword)}
-                className="flex w-64 flex-row items-center justify-center 
-                            gap-2 rounded-md bg-amber-300 px-3 pb-3 pt-1"
-              >
-                <Text className="mb-1 font-raleway600 text-lg text-zinc-800">
-                  Salvar
-                </Text>
-              </TouchableOpacity>
-            </Stack>
+                      <WhatsappLogo size={34} color="#78620A" />
+                    </TouchableOpacity>
+                  </HStack>
+                );
+              })}
+            </VStack>
           </VStack>
         </VStack>
       ) : (

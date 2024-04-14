@@ -107,11 +107,8 @@ export const loadAreas = createAsyncThunk(
 export const loadLawyers = createAsyncThunk(
   "FetchDetails/loadAllLawyers",
   async () => {
-    const response = await apiUranus.post(
-      "/consultaprofissionaisarea?token=7bd15381-52b3-47b0-bdce-7ead4be7654a",
-      {
-        IdArea: 2,
-      }
+    const response = await apiUranus.get(
+      "/consultaprofissionaisarea?token=7bd15381-52b3-47b0-bdce-7ead4be7654a&idarea=2"
     );
 
     return response.data;
