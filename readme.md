@@ -1,4 +1,6 @@
 # RVM-Advogados APP
 
-- [ ] Botões para whatsapp
-- [ ] Erro PUT usuário - alteração de senha
+###### FAKE CPF TO TEST LOGIN
+
+- login: 702.889.483-51 (sem formatação)
+- senha: teste123
