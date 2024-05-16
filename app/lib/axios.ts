@@ -5,5 +5,5 @@ export const api = axios.create({
 });
 
 export const apiUranus = axios.create({
-  baseURL: "http://uranusapi.rvmadvogados.com.br/api",
+  baseURL: "https://uranusapi.rvmadvogados.com.br/api",
 });

@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "rvm-advogados",
+    "name": "RVM Advogados",
     "slug": "rvm-org",
     "version": "1.0.3",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/favicon.png",
     "userInterfaceStyle": "light",
     "platforms": [
       "ios",
@@ -25,7 +25,7 @@
     "android": {
       "versionCode": 4,
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/favicon.png",
         "backgroundColor": "#ffffff"
       },
       "package": "com.pedrosoares.rvmadvogados"
