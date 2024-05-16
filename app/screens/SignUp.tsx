@@ -81,6 +81,7 @@ export const SignUp = () => {
       }
     } catch (error) {
       console.error(error);
+      alert(error.message);
 
       toast.show({
         title: "Verifique as credenciais ou entre em contato!",
@@ -126,10 +127,10 @@ export const SignUp = () => {
               <Controller
                 control={control}
                 name="document"
-                rules={{ required: "Informe o Documento" }}
+                rules={{ required: "Informe o CPF/CNPJ" }}
                 render={({ field: { onChange } }) => (
                   <Input
-                    placeholder="Documento"
+                    placeholder="CPF/CNPJ"
                     autoCapitalize="none"
                     keyboardType="phone-pad"
                     onChangeText={onChange}

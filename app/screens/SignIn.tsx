@@ -78,7 +78,7 @@ export const SignIn = () => {
         <Box className="w-full space-y-14">
           <VStack space={4}>
             <Text className="max-w-xs text-start font-raleway500">
-              Documento
+              CPF ou CNPJ
             </Text>
 
             <Controller
@@ -87,7 +87,7 @@ export const SignIn = () => {
               rules={{ required: "Informe o documento" }}
               render={({ field: { onChange } }) => (
                 <Input
-                  placeholder="Documento"
+                  placeholder="CPF ou CNPJ"
                   keyboardType="default"
                   autoCapitalize="none"
                   onChangeText={onChange}
